@@ -643,9 +643,11 @@ function buildFeed() {
     lines: l.L.map((x, i) => [l.video.t[i], x[1], x[2]]), keys: (l.E || []).map(([d, a]) => [d, a])
   }));
   const extra = (window.DF_FEED || []).map(c => ({ ...c, src: c.src || ["", ""], keys: c.keys || [] }));
+  const covered = new Set(extra.map(c => c.yt));
+  const rest = fromLessons.filter(c => !covered.has(c.yt));
   FEED = [];
-  const n = Math.max(fromLessons.length, extra.length);
-  for (let i = 0; i < n; i++) { if (extra[i]) FEED.push(extra[i]); if (fromLessons[i]) FEED.push(fromLessons[i]); }
+  const n = Math.max(rest.length, extra.length);
+  for (let i = 0; i < n; i++) { if (extra[i]) FEED.push(extra[i]); if (extra[i + n]) FEED.push(extra[i + n]); if (rest[i]) FEED.push(rest[i]); }
 }
 const fmtLen = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
 function viewFeed(v) {
