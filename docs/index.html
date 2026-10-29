@@ -399,6 +399,19 @@ body.feedmode .app{max-width:none}
 .fact svg{width:22px;height:22px}
 @media (min-width:900px){.fcard{flex-direction:row;max-width:1100px;align-items:stretch}.fvid{aspect-ratio:auto;flex:1.4}.finfo{flex:1}}
 body.feedmode main{padding:0}
+.fbar{position:absolute;inset:auto 0 0 0;height:4px;background:rgba(255,255,255,.18);z-index:2}
+.fbar i{display:block;height:100%;width:0;background:var(--primary);transition:width .2s linear}
+.fhead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.flen{font-size:12px;font-weight:700;background:rgba(255,255,255,.12);padding:2px 8px;border-radius:99px}
+.ftitle{margin:0;font-family:var(--f-de);font-size:15px;font-weight:700;color:#E6D9F2}
+.fline{display:block;text-align:start;background:rgba(255,255,255,.06);border-radius:18px;padding:14px;min-height:118px}
+.fline .fde{margin-bottom:6px}
+.fkeys{display:flex;flex-wrap:wrap;gap:8px}
+.fk{display:flex;flex-direction:column;align-items:flex-start;padding:7px 11px;border-radius:14px;background:rgba(255,210,63,.12);border:1px solid rgba(255,210,63,.35);color:#fff;font-size:12px;max-width:100%}
+.fk b{color:var(--hl);font-size:14px}
+.fk.done{background:var(--primary);border-color:var(--primary)} .fk.done b{color:#fff}
+.fact a{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:16px;background:rgba(255,255,255,.09);color:#fff;font-size:12px;font-weight:600}
+.fact a svg{width:22px;height:22px}
 
 </style>
 <div class="app" id="app" dir="rtl" lang="ar">
@@ -2205,7 +2218,7 @@ const DAILY_GOAL_MIN = 15;
 /* ================= i18n ================= */
 const STR = {
   ar: {
-    nav_feed: "مقاطع", feed_key: "تعبير اليوم في هذا المقطع", feed_again: "مرة ثانية", feed_practice: "تدرّب", feed_full: "افتح الدرس كاملاً", feed_end: "شاهدت كل المقاطع! تابع بالدروس الكاملة.", feed_auto: "النص مأخوذ من ترجمة يوتيوب التلقائية وصُحّح يدوياً، قد يختلف قليلاً عن الكلام.", feed_auto_short: "· نص تلقائي", nav_home: "الرئيسية", nav_lessons: "الدروس", nav_vocab: "المفردات", nav_stats: "التقدم", nav_profile: "الحساب",
+    nav_feed: "مقاطع", feed_key: "تعبير اليوم في هذا المقطع", feed_again: "مرة ثانية", feed_practice: "تدرّب", feed_full: "افتح الدرس كاملاً", feed_ex: "التمارين", feed_end: "شاهدت كل المقاطع! تابع بالدروس الكاملة.", feed_auto: "النص مأخوذ من ترجمة يوتيوب التلقائية وصُحّح يدوياً، قد يختلف قليلاً عن الكلام.", feed_auto_short: "· نص تلقائي", nav_home: "الرئيسية", nav_lessons: "الدروس", nav_vocab: "المفردات", nav_stats: "التقدم", nav_profile: "الحساب",
     loading: "جارٍ تحميل حسابك…",
     sync_ok: "محفوظ", sync_pending: "جارٍ الحفظ…", sync_retry: "الاتصال ضعيف، سنحاول مجدداً", sync_error: "تعذّر الحفظ", sync_denied: "لا تملك صلاحية الحفظ هنا", sync_quota: "مساحة الحفظ ممتلئة", sync_local: "محفوظ على هذا الجهاز فقط", retry: "أعد المحاولة",
     gate_title: "سجّل الدخول لحفظ تقدمك",
@@ -2274,7 +2287,7 @@ const STR = {
     saved_toast: "حُفظ في دفتر المفردات", removed_toast: "حُذف من الدفتر", sec: "ث"
   },
   de: {
-    nav_feed: "Clips", feed_key: "Ausdruck in diesem Clip", feed_again: "Nochmal", feed_practice: "Üben", feed_full: "Ganze Lektion öffnen", feed_end: "Alle Clips gesehen! Weiter mit den Lektionen.", feed_auto: "Text aus YouTubes automatischen Untertiteln, von Hand korrigiert – kann leicht abweichen.", feed_auto_short: "· Auto-Text", nav_home: "Start", nav_lessons: "Lektionen", nav_vocab: "Wortschatz", nav_stats: "Fortschritt", nav_profile: "Konto",
+    nav_feed: "Clips", feed_key: "Ausdruck in diesem Clip", feed_again: "Nochmal", feed_practice: "Üben", feed_full: "Ganze Lektion öffnen", feed_ex: "Übungen", feed_end: "Alle Clips gesehen! Weiter mit den Lektionen.", feed_auto: "Text aus YouTubes automatischen Untertiteln, von Hand korrigiert – kann leicht abweichen.", feed_auto_short: "· Auto-Text", nav_home: "Start", nav_lessons: "Lektionen", nav_vocab: "Wortschatz", nav_stats: "Fortschritt", nav_profile: "Konto",
     loading: "Dein Konto wird geladen …",
     sync_ok: "Gespeichert", sync_pending: "Wird gespeichert …", sync_retry: "Verbindung schwach, neuer Versuch folgt", sync_error: "Speichern fehlgeschlagen", sync_denied: "Keine Speicherberechtigung", sync_quota: "Speicher voll", sync_local: "Nur auf diesem Gerät gespeichert", retry: "Erneut versuchen",
     gate_title: "Melde dich an, um deinen Fortschritt zu speichern",
@@ -2826,61 +2839,20 @@ function applyChrome() {
   setSync(syncState);
 }
 
-/* ================= clip feed (short scenes, one expression each) ================= */
-// Built from the video lessons (one key line per item) plus stand-alone clips in window.DF_FEED.
+/* ================= clip feed (whole scenes, subtitles follow the video) ================= */
+// One card per video lesson, plus stand-alone scenes in window.DF_FEED ({id, yt, start, end, src, lines:[[t, de, ar]], keys:[[de, ar]], auto}).
 let FEED = [];
 function buildFeed() {
-  const byLesson = LESSONS.filter(l => l.video).map(l => {
-    const v = l.video, out = [];
-    l.L.forEach((x, i) => {
-      const [k, de, ar, reg, xa, xd, vocab, exa] = x;
-      if (!vocab || !vocab.length || de.length < 12) return;
-      let start = v.t[i] - 0.3, end = (v.t[i + 1] ?? v.end) + 0.2;
-      if (end - start < 3.5 && i > 0) start = v.t[i - 1] - 0.3;
-      if (end - start > 20) end = start + 20;
-      const core = d => d.toLowerCase().replace(/^(der|die|das|sich|jemandem|jemanden|etwas|einen|eine|ein) /, "").replace(/[.!?…]+$/, "");
-      const key = vocab.filter(([d]) => de.toLowerCase().includes(core(d))).sort((a, b) => b[0].length - a[0].length)[0] || vocab.slice().sort((a, b) => b[0].length - a[0].length)[0];
-      if (key[0].replace(/[^\p{L}]/gu, "").length < 4) return;
-      out.push({ id: l.id + ":" + i, yt: v.yt, start: Math.max(0, start), end, src: l.src || ["", l.title], de, ar, reg, expl: [xa, xd], key, ex: exa, lesson: l.id, line: i });
-    });
-    return out;
-  });
-  const extra = (window.DF_FEED || []).map(c => ({ ...c, src: c.src || ["", ""] }));
-  const lists = [...byLesson, extra.filter((_, j) => j % 2 === 0), extra.filter((_, j) => j % 2 === 1)].filter(x => x.length);
+  const fromLessons = LESSONS.filter(l => l.video).map(l => ({
+    id: l.id, yt: l.video.yt, start: l.video.start ?? l.video.t[0], end: l.video.end, src: l.src || ["", ""], title: l.title, lesson: l.id,
+    lines: l.L.map((x, i) => [l.video.t[i], x[1], x[2]]), keys: (l.E || []).map(([d, a]) => [d, a])
+  }));
+  const extra = (window.DF_FEED || []).map(c => ({ ...c, src: c.src || ["", ""], keys: c.keys || [] }));
   FEED = [];
-  for (let r = 0; lists.some(x => x.length > r); r++) lists.forEach(x => { if (x[r]) FEED.push(x[r]); });
+  const n = Math.max(fromLessons.length, extra.length);
+  for (let i = 0; i < n; i++) { if (extra[i]) FEED.push(extra[i]); if (fromLessons[i]) FEED.push(fromLessons[i]); }
 }
-function markHTML(de, key) {
-  const k = key ? key.replace(/^(der|die|das|sich|jemandem|jemanden|etwas|einen|eine|ein) /i, "").replace(/[.!?…]+$/, "") : "";
-  const i = k ? de.toLowerCase().indexOf(k.toLowerCase()) : -1;
-  if (i < 0) return esc(de);
-  return esc(de.slice(0, i)) + "<mark>" + esc(de.slice(i, i + k.length)) + "</mark>" + esc(de.slice(i + k.length));
-}
-function feedSheet(it) {
-  const expl = S.profile.explLang === "de" ? it.expl[1] : it.expl[0];
-  const sh = openSheet(`
-    <div class="eyebrow" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}</div>
-    <p class="big-de" lang="de" dir="ltr" id="fsDe">${wordsHTML(it.de)}</p>
-    ${it.ar ? `<p class="big-ar" lang="ar" dir="rtl">${esc(it.ar)}</p>` : ""}
-    ${it.auto ? `<p class="muted small">${esc(t("feed_auto"))}</p>` : ""}
-    <div class="row wrap">
-      <button class="btn sm" id="fsPlay">${IC.speak}<span>${esc(t("listen"))}</span></button>
-      ${saveBtn(it.de, t("save_sentence"))}
-      ${it.reg ? `<span class="reg reg-${it.reg}">${esc(t("register"))}: ${esc(t("reg_" + it.reg))}</span>` : ""}
-    </div>
-    ${expl ? `<h3 class="h3">${esc(t("meaning"))}</h3><p lang="${S.profile.explLang}">${esc(expl)}</p>` : ""}
-    ${it.key ? `<h3 class="h3">${esc(t("vocab_h"))}</h3><ul class="vlist"><li><span><b lang="de" dir="ltr">${esc(it.key[0])}</b><small lang="ar" dir="rtl">${esc(it.key[1])}</small></span>${saveBtn(it.key[0])}</li></ul>` : ""}
-    ${it.ex ? `<h3 class="h3">${esc(t("example"))}</h3><div class="exbox"><p lang="de" dir="ltr">${esc(it.ex[0])}</p><p class="muted" lang="ar" dir="rtl">${esc(it.ex[1])}</p></div>` : ""}
-    ${it.lesson ? `<a class="btn primary" href="#lesson-${it.lesson}">${esc(t("feed_full"))}</a>` : ""}
-    ${recorderHTML()}`);
-  $("#fsPlay", sh).onclick = () => sayInto(it.de, $("#fsDe", sh));
-  $$("[data-save]", sh).forEach(b => b.onclick = () => {
-    const d = b.dataset.save, isKey = it.key && d === it.key[0];
-    const item = isKey ? { de: it.key[0], ar: it.key[1], exDe: it.de, lesson: it.lesson || "", type: "word" } : { de: it.de, ar: it.ar, exDe: it.ex ? it.ex[0] : "", lesson: it.lesson || "", type: "sentence" };
-    if (saveVocab(item)) { b.disabled = true; b.classList.add("done"); $("span", b).textContent = t("saved"); }
-  });
-  bindRecorder(sh, it.de);
-}
+const fmtLen = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
 function viewFeed(v) {
   if (!FEED.length) buildFeed();
   const P = S.profile;
@@ -2892,17 +2864,18 @@ function viewFeed(v) {
       <button class="fchip2 ${P.showDe ? "on" : ""}" id="fDe" lang="de">DE</button><button class="fchip2 ${P.showAr ? "on" : ""}" id="fAr">ع</button></div>
     ${FEED.map((it, i) => `<article class="fcard" data-i="${i}">
       <div class="fvid" style="background-image:url('https://i.ytimg.com/vi/${encodeURIComponent(it.yt)}/hqdefault.jpg')"><div class="fyt"></div>
-        <button class="fplay" aria-label="${esc(t("play"))}">${IC.play}</button><div class="fmsg" hidden></div></div>
+        <button class="fplay" aria-label="${esc(t("play"))}">${IC.play}</button><div class="fmsg" hidden></div>
+        <div class="fbar"><i></i></div></div>
       <div class="finfo">
-        <span class="fsrc" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}${it.auto ? ` <i>${esc(t("feed_auto_short"))}</i>` : ""}</span>
-        <p class="fde" lang="de" dir="ltr">${markHTML(it.de, it.key && it.key[0])}</p>
-        <p class="far" lang="ar" dir="rtl">${esc(it.ar)}</p>
-        ${it.key ? `<div class="fkey"><span class="eyebrow">${esc(t("feed_key"))}</span><b lang="de" dir="ltr">${esc(it.key[0])}</b><span lang="ar" dir="rtl">${esc(it.key[1])}</span></div>` : ""}
+        <div class="fhead"><span class="fsrc" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}${it.auto ? ` <i>${esc(t("feed_auto_short"))}</i>` : ""}</span><span class="flen">${fmtLen(it.end - it.start)}</span></div>
+        <h2 class="ftitle" lang="de" dir="ltr">${esc(it.title || "")}</h2>
+        <button class="fline" data-a="info"><p class="fde" lang="de" dir="ltr">${esc(it.lines[0][1])}</p><p class="far" lang="ar" dir="rtl">${esc(it.lines[0][2] || "")}</p></button>
+        ${it.keys.length ? `<div class="fkeys">${it.keys.slice(0, 4).map(([d, a]) => `<button class="fk ${isSaved(d) ? "done" : ""}" data-key="${esc(d)}" title="${esc(a)}"><b lang="de" dir="ltr">${esc(d)}</b><span lang="ar" dir="rtl">${esc(a)}</span></button>`).join("")}</div>` : ""}
         <div class="fact">
-          <button data-a="rep">${IC.repeat}<span>${esc(t("feed_again"))}</span></button>
+          <button data-a="rep">${IC.repeat}<span>${esc(t("repeat"))}</span></button>
           <button data-a="slow"><b>0.75×</b><span>${esc(t("slow"))}</span></button>
-          <button data-a="save" class="${it.key && isSaved(it.key[0]) ? "done" : ""}">${IC.bookmark}<span>${esc(t("save"))}</span></button>
-          <button data-a="info">${IC.mic}<span>${esc(t("feed_practice"))}</span></button>
+          <button data-a="save">${IC.bookmark}<span>${esc(t("save_sentence"))}</span></button>
+          ${it.lesson ? `<a href="#lesson-${it.lesson}">${IC.book}<span>${esc(t("feed_ex"))}</span></a>` : `<button data-a="info">${IC.mic}<span>${esc(t("feed_practice"))}</span></button>`}
         </div>
       </div></article>`).join("")}
     <article class="fcard fend"><div class="finfo"><h2 class="h2">${esc(t("feed_end"))}</h2><a class="btn primary big" href="#lessons">${esc(t("nav_lessons"))}</a></div></article>
@@ -2910,15 +2883,17 @@ function viewFeed(v) {
   const feed = $("#feed", v);
   const fit = () => { feed.style.height = Math.max(320, innerHeight - $(".top").offsetHeight - $("#nav").offsetHeight) + "px"; };
   fit(); addEventListener("resize", fit);
-  let cur = -1, yp = null, loops = 0, timer = null, dead = false, rate = 1;
+  let cur = -1, yp = null, timer = null, dead = false, rate = 1, li = 0, stopAt = null;
   const card = i => $(`.fcard[data-i="${i}"]`, feed);
   const stopPlayer = () => { clearInterval(timer); timer = null; try { yp && yp.destroy(); } catch (e) {} yp = null; $$(".fcard.playing", feed).forEach(c => c.classList.remove("playing")); };
-  const showMsg = (c, html) => { const m = $(".fmsg", c); m.hidden = false; m.innerHTML = html; };
+  const showLine = (c, it, j) => { li = j; const x = it.lines[j]; $(".fde", c).textContent = x[1]; $(".far", c).textContent = x[2] || ""; };
+  const lineEnd = (it, j) => it.lines[j + 1] ? it.lines[j + 1][0] : it.end;
   const activate = i => {
     if (i === cur || dead) return;
-    stopPlayer(); cur = i; loops = 0; rate = 1;
+    stopPlayer(); cur = i; rate = 1; stopAt = null;
     $("#fCount").textContent = `${i + 1} / ${FEED.length}`;
     const it = FEED[i]; const c = card(i); if (!it || !c) return;
+    showLine(c, it, 0);
     if (!seen[it.id]) { seen[it.id] = Date.now(); save("progress"); }
     loadYT().then(YT => {
       if (dead || cur !== i) return;
@@ -2926,41 +2901,48 @@ function viewFeed(v) {
       yp = new YT.Player(box, { videoId: it.yt, width: "100%", height: "100%",
         playerVars: { start: Math.floor(it.start), end: Math.ceil(it.end), autoplay: 1, controls: 0, rel: 0, playsinline: 1, modestbranding: 1, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, hl: ui() },
         events: {
-          onReady: e => { try { e.target.seekTo(it.start, true); e.target.playVideo(); } catch (x) {} },
-          onStateChange: e => {
-            if (e.data === 1) { c.classList.add("playing"); lastInput = Date.now(); }
-            else if (e.data === 2) c.classList.remove("playing");
-            else if (e.data === 0) { if (++loops < 3) { yp.seekTo(it.start, true); yp.playVideo(); } else c.classList.remove("playing"); }
-          },
-          onError: e => { c.classList.remove("playing"); showMsg(c, `<b>${esc(t([100, 101, 150].includes(e.data) ? "video_gone" : "video_blocked"))}</b><button class="btn sm" data-tts>${esc(t("listen"))}</button>`); $("[data-tts]", c).onclick = () => sayInto(it.de, null); }
+          onStateChange: e => { if (e.data === 1) { c.classList.add("playing"); lastInput = Date.now(); } else if (e.data === 2 || e.data === 0) c.classList.remove("playing"); },
+          onError: e => { c.classList.remove("playing"); const m = $(".fmsg", c); m.hidden = false; m.innerHTML = `<b>${esc(t([100, 101, 150].includes(e.data) ? "video_gone" : "video_blocked"))}</b>`; }
         } });
-      timer = setInterval(() => { try { if (yp && yp.getCurrentTime && yp.getCurrentTime() >= it.end - 0.05 && yp.getPlayerState() === 1) { if (++loops < 3) yp.seekTo(it.start, true); else { yp.pauseVideo(); c.classList.remove("playing"); } } } catch (x) {} }, 200);
-    }).catch(() => { if (cur === i) showMsg(c, `<b>${esc(t("video_blocked"))}</b>`); });
+      timer = setInterval(() => {
+        try {
+          if (!yp || !yp.getCurrentTime) return;
+          const tt = yp.getCurrentTime();
+          let j = 0; it.lines.forEach((x, k) => { if (x[0] <= tt + 0.08) j = k; });
+          if (j !== li) showLine(c, it, j);
+          $(".fbar i", c).style.width = Math.min(100, Math.max(0, (tt - it.start) / (it.end - it.start) * 100)) + "%";
+          if (stopAt !== null && tt >= stopAt - 0.05) { yp.pauseVideo(); stopAt = null; }
+          if (tt >= it.end - 0.05 && yp.getPlayerState() === 1) yp.pauseVideo();
+        } catch (x) {}
+      }, 200);
+    }).catch(() => { if (cur === i) { const m = $(".fmsg", c); m.hidden = false; m.innerHTML = `<b>${esc(t("video_blocked"))}</b>`; } });
   };
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && e.intersectionRatio > 0.6 && e.target.dataset.i) activate(+e.target.dataset.i); }), { root: feed, threshold: [0.6] });
   $$(".fcard[data-i]", feed).forEach(c => io.observe(c));
   feed.addEventListener("click", e => {
     const c = e.target.closest(".fcard[data-i]"); if (!c) return;
     const i = +c.dataset.i, it = FEED[i];
+    if (i !== cur) activate(i);
+    const k = e.target.closest("[data-key]");
+    if (k) { const x = it.keys.find(([d]) => d === k.dataset.key); if (x && saveVocab({ de: x[0], ar: x[1], exDe: it.lines[li][1], lesson: it.lesson || "", type: "word" })) { k.classList.add("done"); toast(t("saved")); } return; }
     const a = e.target.closest("[data-a]");
     if (!a) {
-      if (e.target.closest(".fvid")) {
-        if (i !== cur) return activate(i);
-        if (!yp || !yp.getPlayerState) return;
-        const st = yp.getPlayerState();
-        if (st === 1) yp.pauseVideo(); else { loops = 0; if (st === 0 || yp.getCurrentTime() >= it.end - 0.2) yp.seekTo(it.start, true); yp.playVideo(); }
+      if (e.target.closest(".fvid") && yp && yp.getPlayerState) {
+        const st = yp.getPlayerState(); stopAt = null;
+        if (st === 1) yp.pauseVideo(); else { if (yp.getCurrentTime() >= it.end - 0.3) yp.seekTo(it.start, true); yp.playVideo(); }
       }
       return;
     }
-    if (a.dataset.a === "rep" || a.dataset.a === "slow") {
-      if (i !== cur) activate(i);
-      rate = a.dataset.a === "slow" ? (rate === 0.75 ? 1 : 0.75) : rate;
-      if (yp && yp.seekTo) { loops = 0; try { yp.setPlaybackRate(rate); } catch (x) {} yp.seekTo(it.start, true); yp.playVideo(); }
-      $$('[data-a="slow"]', c).forEach(b => b.classList.toggle("on", rate === 0.75));
-    } else if (a.dataset.a === "save") {
-      const k = it.key || [it.de, it.ar];
-      if (saveVocab({ de: k[0], ar: k[1], exDe: it.de, lesson: it.lesson || "", type: it.key ? "word" : "sentence" })) { a.classList.add("done"); toast(t("saved")); }
-    } else if (a.dataset.a === "info") { if (yp && yp.pauseVideo) yp.pauseVideo(); feedSheet(it); }
+    if (a.dataset.a === "rep" && yp && yp.seekTo) { stopAt = lineEnd(it, li); yp.seekTo(Math.max(0, it.lines[li][0] - 0.15), true); yp.playVideo(); }
+    else if (a.dataset.a === "slow") { rate = rate === 0.75 ? 1 : 0.75; try { yp && yp.setPlaybackRate(rate); } catch (x) {} a.classList.toggle("on", rate === 0.75); }
+    else if (a.dataset.a === "save") { const x = it.lines[li]; if (saveVocab({ de: x[1], ar: x[2] || "", exDe: "", lesson: it.lesson || "", type: "sentence" })) toast(t("saved")); }
+    else if (a.dataset.a === "info") {
+      if (yp && yp.pauseVideo) yp.pauseVideo();
+      const l = it.lesson && LMAP[it.lesson];
+      if (l) openLineSheet(l, li);
+      else { const x = it.lines[li]; const sh = openSheet(`<div class="eyebrow" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}</div><p class="big-de" lang="de" dir="ltr">${esc(x[1])}</p><p class="big-ar" lang="ar" dir="rtl">${esc(x[2] || "")}</p>${it.auto ? `<p class="muted small">${esc(t("feed_auto"))}</p>` : ""}${saveBtn(x[1], t("save_sentence"))}${recorderHTML()}`);
+        $$("[data-save]", sh).forEach(b => b.onclick = () => { if (saveVocab({ de: x[1], ar: x[2] || "", exDe: "", lesson: "", type: "sentence" })) { b.disabled = true; b.classList.add("done"); } }); bindRecorder(sh, x[1]); }
+    }
   });
   const tg = (id, key, cls) => $(id, v).onclick = e => { P[key] = !P[key]; e.currentTarget.classList.toggle("on", P[key]); feed.classList.toggle(cls, !P[key]); save("profile"); };
   tg("#fDe", "showDe", "hide-de"); tg("#fAr", "showAr", "hide-ar");
