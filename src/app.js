@@ -13,7 +13,7 @@ const DAILY_GOAL_MIN = 15;
 /* ================= i18n ================= */
 const STR = {
   ar: {
-    nav_home: "الرئيسية", nav_lessons: "الدروس", nav_vocab: "المفردات", nav_stats: "التقدم", nav_profile: "الحساب",
+    nav_feed: "مقاطع", feed_key: "تعبير اليوم في هذا المقطع", feed_again: "مرة ثانية", feed_practice: "تدرّب", feed_full: "افتح الدرس كاملاً", feed_end: "شاهدت كل المقاطع! تابع بالدروس الكاملة.", feed_auto: "النص مأخوذ من ترجمة يوتيوب التلقائية وصُحّح يدوياً، قد يختلف قليلاً عن الكلام.", feed_auto_short: "· نص تلقائي", nav_home: "الرئيسية", nav_lessons: "الدروس", nav_vocab: "المفردات", nav_stats: "التقدم", nav_profile: "الحساب",
     loading: "جارٍ تحميل حسابك…",
     sync_ok: "محفوظ", sync_pending: "جارٍ الحفظ…", sync_retry: "الاتصال ضعيف، سنحاول مجدداً", sync_error: "تعذّر الحفظ", sync_denied: "لا تملك صلاحية الحفظ هنا", sync_quota: "مساحة الحفظ ممتلئة", sync_local: "محفوظ على هذا الجهاز فقط", retry: "أعد المحاولة",
     gate_title: "سجّل الدخول لحفظ تقدمك",
@@ -82,7 +82,7 @@ const STR = {
     saved_toast: "حُفظ في دفتر المفردات", removed_toast: "حُذف من الدفتر", sec: "ث"
   },
   de: {
-    nav_home: "Start", nav_lessons: "Lektionen", nav_vocab: "Wortschatz", nav_stats: "Fortschritt", nav_profile: "Konto",
+    nav_feed: "Clips", feed_key: "Ausdruck in diesem Clip", feed_again: "Nochmal", feed_practice: "Üben", feed_full: "Ganze Lektion öffnen", feed_end: "Alle Clips gesehen! Weiter mit den Lektionen.", feed_auto: "Text aus YouTubes automatischen Untertiteln, von Hand korrigiert – kann leicht abweichen.", feed_auto_short: "· Auto-Text", nav_home: "Start", nav_lessons: "Lektionen", nav_vocab: "Wortschatz", nav_stats: "Fortschritt", nav_profile: "Konto",
     loading: "Dein Konto wird geladen …",
     sync_ok: "Gespeichert", sync_pending: "Wird gespeichert …", sync_retry: "Verbindung schwach, neuer Versuch folgt", sync_error: "Speichern fehlgeschlagen", sync_denied: "Keine Speicherberechtigung", sync_quota: "Speicher voll", sync_local: "Nur auf diesem Gerät gespeichert", retry: "Erneut versuchen",
     gate_title: "Melde dich an, um deinen Fortschritt zu speichern",
@@ -376,7 +376,7 @@ let lastInput = Date.now(), pendingSec = 0;
 ["pointerdown", "keydown", "scroll", "touchstart"].forEach(ev => addEventListener(ev, () => { lastInput = Date.now(); }, { passive: true, capture: true }));
 setInterval(() => {
   const r = route().name;
-  const learning = r === "lesson" || r === "review";
+  const learning = r === "lesson" || r === "review" || r === "feed";
   if (learning && document.visibilityState === "visible" && (Date.now() - lastInput < 60000 || speaking)) pendingSec += 5;
   if (pendingSec >= 60) flushTime();
 }, 5000);
@@ -604,9 +604,9 @@ let clipConfirm = null;
 
 /* ================= routing ================= */
 function route() {
-  const h = decodeURIComponent((location.hash || "#home").slice(1));
+  const h = decodeURIComponent((location.hash || "#feed").slice(1));
   if (h.startsWith("lesson-")) return { name: "lesson", id: h.slice(7) };
-  return { name: ["home", "lessons", "vocab", "review", "stats", "profile", "addclip"].includes(h) ? h : "home" };
+  return { name: ["feed", "home", "lessons", "vocab", "review", "stats", "profile", "addclip"].includes(h) ? h : "feed" };
 }
 let viewCleanup = null;
 function render() {
@@ -618,7 +618,7 @@ function render() {
   $$(".nav a").forEach(a => a.classList.toggle("on", a.dataset.r === nav));
   const v = $("#view");
   v.scrollTop = 0; window.scrollTo(0, 0);
-  ({ home: viewHome, lessons: viewLessons, lesson: viewLesson, vocab: viewVocab, review: viewReview, stats: viewStats, profile: viewProfile, addclip: viewAddClip })[r.name](v, r);
+  ({ feed: viewFeed, home: viewHome, lessons: viewLessons, lesson: viewLesson, vocab: viewVocab, review: viewReview, stats: viewStats, profile: viewProfile, addclip: viewAddClip })[r.name](v, r);
 }
 addEventListener("hashchange", render);
 
@@ -629,9 +629,151 @@ function applyChrome() {
   const th = S.profile.theme;
   if (th === "light" || th === "dark") document.documentElement.dataset.dfTheme = th;
   else delete document.documentElement.dataset.dfTheme;
-  $("#nav").innerHTML = [["home", IC.home, "nav_home"], ["lessons", IC.book, "nav_lessons"], ["vocab", IC.cards, "nav_vocab"], ["stats", IC.chart, "nav_stats"], ["profile", IC.user, "nav_profile"]]
+  $("#nav").innerHTML = [["feed", IC.play, "nav_feed"], ["home", IC.home, "nav_home"], ["lessons", IC.book, "nav_lessons"], ["vocab", IC.cards, "nav_vocab"], ["stats", IC.chart, "nav_stats"], ["profile", IC.user, "nav_profile"]]
     .map(([r, ic, k]) => `<a href="#${r}" data-r="${r}">${ic}<span>${esc(t(k))}</span></a>`).join("");
   setSync(syncState);
+}
+
+/* ================= clip feed (short scenes, one expression each) ================= */
+// Built from the video lessons (one key line per item) plus stand-alone clips in window.DF_FEED.
+let FEED = [];
+function buildFeed() {
+  const byLesson = LESSONS.filter(l => l.video).map(l => {
+    const v = l.video, out = [];
+    l.L.forEach((x, i) => {
+      const [k, de, ar, reg, xa, xd, vocab, exa] = x;
+      if (!vocab || !vocab.length || de.length < 12) return;
+      let start = v.t[i] - 0.3, end = (v.t[i + 1] ?? v.end) + 0.2;
+      if (end - start < 3.5 && i > 0) start = v.t[i - 1] - 0.3;
+      if (end - start > 20) end = start + 20;
+      const core = d => d.toLowerCase().replace(/^(der|die|das|sich|jemandem|jemanden|etwas|einen|eine|ein) /, "").replace(/[.!?…]+$/, "");
+      const key = vocab.filter(([d]) => de.toLowerCase().includes(core(d))).sort((a, b) => b[0].length - a[0].length)[0] || vocab.slice().sort((a, b) => b[0].length - a[0].length)[0];
+      if (key[0].replace(/[^\p{L}]/gu, "").length < 4) return;
+      out.push({ id: l.id + ":" + i, yt: v.yt, start: Math.max(0, start), end, src: l.src || ["", l.title], de, ar, reg, expl: [xa, xd], key, ex: exa, lesson: l.id, line: i });
+    });
+    return out;
+  });
+  const extra = (window.DF_FEED || []).map(c => ({ ...c, src: c.src || ["", ""] }));
+  const lists = [...byLesson, extra.filter((_, j) => j % 2 === 0), extra.filter((_, j) => j % 2 === 1)].filter(x => x.length);
+  FEED = [];
+  for (let r = 0; lists.some(x => x.length > r); r++) lists.forEach(x => { if (x[r]) FEED.push(x[r]); });
+}
+function markHTML(de, key) {
+  const k = key ? key.replace(/^(der|die|das|sich|jemandem|jemanden|etwas|einen|eine|ein) /i, "").replace(/[.!?…]+$/, "") : "";
+  const i = k ? de.toLowerCase().indexOf(k.toLowerCase()) : -1;
+  if (i < 0) return esc(de);
+  return esc(de.slice(0, i)) + "<mark>" + esc(de.slice(i, i + k.length)) + "</mark>" + esc(de.slice(i + k.length));
+}
+function feedSheet(it) {
+  const expl = S.profile.explLang === "de" ? it.expl[1] : it.expl[0];
+  const sh = openSheet(`
+    <div class="eyebrow" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}</div>
+    <p class="big-de" lang="de" dir="ltr" id="fsDe">${wordsHTML(it.de)}</p>
+    ${it.ar ? `<p class="big-ar" lang="ar" dir="rtl">${esc(it.ar)}</p>` : ""}
+    ${it.auto ? `<p class="muted small">${esc(t("feed_auto"))}</p>` : ""}
+    <div class="row wrap">
+      <button class="btn sm" id="fsPlay">${IC.speak}<span>${esc(t("listen"))}</span></button>
+      ${saveBtn(it.de, t("save_sentence"))}
+      ${it.reg ? `<span class="reg reg-${it.reg}">${esc(t("register"))}: ${esc(t("reg_" + it.reg))}</span>` : ""}
+    </div>
+    ${expl ? `<h3 class="h3">${esc(t("meaning"))}</h3><p lang="${S.profile.explLang}">${esc(expl)}</p>` : ""}
+    ${it.key ? `<h3 class="h3">${esc(t("vocab_h"))}</h3><ul class="vlist"><li><span><b lang="de" dir="ltr">${esc(it.key[0])}</b><small lang="ar" dir="rtl">${esc(it.key[1])}</small></span>${saveBtn(it.key[0])}</li></ul>` : ""}
+    ${it.ex ? `<h3 class="h3">${esc(t("example"))}</h3><div class="exbox"><p lang="de" dir="ltr">${esc(it.ex[0])}</p><p class="muted" lang="ar" dir="rtl">${esc(it.ex[1])}</p></div>` : ""}
+    ${it.lesson ? `<a class="btn primary" href="#lesson-${it.lesson}">${esc(t("feed_full"))}</a>` : ""}
+    ${recorderHTML()}`);
+  $("#fsPlay", sh).onclick = () => sayInto(it.de, $("#fsDe", sh));
+  $$("[data-save]", sh).forEach(b => b.onclick = () => {
+    const d = b.dataset.save, isKey = it.key && d === it.key[0];
+    const item = isKey ? { de: it.key[0], ar: it.key[1], exDe: it.de, lesson: it.lesson || "", type: "word" } : { de: it.de, ar: it.ar, exDe: it.ex ? it.ex[0] : "", lesson: it.lesson || "", type: "sentence" };
+    if (saveVocab(item)) { b.disabled = true; b.classList.add("done"); $("span", b).textContent = t("saved"); }
+  });
+  bindRecorder(sh, it.de);
+}
+function viewFeed(v) {
+  if (!FEED.length) buildFeed();
+  const P = S.profile;
+  const seen = (S.progress.feed ||= { seen: {} }).seen;
+  const first = Math.max(0, FEED.findIndex(it => !seen[it.id]));
+  document.body.classList.add("feedmode");
+  v.innerHTML = `<div class="feed ${P.showDe ? "" : "hide-de"} ${P.showAr ? "" : "hide-ar"}" id="feed">
+    <div class="ftop"><span class="fcount" id="fCount"></span>
+      <button class="fchip2 ${P.showDe ? "on" : ""}" id="fDe" lang="de">DE</button><button class="fchip2 ${P.showAr ? "on" : ""}" id="fAr">ع</button></div>
+    ${FEED.map((it, i) => `<article class="fcard" data-i="${i}">
+      <div class="fvid" style="background-image:url('https://i.ytimg.com/vi/${encodeURIComponent(it.yt)}/hqdefault.jpg')"><div class="fyt"></div>
+        <button class="fplay" aria-label="${esc(t("play"))}">${IC.play}</button><div class="fmsg" hidden></div></div>
+      <div class="finfo">
+        <span class="fsrc" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}${it.auto ? ` <i>${esc(t("feed_auto_short"))}</i>` : ""}</span>
+        <p class="fde" lang="de" dir="ltr">${markHTML(it.de, it.key && it.key[0])}</p>
+        <p class="far" lang="ar" dir="rtl">${esc(it.ar)}</p>
+        ${it.key ? `<div class="fkey"><span class="eyebrow">${esc(t("feed_key"))}</span><b lang="de" dir="ltr">${esc(it.key[0])}</b><span lang="ar" dir="rtl">${esc(it.key[1])}</span></div>` : ""}
+        <div class="fact">
+          <button data-a="rep">${IC.repeat}<span>${esc(t("feed_again"))}</span></button>
+          <button data-a="slow"><b>0.75×</b><span>${esc(t("slow"))}</span></button>
+          <button data-a="save" class="${it.key && isSaved(it.key[0]) ? "done" : ""}">${IC.bookmark}<span>${esc(t("save"))}</span></button>
+          <button data-a="info">${IC.mic}<span>${esc(t("feed_practice"))}</span></button>
+        </div>
+      </div></article>`).join("")}
+    <article class="fcard fend"><div class="finfo"><h2 class="h2">${esc(t("feed_end"))}</h2><a class="btn primary big" href="#lessons">${esc(t("nav_lessons"))}</a></div></article>
+  </div>`;
+  const feed = $("#feed", v);
+  const fit = () => { feed.style.height = Math.max(320, innerHeight - $(".top").offsetHeight - $("#nav").offsetHeight) + "px"; };
+  fit(); addEventListener("resize", fit);
+  let cur = -1, yp = null, loops = 0, timer = null, dead = false, rate = 1;
+  const card = i => $(`.fcard[data-i="${i}"]`, feed);
+  const stopPlayer = () => { clearInterval(timer); timer = null; try { yp && yp.destroy(); } catch (e) {} yp = null; $$(".fcard.playing", feed).forEach(c => c.classList.remove("playing")); };
+  const showMsg = (c, html) => { const m = $(".fmsg", c); m.hidden = false; m.innerHTML = html; };
+  const activate = i => {
+    if (i === cur || dead) return;
+    stopPlayer(); cur = i; loops = 0; rate = 1;
+    $("#fCount").textContent = `${i + 1} / ${FEED.length}`;
+    const it = FEED[i]; const c = card(i); if (!it || !c) return;
+    if (!seen[it.id]) { seen[it.id] = Date.now(); save("progress"); }
+    loadYT().then(YT => {
+      if (dead || cur !== i) return;
+      const box = document.createElement("div"); $(".fyt", c).replaceChildren(box);
+      yp = new YT.Player(box, { videoId: it.yt, width: "100%", height: "100%",
+        playerVars: { start: Math.floor(it.start), end: Math.ceil(it.end), autoplay: 1, controls: 0, rel: 0, playsinline: 1, modestbranding: 1, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, hl: ui() },
+        events: {
+          onReady: e => { try { e.target.seekTo(it.start, true); e.target.playVideo(); } catch (x) {} },
+          onStateChange: e => {
+            if (e.data === 1) { c.classList.add("playing"); lastInput = Date.now(); }
+            else if (e.data === 2) c.classList.remove("playing");
+            else if (e.data === 0) { if (++loops < 3) { yp.seekTo(it.start, true); yp.playVideo(); } else c.classList.remove("playing"); }
+          },
+          onError: e => { c.classList.remove("playing"); showMsg(c, `<b>${esc(t([100, 101, 150].includes(e.data) ? "video_gone" : "video_blocked"))}</b><button class="btn sm" data-tts>${esc(t("listen"))}</button>`); $("[data-tts]", c).onclick = () => sayInto(it.de, null); }
+        } });
+      timer = setInterval(() => { try { if (yp && yp.getCurrentTime && yp.getCurrentTime() >= it.end - 0.05 && yp.getPlayerState() === 1) { if (++loops < 3) yp.seekTo(it.start, true); else { yp.pauseVideo(); c.classList.remove("playing"); } } } catch (x) {} }, 200);
+    }).catch(() => { if (cur === i) showMsg(c, `<b>${esc(t("video_blocked"))}</b>`); });
+  };
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && e.intersectionRatio > 0.6 && e.target.dataset.i) activate(+e.target.dataset.i); }), { root: feed, threshold: [0.6] });
+  $$(".fcard[data-i]", feed).forEach(c => io.observe(c));
+  feed.addEventListener("click", e => {
+    const c = e.target.closest(".fcard[data-i]"); if (!c) return;
+    const i = +c.dataset.i, it = FEED[i];
+    const a = e.target.closest("[data-a]");
+    if (!a) {
+      if (e.target.closest(".fvid")) {
+        if (i !== cur) return activate(i);
+        if (!yp || !yp.getPlayerState) return;
+        const st = yp.getPlayerState();
+        if (st === 1) yp.pauseVideo(); else { loops = 0; if (st === 0 || yp.getCurrentTime() >= it.end - 0.2) yp.seekTo(it.start, true); yp.playVideo(); }
+      }
+      return;
+    }
+    if (a.dataset.a === "rep" || a.dataset.a === "slow") {
+      if (i !== cur) activate(i);
+      rate = a.dataset.a === "slow" ? (rate === 0.75 ? 1 : 0.75) : rate;
+      if (yp && yp.seekTo) { loops = 0; try { yp.setPlaybackRate(rate); } catch (x) {} yp.seekTo(it.start, true); yp.playVideo(); }
+      $$('[data-a="slow"]', c).forEach(b => b.classList.toggle("on", rate === 0.75));
+    } else if (a.dataset.a === "save") {
+      const k = it.key || [it.de, it.ar];
+      if (saveVocab({ de: k[0], ar: k[1], exDe: it.de, lesson: it.lesson || "", type: it.key ? "word" : "sentence" })) { a.classList.add("done"); toast(t("saved")); }
+    } else if (a.dataset.a === "info") { if (yp && yp.pauseVideo) yp.pauseVideo(); feedSheet(it); }
+  });
+  const tg = (id, key, cls) => $(id, v).onclick = e => { P[key] = !P[key]; e.currentTarget.classList.toggle("on", P[key]); feed.classList.toggle(cls, !P[key]); save("profile"); };
+  tg("#fDe", "showDe", "hide-de"); tg("#fAr", "showAr", "hide-ar");
+  requestAnimationFrame(() => { const c = card(first); if (c) feed.scrollTop = c.offsetTop; activate(first); });
+  viewCleanup = () => { dead = true; io.disconnect(); stopPlayer(); removeEventListener("resize", fit); document.body.classList.remove("feedmode"); };
 }
 
 /* ================= views ================= */
