@@ -467,3 +467,5 @@ body.feedmode main{padding:0}
 .legal ul{padding-inline-start:20px;margin:6px 0 12px}
 .legal p{margin:6px 0 12px}
 .placecard .row-between{gap:12px;align-items:center}
+.pltext{margin:0;padding:12px 14px;border-inline-start:4px solid var(--primary);background:var(--bg);border-radius:10px;font-size:17px;line-height:1.55;text-align:left}
+.opt[lang="ar"]{text-align:right}

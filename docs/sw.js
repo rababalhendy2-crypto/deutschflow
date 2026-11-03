@@ -1,6 +1,6 @@
 // DeutschFlow offline cache: the page and its script are fetched from the network first and kept as a fallback,
 // so lessons, vocabulary review and exercises still open without a connection. Cross-origin requests (Supabase, YouTube) are not touched.
-const CACHE = "deutschflow-v1";
+const CACHE = "deutschflow-v2";
 const CORE = ["./", "index.html", "supabase.js"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).catch(() => {}).then(() => self.skipWaiting()));

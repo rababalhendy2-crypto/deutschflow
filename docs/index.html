@@ -473,6 +473,8 @@ body.feedmode main{padding:0}
 .legal ul{padding-inline-start:20px;margin:6px 0 12px}
 .legal p{margin:6px 0 12px}
 .placecard .row-between{gap:12px;align-items:center}
+.pltext{margin:0;padding:12px 14px;border-inline-start:4px solid var(--primary);background:var(--bg);border-radius:10px;font-size:17px;line-height:1.55;text-align:left}
+.opt[lang="ar"]{text-align:right}
 
 </style>
 <div class="app" id="app" dir="rtl" lang="ar">
@@ -3096,39 +3098,78 @@ topics: [
   ]);
 })();
 
-// DeutschFlow – placement test (B1+ to C1). 15 questions, written for this app.
-// Each: { lv: "B1"|"B2"|"C1", q, o: [options], a: index of the right one, w: [explanation AR, explanation DE] }
+// DeutschFlow – placement test (B1+ to C1). Written for this app.
+// It measures understanding, not grammar endings: listening, reacting in a situation, meaning in context, reading.
+// Each: { lv, k: "listen"|"situation"|"meaning"|"read", audio? (German played, not shown), text? (German shown),
+//         p: [prompt AR, prompt DE], o: options, oLang: "ar"|"de", a: index of the right option, w: [why AR, why DE] }
 window.DF_PLACEMENT = [
-  { lv: "B1", q: "Ich warte schon seit einer Stunde ___ den Bus.", o: ["auf", "für", "an"], a: 0,
-    w: ["الفعل warten يأتي دائماً مع auf.", "„warten auf“ + Akkusativ."] },
-  { lv: "B1", q: "Wenn ich mehr Zeit ___, würde ich öfter Sport machen.", o: ["habe", "hätte", "hatte"], a: 1,
-    w: ["جملة شرطية غير واقعية تحتاج صيغة Konjunktiv II: hätte.", "Irrealer Bedingungssatz: Konjunktiv II „hätte“."] },
-  { lv: "B1", q: "Das ist der Kollege, ___ ich gestern geholfen habe.", o: ["den", "dem", "der"], a: 1,
-    w: ["helfen يأخذ Dativ، لذلك ضمير الوصل dem.", "„helfen“ verlangt den Dativ: „dem“."] },
-  { lv: "B2", q: "Der Antrag muss bis Freitag ___ werden.", o: ["einreichen", "eingereicht", "eingereichen"], a: 1,
-    w: ["مبني للمجهول مع فعل مساعد: Partizip II + werden.", "Passiv mit Modalverb: Partizip II + werden."] },
-  { lv: "B2", q: "___ des schlechten Wetters fand das Fest statt.", o: ["Wegen", "Trotz", "Während"], a: 1,
-    w: ["المعنى: رغم الطقس السيئ أقيم الحفل، لذلك Trotz.", "Gegensatz: „trotz“ + Genitiv."] },
-  { lv: "B2", q: "Was bedeutet: „Das kommt nicht in Frage.“?", o: ["Das ist eine gute Frage.", "Das ist ausgeschlossen.", "Das ist noch unklar."], a: 1,
-    w: ["التعبير يعني: هذا مرفوض تماماً ولا مجال له.", "„Nicht in Frage kommen“ = ausgeschlossen sein."] },
-  { lv: "B2", q: "Er tut so, ___ er alles wüsste.", o: ["als ob", "wie wenn", "dass"], a: 0,
-    w: ["«يتصرف كأنه…» = als ob + Konjunktiv II.", "Irrealer Vergleich: „als ob“ + Konjunktiv II."] },
-  { lv: "B2", q: "Welche Formulierung passt in eine formelle E-Mail?", o: ["Melde dich mal!", "Ich freue mich auf Ihre Rückmeldung.", "Schreib schnell zurück."], a: 1,
-    w: ["الرسائل الرسمية تستخدم Sie وصيغاً ثابتة مثل هذه.", "Formell: Sie-Form und feste Schlussformel."] },
-  { lv: "B2", q: "Ich kann mich nicht ___ erinnern, wo ich den Schlüssel hingelegt habe.", o: ["daran", "darauf", "davon"], a: 0,
-    w: ["sich erinnern an → daran.", "„sich erinnern an“ → „daran“."] },
-  { lv: "B2", q: "Die Firma hat beschlossen, mehr Leute ___.", o: ["einzustellen", "einstellen", "zu einstellen"], a: 0,
-    w: ["مع الأفعال المنفصلة تدخل zu بين البادئة والفعل: einzustellen.", "Trennbares Verb: „einzustellen“."] },
-  { lv: "C1", q: "Die Maßnahmen haben sich als wirkungslos ___.", o: ["erwiesen", "bewiesen", "gewiesen"], a: 0,
-    w: ["sich als … erweisen = يتبين أنه…", "„sich als etwas erweisen“ = sich zeigen."] },
-  { lv: "C1", q: "Was bedeutet: „Er hat den Nagel auf den Kopf getroffen.“?", o: ["Er hat sich verletzt.", "Er hat genau das Richtige gesagt.", "Er hat einen Fehler gemacht."], a: 1,
-    w: ["أصاب كبد الحقيقة: قال الشيء الصحيح تماماً.", "Genau den Kern einer Sache treffen."] },
-  { lv: "C1", q: "___ der Tatsache, dass die Kosten steigen, müssen wir umplanen.", o: ["Angesichts", "Anstatt", "Anhand"], a: 0,
-    w: ["angesichts = نظراً إلى (لغة رسمية مكتوبة) + Genitiv.", "„angesichts“ + Genitiv = in Anbetracht."] },
-  { lv: "C1", q: "Welcher Satz ist stilistisch am besten für einen Bericht?", o: ["Das Projekt war irgendwie nicht so gut.", "Das Projekt blieb hinter den Erwartungen zurück.", "Das Projekt war voll daneben."], a: 1,
-    w: ["«hinter den Erwartungen zurückbleiben» صياغة محايدة ومهنية.", "Sachlich und gehoben: „hinter den Erwartungen zurückbleiben“."] },
-  { lv: "C1", q: "Die Entscheidung ___ noch aus.", o: ["steht", "liegt", "fällt"], a: 0,
-    w: ["etwas steht noch aus = لم يُحسم بعد.", "„ausstehen“ = noch nicht erfolgt sein."] }
+  // ---- listening: the sentence is only heard ----
+  { lv: "B1", k: "listen", audio: "Könnten Sie mir bitte sagen, wann der nächste Zug nach Köln fährt?",
+    p: ["ماذا يريد المتكلم؟", "Was möchte die Person?"], oLang: "ar",
+    o: ["يسأل عن موعد القطار القادم إلى كولن", "يشتكي من تأخر القطار", "يريد شراء تذكرة ذهاب وعودة"], a: 0,
+    w: ["«wann der nächste Zug fährt» = متى يغادر القطار القادم.", "Er fragt nach der Abfahrtszeit."] },
+  { lv: "B2", k: "listen", audio: "Ich hätte die Wohnung ja genommen, aber die Nebenkosten waren einfach zu hoch.",
+    p: ["ماذا حدث مع الشقة؟", "Was ist mit der Wohnung passiert?"], oLang: "ar",
+    o: ["استأجرها لأن التكاليف معقولة", "لم يأخذها بسبب التكاليف الإضافية المرتفعة", "ما زال ينتظر رد المالك"], a: 1,
+    w: ["«hätte genommen» = كان سيأخذها (لكنه لم يفعل). Nebenkosten = تكاليف إضافية كالتدفئة والماء.", "„hätte genommen“: Er hat sie nicht genommen."] },
+  { lv: "B2", k: "listen", audio: "Wenn es Ihnen nichts ausmacht, würde ich den Termin gern auf nächste Woche verschieben.",
+    p: ["ما الذي يطلبه المتكلم؟", "Worum bittet die Person?"], oLang: "ar",
+    o: ["إلغاء الموعد نهائياً", "تأكيد الموعد هذا الأسبوع", "تأجيل الموعد إلى الأسبوع القادم"], a: 2,
+    w: ["verschieben = يؤجّل. «Wenn es Ihnen nichts ausmacht» = إن لم يكن لديك مانع.", "„verschieben“ = auf später legen."] },
+  { lv: "C1", k: "listen", audio: "Von einer echten Verbesserung kann man kaum sprechen, die Zahlen sind bestenfalls stabil geblieben.",
+    p: ["كيف يقيّم المتكلم الوضع؟", "Wie bewertet die Person die Lage?"], oLang: "ar",
+    o: ["تحسّن واضح وكبير", "لا تحسّن حقيقي، في أحسن الأحوال استقرار", "تراجع خطير في الأرقام"], a: 1,
+    w: ["«kaum» = بالكاد، و«bestenfalls stabil» = في أفضل الأحوال ثابتة.", "„kaum“ + „bestenfalls stabil“ = keine echte Verbesserung."] },
+  { lv: "C1", k: "listen", audio: "Das ist zwar gut gemeint, geht aber am eigentlichen Problem völlig vorbei.",
+    p: ["ما رأي المتكلم في الاقتراح؟", "Was hält die Person vom Vorschlag?"], oLang: "ar",
+    o: ["نيته حسنة لكنه لا يعالج المشكلة الحقيقية", "اقتراح ممتاز يحل المشكلة", "اقتراح سيئ النية"], a: 0,
+    w: ["«an etwas vorbeigehen» = لا يصيب الهدف، لا يعالج الأمر.", "„am Problem vorbeigehen“ = das Problem nicht treffen."] },
+
+  // ---- situations: choose what you would really say ----
+  { lv: "B1", k: "situation", p: ["زميلك يقول لك: «Ich habe die Prüfung bestanden!» ماذا تقول؟", "Ein Kollege sagt: „Ich habe die Prüfung bestanden!“ Was sagst du?"], oLang: "de",
+    o: ["Herzlichen Glückwunsch, das freut mich für dich!", "Gute Besserung!", "Mein Beileid."], a: 0,
+    w: ["هنا تهنئة. «Gute Besserung» للمريض و«Mein Beileid» للعزاء.", "Glückwunsch passt; die anderen sind für Krankheit und Trauer."] },
+  { lv: "B2", k: "situation", p: ["في اجتماع عمل، تريد أن تعترض بأدب على اقتراح مديرك.", "Im Meeting willst du höflich dem Vorschlag deiner Chefin widersprechen."], oLang: "de",
+    o: ["Das ist doch Quatsch.", "Ich sehe das ehrlich gesagt etwas anders, weil …", "Nein, das machen wir nicht."], a: 1,
+    w: ["هذه الصيغة تعترض مع إظهار الاحترام وتقدّم سبباً. الباقي جاف أو وقح.", "Höflicher Widerspruch mit Begründung."] },
+  { lv: "B2", k: "situation", p: ["تتصل بشركة التأمين ولم تفهم ما قاله الموظف بسرعة.", "Du rufst die Versicherung an und hast den Mitarbeiter nicht verstanden."], oLang: "de",
+    o: ["Was?", "Sprechen Sie Deutsch?", "Entschuldigung, könnten Sie das bitte noch einmal etwas langsamer sagen?"], a: 2,
+    w: ["طلب الإعادة بأدب وببطء هو الأنسب في مكالمة رسمية.", "Höflich um Wiederholung bitten."] },
+  { lv: "C1", k: "situation", p: ["عرض عليك عمل جديد، وتريد وقتاً للتفكير دون أن ترفض.", "Du bekommst ein Jobangebot und willst Bedenkzeit, ohne abzulehnen."], oLang: "de",
+    o: ["Da muss ich noch eine Nacht drüber schlafen.", "Das ist mir egal.", "Ich habe schon Feierabend."], a: 0,
+    w: ["«eine Nacht drüber schlafen» = أحتاج وقتاً للتفكير قبل القرار.", "Bedenkzeit erbitten."] },
+
+  // ---- meaning in context ----
+  { lv: "B2", k: "meaning", text: "Nach dem Streit mit seinem Bruder hat er endlich den ersten Schritt gemacht und ihn angerufen.",
+    p: ["ماذا يعني «den ersten Schritt machen» هنا؟", "Was bedeutet „den ersten Schritt machen“ hier?"], oLang: "ar",
+    o: ["بدأ بالمصالحة", "مشى خطوة إلى الأمام", "قطع العلاقة نهائياً"], a: 0,
+    w: ["التعبير يعني المبادرة بالمصالحة أو بالفعل الأول.", "Als Erster aktiv werden, hier: sich versöhnen."] },
+  { lv: "C1", k: "meaning", text: "Die neue Regel ist ein zweischneidiges Schwert: Sie spart Geld, kostet aber Vertrauen.",
+    p: ["ماذا يعني «ein zweischneidiges Schwert»؟", "Was bedeutet „ein zweischneidiges Schwert“?"], oLang: "ar",
+    o: ["قرار عنيف وخطير", "شيء له فائدة وضرر معاً", "قاعدة قديمة جداً"], a: 1,
+    w: ["سيف ذو حدّين: له إيجابيات وسلبيات.", "Etwas mit Vor- und Nachteilen."] },
+  { lv: "C1", k: "meaning", text: "Bei der Gehaltsverhandlung hat sie sich nicht die Butter vom Brot nehmen lassen.",
+    p: ["كيف تصرّفت في مفاوضة الراتب؟", "Wie hat sie verhandelt?"], oLang: "ar",
+    o: ["تنازلت بسرعة", "دافعت عن حقها ولم تسمح بأن يُستغلّ", "نسيت أن تطلب زيادة"], a: 1,
+    w: ["«sich nicht die Butter vom Brot nehmen lassen» = لا يسمح لأحد أن يأخذ حقه.", "Sich nicht benachteiligen lassen."] },
+
+  // ---- reading ----
+  { lv: "B1", k: "read", text: "Liebe Nachbarn, am Samstag feiern wir ab 19 Uhr den Geburtstag unserer Tochter. Es könnte etwas lauter werden. Wir bitten um Verständnis!",
+    p: ["لماذا كتب الجيران هذه الرسالة؟", "Warum schreiben die Nachbarn?"], oLang: "ar",
+    o: ["ليشتكوا من الضجيج", "ليعتذروا مسبقاً عن ضجيج حفلة", "ليدعوا الجيران إلى العشاء"], a: 1,
+    w: ["«Wir bitten um Verständnis» = نرجو تفهّمكم، أي اعتذار مسبق.", "Sie bitten vorab um Verständnis für Lärm."] },
+  { lv: "B2", k: "read", text: "Sehr geehrte Frau Yilmaz, leider müssen wir Ihnen mitteilen, dass Ihr Antrag unvollständig ist. Bitte reichen Sie die fehlenden Unterlagen bis zum 15. März nach.",
+    p: ["ما المطلوب من السيدة يلماز؟", "Was soll Frau Yilmaz tun?"], oLang: "ar",
+    o: ["تقديم طلب جديد من البداية", "إرسال الأوراق الناقصة قبل 15 مارس", "الحضور إلى موعد في 15 مارس"], a: 1,
+    w: ["«nachreichen» = يقدّم لاحقاً ما كان ناقصاً.", "„Unterlagen nachreichen“ = fehlende Dokumente schicken."] },
+  { lv: "C1", k: "read", text: "Zwar betonte das Unternehmen, man habe die Kritik ernst genommen; konkrete Maßnahmen ließ es jedoch vermissen.",
+    p: ["ماذا يقول النص عن الشركة؟", "Was sagt der Text über das Unternehmen?"], oLang: "ar",
+    o: ["اتخذت إجراءات واضحة بعد النقد", "قالت إنها أخذت النقد بجدية لكنها لم تقدّم إجراءات ملموسة", "رفضت النقد تماماً"], a: 1,
+    w: ["«etwas vermissen lassen» = يفتقر إلى. أي لا إجراءات ملموسة.", "„vermissen lassen“ = nicht bieten."] },
+  { lv: "C1", k: "read", text: "Wer glaubt, mit ein paar Apps sei die Digitalisierung der Verwaltung erledigt, verkennt das Ausmaß der Aufgabe.",
+    p: ["ما رأي الكاتب؟", "Was meint der Autor?"], oLang: "ar",
+    o: ["رقمنة الإدارة مهمة أكبر بكثير من بعض التطبيقات", "التطبيقات تكفي لرقمنة الإدارة", "الرقمنة غير ضرورية"], a: 0,
+    w: ["«verkennen» = يسيء التقدير. الكاتب يرى أن المهمة أكبر.", "„das Ausmaß verkennen“ = unterschätzen."] }
 ];
 
 </script>
@@ -3232,7 +3273,7 @@ const STR = {
     hidden_de: "النص مخفي، استمع وحاول أن تفهم",
     no_voice: "لم نجد صوتاً ألمانياً على جهازك، فقد يكون النطق غير دقيق. أضف صوتاً ألمانياً من إعدادات الجهاز (تحويل النص إلى كلام).",
     no_tts: "متصفحك لا يدعم قراءة النص بصوت. جرّب Chrome أو Safari.",
-    voice_native: "صوت ألماني من محرك النطق في جهازك (Android).", rec_hint_live: "استمع للجملة، ثم اضغط «ابدأ التسجيل»، تكلّم، واضغط «أوقف». بعدها قارن تسجيلك بالنموذج.", rec_start: "ابدأ التسجيل", rec_stop: "أوقف التسجيل", rec_again: "سجّل من جديد", rec_file: "أو اختر ملفاً صوتياً", rec_both: "النموذج ثم تسجيلك", rec_denied: "لم يُسمح باستخدام الميكروفون. فعّله من إعدادات الجهاز أو المتصفح.", k_dict: "إملاء سمعي", k_trans: "ترجمة", k_who: "من قال ذلك؟", k_reg: "درجة الرسمية", dict_hint: "استمع واكتب الجملة الألمانية كما تسمعها. الأحرف الكبيرة وعلامات الترقيم لا تُحتسب.", dict_ph: "اكتب ما تسمعه…", dict_typos: "صحيح، مع أخطاء إملائية بسيطة (المعلَّمة باللون الأصفر).", trans_hint: "اختر الجملة الألمانية التي تعني:", reg_hint: "ما درجة الرسمية في هذه الجملة؟", pl_title: "اختبار تحديد المستوى", pl_sub: "{0} سؤالاً من B1 إلى C1، نحو 5 دقائق. يقترح لك من أين تبدأ.", pl_start: "ابدأ الاختبار", pl_again: "أعد الاختبار", pl_go: "ابدأ من هنا", pl_done_line: "نتيجتك: {0} من {1} · {2}", pl_lv_B2s: "بداية B2", pl_lv_B2: "B2", pl_lv_C1: "قريب من C1", pl_rec_B2s: "ابدأ من الدرس الأول وخذ وقتك مع كل حوار. التمارين والمراجعة ستثبّت الأساس.", pl_rec_B2: "مستواك مناسب لدروس B2. اختر الدروس حسب هدفك وتابع المشاهد الحقيقية.", pl_rec_C1: "أنت جاهز لمحتوى C1. جرّب قسم «الصحة والنفس» وأكمل دروس B2 للمراجعة السريعة.", pl_note: "هذا اختبار قصير للتوجيه فقط، وليس شهادة رسمية.", lg_title: "الخصوصية وحماية البيانات", lg_asof: "آخر تحديث: 3 نوفمبر 2026", lg_contact: "التواصل", back: "رجوع", lg_privacy_html: "<h2 class=\"h2\">ما الذي نحفظه؟</h2><ul><li>بريدك الإلكتروني وكلمة المرور (مشفّرة) لتسجيل الدخول.</li><li>تقدّمك: الدروس، نتائج التمارين، المفردات المحفوظة، وقت التعلّم والإعدادات.</li></ul><h2 class=\"h2\">أين تُحفظ؟</h2><p>في قاعدة بيانات Supabase داخل الاتحاد الأوروبي (فرانكفورت). لا يستطيع أي مستخدم آخر رؤية بياناتك. في وضع «بدون حساب» تبقى البيانات على جهازك فقط.</p><h2 class=\"h2\">ما الذي لا نحفظه؟</h2><ul><li>تسجيلاتك الصوتية تبقى على جهازك ولا تُرفع إلى أي خادم.</li><li>لا إعلانات ولا أدوات تتبّع أو تحليلات.</li><li>النطق يتم بمحرك الكلام في جهازك.</li></ul><h2 class=\"h2\">الفيديوهات</h2><p>المقاطع معروضة من YouTube عبر المشغّل الرسمي. عند تشغيلها قد تجمع Google بيانات حسب سياستها الخاصة.</p><h2 class=\"h2\">حقوقك</h2><p>يمكنك حذف كل بياناتك في أي وقت من صفحة «حسابي» بزر «احذف حسابي وبياناتي».</p>", rm_title: "تذكير يومي", rm_on: "ذكّرني بالتعلّم كل يوم", rm_time: "الوقت", rm_body: "حان وقت 10 دقائق ألمانية 🇩🇪 مشهد واحد يكفي اليوم.", rm_set: "تم ضبط التذكير.", rm_denied: "الإشعارات غير مسموح بها. فعّلها من إعدادات التطبيق.", rm_fail: "تعذّر ضبط التذكير.", del_account: "احذف حسابي وبياناتي", del_local: "احذف بياناتي من هذا الجهاز", del_confirm: "متأكد؟ اضغط مجدداً للحذف النهائي", del_note: "يحذف التقدّم والمفردات والإعدادات نهائياً ولا يمكن التراجع.", del_fail: "تعذّر الحذف. تحقق من الاتصال وحاول مجدداً.", del_done_full: "تم حذف حسابك وكل بياناتك.", del_done_data: "تم حذف كل بياناتك وتسجيل خروجك.",
+    voice_native: "صوت ألماني من محرك النطق في جهازك (Android).", rec_hint_live: "استمع للجملة، ثم اضغط «ابدأ التسجيل»، تكلّم، واضغط «أوقف». بعدها قارن تسجيلك بالنموذج.", rec_start: "ابدأ التسجيل", rec_stop: "أوقف التسجيل", rec_again: "سجّل من جديد", rec_file: "أو اختر ملفاً صوتياً", rec_both: "النموذج ثم تسجيلك", rec_denied: "لم يُسمح باستخدام الميكروفون. فعّله من إعدادات الجهاز أو المتصفح.", k_dict: "إملاء سمعي", k_trans: "ترجمة", k_who: "من قال ذلك؟", k_reg: "درجة الرسمية", dict_hint: "استمع واكتب الجملة الألمانية كما تسمعها. الأحرف الكبيرة وعلامات الترقيم لا تُحتسب.", dict_ph: "اكتب ما تسمعه…", dict_typos: "صحيح، مع أخطاء إملائية بسيطة (المعلَّمة باللون الأصفر).", trans_hint: "اختر الجملة الألمانية التي تعني:", reg_hint: "ما درجة الرسمية في هذه الجملة؟", pl_title: "اختبار تحديد المستوى", pl_sub: "{0} سؤالاً: استماع، مواقف حقيقية، فهم التعابير، وقراءة. نحو 6 دقائق، شغّل الصوت.", pl_listen_hint: "الجملة مسموعة فقط ولا تظهر مكتوبة. يمكنك إعادة الاستماع.", pl_k_listen: "استماع", pl_k_situation: "موقف حقيقي", pl_k_meaning: "المعنى في السياق", pl_k_read: "قراءة", pl_start: "ابدأ الاختبار", pl_again: "أعد الاختبار", pl_go: "ابدأ من هنا", pl_done_line: "نتيجتك: {0} من {1} · {2}", pl_lv_B2s: "بداية B2", pl_lv_B2: "B2", pl_lv_C1: "قريب من C1", pl_rec_B2s: "ابدأ من الدرس الأول وخذ وقتك مع كل حوار. التمارين والمراجعة ستثبّت الأساس.", pl_rec_B2: "مستواك مناسب لدروس B2. اختر الدروس حسب هدفك وتابع المشاهد الحقيقية.", pl_rec_C1: "أنت جاهز لمحتوى C1. جرّب قسم «الصحة والنفس» وأكمل دروس B2 للمراجعة السريعة.", pl_note: "هذا اختبار قصير للتوجيه فقط، وليس شهادة رسمية.", lg_title: "الخصوصية وحماية البيانات", lg_asof: "آخر تحديث: 3 نوفمبر 2026", lg_contact: "التواصل", back: "رجوع", lg_privacy_html: "<h2 class=\"h2\">ما الذي نحفظه؟</h2><ul><li>بريدك الإلكتروني وكلمة المرور (مشفّرة) لتسجيل الدخول.</li><li>تقدّمك: الدروس، نتائج التمارين، المفردات المحفوظة، وقت التعلّم والإعدادات.</li></ul><h2 class=\"h2\">أين تُحفظ؟</h2><p>في قاعدة بيانات Supabase داخل الاتحاد الأوروبي (فرانكفورت). لا يستطيع أي مستخدم آخر رؤية بياناتك. في وضع «بدون حساب» تبقى البيانات على جهازك فقط.</p><h2 class=\"h2\">ما الذي لا نحفظه؟</h2><ul><li>تسجيلاتك الصوتية تبقى على جهازك ولا تُرفع إلى أي خادم.</li><li>لا إعلانات ولا أدوات تتبّع أو تحليلات.</li><li>النطق يتم بمحرك الكلام في جهازك.</li></ul><h2 class=\"h2\">الفيديوهات</h2><p>المقاطع معروضة من YouTube عبر المشغّل الرسمي. عند تشغيلها قد تجمع Google بيانات حسب سياستها الخاصة.</p><h2 class=\"h2\">حقوقك</h2><p>يمكنك حذف كل بياناتك في أي وقت من صفحة «حسابي» بزر «احذف حسابي وبياناتي».</p>", rm_title: "تذكير يومي", rm_on: "ذكّرني بالتعلّم كل يوم", rm_time: "الوقت", rm_body: "حان وقت 10 دقائق ألمانية 🇩🇪 مشهد واحد يكفي اليوم.", rm_set: "تم ضبط التذكير.", rm_denied: "الإشعارات غير مسموح بها. فعّلها من إعدادات التطبيق.", rm_fail: "تعذّر ضبط التذكير.", del_account: "احذف حسابي وبياناتي", del_local: "احذف بياناتي من هذا الجهاز", del_confirm: "متأكد؟ اضغط مجدداً للحذف النهائي", del_note: "يحذف التقدّم والمفردات والإعدادات نهائياً ولا يمكن التراجع.", del_fail: "تعذّر الحذف. تحقق من الاتصال وحاول مجدداً.", del_done_full: "تم حذف حسابك وكل بياناتك.", del_done_data: "تم حذف كل بياناتك وتسجيل خروجك.",
     register: "درجة الرسمية", reg_f: "رسمي", reg_n: "محايد", reg_i: "غير رسمي",
     meaning: "المعنى في السياق", vocab_h: "مفردات مهمة", example: "مثال إضافي", listen: "استمع", slow: "ببطء",
     save: "احفظ", saved: "محفوظ ✓", save_sentence: "احفظ الجملة",
@@ -3311,7 +3352,7 @@ const STR = {
     hidden_de: "Text ausgeblendet – hör genau hin",
     no_voice: "Keine deutsche Stimme gefunden, die Aussprache kann ungenau sein. Füge in den Geräteeinstellungen (Text-in-Sprache) eine deutsche Stimme hinzu.",
     no_tts: "Dein Browser unterstützt keine Sprachausgabe. Versuche Chrome oder Safari.",
-    voice_native: "Deutsche Stimme aus der Sprachausgabe deines Geräts (Android).", rec_hint_live: "Hör dir den Satz an, tippe auf „Aufnahme starten“, sprich und tippe auf „Stopp“. Dann vergleiche mit dem Vorbild.", rec_start: "Aufnahme starten", rec_stop: "Aufnahme stoppen", rec_again: "Neu aufnehmen", rec_file: "oder Audiodatei wählen", rec_both: "Vorbild, dann du", rec_denied: "Kein Zugriff auf das Mikrofon. Bitte in den Einstellungen erlauben.", k_dict: "Hördiktat", k_trans: "Übersetzung", k_who: "Wer sagt das?", k_reg: "Register", dict_hint: "Hör zu und schreib den Satz auf. Groß-/Kleinschreibung und Satzzeichen zählen nicht.", dict_ph: "Schreib, was du hörst …", dict_typos: "Richtig, mit kleinen Tippfehlern (gelb markiert).", trans_hint: "Welcher deutsche Satz bedeutet:", reg_hint: "Wie formell ist dieser Satz?", pl_title: "Einstufungstest", pl_sub: "{0} Fragen von B1 bis C1, ca. 5 Minuten. Der Test schlägt dir einen Startpunkt vor.", pl_start: "Test starten", pl_again: "Test wiederholen", pl_go: "Hier starten", pl_done_line: "Ergebnis: {0} von {1} · {2}", pl_lv_B2s: "Beginnendes B2", pl_lv_B2: "B2", pl_lv_C1: "Nah an C1", pl_rec_B2s: "Starte mit Lektion 1 und nimm dir Zeit für jeden Dialog. Übungen und Wiederholung festigen die Basis.", pl_rec_B2: "Die B2-Lektionen passen zu dir. Wähle nach deinem Ziel und schau die echten Szenen.", pl_rec_C1: "Du bist bereit für C1. Probier den Bereich „Gesundheit & Psyche“ und nutze B2 zur Wiederholung.", pl_note: "Kurzer Orientierungstest, kein offizielles Zertifikat.", lg_title: "Datenschutz", lg_asof: "Stand: 3. November 2026", lg_contact: "Kontakt", back: "Zurück", lg_privacy_html: "<h2 class=\"h2\">Was speichern wir?</h2><ul><li>E-Mail und Passwort (verschlüsselt) für die Anmeldung.</li><li>Deinen Fortschritt: Lektionen, Übungsergebnisse, gespeicherte Wörter, Lernzeit und Einstellungen.</li></ul><h2 class=\"h2\">Wo?</h2><p>In einer Supabase-Datenbank in der EU (Frankfurt). Andere Nutzer können deine Daten nicht sehen. Ohne Konto bleiben die Daten nur auf deinem Gerät.</p><h2 class=\"h2\">Was speichern wir nicht?</h2><ul><li>Sprachaufnahmen bleiben auf deinem Gerät und werden nicht hochgeladen.</li><li>Keine Werbung, kein Tracking, keine Analyse-Tools.</li><li>Die Aussprache kommt aus der Sprachausgabe deines Geräts.</li></ul><h2 class=\"h2\">Videos</h2><p>Die Clips werden über den offiziellen YouTube-Player eingebettet. Beim Abspielen kann Google Daten nach eigener Richtlinie verarbeiten.</p><h2 class=\"h2\">Deine Rechte</h2><p>Du kannst alle Daten jederzeit unter „Profil“ mit „Konto und Daten löschen“ entfernen.</p>", rm_title: "Tägliche Erinnerung", rm_on: "Jeden Tag ans Lernen erinnern", rm_time: "Uhrzeit", rm_body: "Zeit für 10 Minuten Deutsch 🇩🇪 Eine Szene reicht heute.", rm_set: "Erinnerung gestellt.", rm_denied: "Benachrichtigungen sind nicht erlaubt. Bitte in den App-Einstellungen aktivieren.", rm_fail: "Erinnerung konnte nicht gestellt werden.", del_account: "Konto und Daten löschen", del_local: "Daten auf diesem Gerät löschen", del_confirm: "Sicher? Nochmal tippen zum endgültigen Löschen", del_note: "Löscht Fortschritt, Wörter und Einstellungen endgültig.", del_fail: "Löschen fehlgeschlagen. Bitte Verbindung prüfen.", del_done_full: "Dein Konto und alle Daten wurden gelöscht.", del_done_data: "Alle Daten wurden gelöscht und du bist abgemeldet.",
+    voice_native: "Deutsche Stimme aus der Sprachausgabe deines Geräts (Android).", rec_hint_live: "Hör dir den Satz an, tippe auf „Aufnahme starten“, sprich und tippe auf „Stopp“. Dann vergleiche mit dem Vorbild.", rec_start: "Aufnahme starten", rec_stop: "Aufnahme stoppen", rec_again: "Neu aufnehmen", rec_file: "oder Audiodatei wählen", rec_both: "Vorbild, dann du", rec_denied: "Kein Zugriff auf das Mikrofon. Bitte in den Einstellungen erlauben.", k_dict: "Hördiktat", k_trans: "Übersetzung", k_who: "Wer sagt das?", k_reg: "Register", dict_hint: "Hör zu und schreib den Satz auf. Groß-/Kleinschreibung und Satzzeichen zählen nicht.", dict_ph: "Schreib, was du hörst …", dict_typos: "Richtig, mit kleinen Tippfehlern (gelb markiert).", trans_hint: "Welcher deutsche Satz bedeutet:", reg_hint: "Wie formell ist dieser Satz?", pl_title: "Einstufungstest", pl_sub: "{0} Fragen: Hören, echte Situationen, Bedeutung im Kontext und Lesen. Ca. 6 Minuten, Ton an.", pl_listen_hint: "Der Satz ist nur zu hören, nicht zu lesen. Du kannst ihn wiederholen.", pl_k_listen: "Hören", pl_k_situation: "Situation", pl_k_meaning: "Bedeutung im Kontext", pl_k_read: "Lesen", pl_start: "Test starten", pl_again: "Test wiederholen", pl_go: "Hier starten", pl_done_line: "Ergebnis: {0} von {1} · {2}", pl_lv_B2s: "Beginnendes B2", pl_lv_B2: "B2", pl_lv_C1: "Nah an C1", pl_rec_B2s: "Starte mit Lektion 1 und nimm dir Zeit für jeden Dialog. Übungen und Wiederholung festigen die Basis.", pl_rec_B2: "Die B2-Lektionen passen zu dir. Wähle nach deinem Ziel und schau die echten Szenen.", pl_rec_C1: "Du bist bereit für C1. Probier den Bereich „Gesundheit & Psyche“ und nutze B2 zur Wiederholung.", pl_note: "Kurzer Orientierungstest, kein offizielles Zertifikat.", lg_title: "Datenschutz", lg_asof: "Stand: 3. November 2026", lg_contact: "Kontakt", back: "Zurück", lg_privacy_html: "<h2 class=\"h2\">Was speichern wir?</h2><ul><li>E-Mail und Passwort (verschlüsselt) für die Anmeldung.</li><li>Deinen Fortschritt: Lektionen, Übungsergebnisse, gespeicherte Wörter, Lernzeit und Einstellungen.</li></ul><h2 class=\"h2\">Wo?</h2><p>In einer Supabase-Datenbank in der EU (Frankfurt). Andere Nutzer können deine Daten nicht sehen. Ohne Konto bleiben die Daten nur auf deinem Gerät.</p><h2 class=\"h2\">Was speichern wir nicht?</h2><ul><li>Sprachaufnahmen bleiben auf deinem Gerät und werden nicht hochgeladen.</li><li>Keine Werbung, kein Tracking, keine Analyse-Tools.</li><li>Die Aussprache kommt aus der Sprachausgabe deines Geräts.</li></ul><h2 class=\"h2\">Videos</h2><p>Die Clips werden über den offiziellen YouTube-Player eingebettet. Beim Abspielen kann Google Daten nach eigener Richtlinie verarbeiten.</p><h2 class=\"h2\">Deine Rechte</h2><p>Du kannst alle Daten jederzeit unter „Profil“ mit „Konto und Daten löschen“ entfernen.</p>", rm_title: "Tägliche Erinnerung", rm_on: "Jeden Tag ans Lernen erinnern", rm_time: "Uhrzeit", rm_body: "Zeit für 10 Minuten Deutsch 🇩🇪 Eine Szene reicht heute.", rm_set: "Erinnerung gestellt.", rm_denied: "Benachrichtigungen sind nicht erlaubt. Bitte in den App-Einstellungen aktivieren.", rm_fail: "Erinnerung konnte nicht gestellt werden.", del_account: "Konto und Daten löschen", del_local: "Daten auf diesem Gerät löschen", del_confirm: "Sicher? Nochmal tippen zum endgültigen Löschen", del_note: "Löscht Fortschritt, Wörter und Einstellungen endgültig.", del_fail: "Löschen fehlgeschlagen. Bitte Verbindung prüfen.", del_done_full: "Dein Konto und alle Daten wurden gelöscht.", del_done_data: "Alle Daten wurden gelöscht und du bist abgemeldet.",
     register: "Register", reg_f: "formell", reg_n: "neutral", reg_i: "informell",
     meaning: "Bedeutung im Kontext", vocab_h: "Wichtige Wörter", example: "Weiteres Beispiel", listen: "Anhören", slow: "Langsam",
     save: "Speichern", saved: "Gespeichert ✓", save_sentence: "Satz speichern",
@@ -4833,21 +4874,24 @@ function placementCard() {
     <a class="btn sm ${pl ? "ghost" : "primary"}" href="#placement">${esc(pl ? t("pl_again") : t("pl_start"))}</a></div></section>`;
 }
 function placementResult(right, byLv) {
-  if (right >= 12 && byLv.C1 >= 3) return "C1";
-  if (right >= 7) return "B2";
+  const c1n = PLACE.filter(q => q.lv === "C1").length;
+  if (right >= PLACE.length - 3 && byLv.C1 >= c1n - 2) return "C1";
+  if (right >= Math.ceil(PLACE.length / 2)) return "B2";
   return "B2s";
 }
+const PL_SKILLS = ["listen", "situation", "meaning", "read"];
 function viewPlacement(v) {
-  if (!PS) PS = { i: 0, right: 0, byLv: { B1: 0, B2: 0, C1: 0 }, answered: false };
+  if (!PS) PS = { i: 0, right: 0, byLv: { B1: 0, B2: 0, C1: 0 }, bySk: {} };
   const st = PS;
   if (st.i >= PLACE.length) {
     const lv = placementResult(st.right, st.byLv);
     if (!st.saved) { st.saved = true; S.profile.placement = { score: st.right, lv, at: Date.now() }; save("profile"); }
     const go = lv === "C1" ? "#health" : lv === "B2" ? "#lessons" : "#lesson-" + (LESSONS[0] && LESSONS[0].id);
+    const skills = PL_SKILLS.map(k => { const n = PLACE.filter(q => q.k === k).length; return `<li><span>${esc(t("pl_k_" + k))}</span><span class="kb"><i style="width:${Math.round((st.bySk[k] || 0) / n * 100)}%"></i></span><small class="muted">${st.bySk[k] || 0}/${n}</small></li>`; }).join("");
     v.innerHTML = `<section class="card center result"><span class="eyebrow">${esc(t("pl_title"))}</span>
       <div class="ring" style="--p:${Math.round(st.right / PLACE.length * 100)}"><b>${st.right}/${PLACE.length}</b></div>
       <h2 class="h2">${esc(t("pl_lv_" + lv))}</h2><p>${esc(t("pl_rec_" + lv))}</p>
-      <p class="muted small">B1 ${st.byLv.B1}/3 · B2 ${st.byLv.B2}/7 · C1 ${st.byLv.C1}/5</p>
+      <ul class="kbars">${skills}</ul>
       <p class="muted small">${esc(t("pl_note"))}</p>
       <div class="row wrap center-row"><button class="btn ghost" id="plAgain">${esc(t("pl_again"))}</button><a class="btn primary" href="${go}">${esc(t("pl_go"))}</a></div></section>`;
     $("#plAgain", v).onclick = () => { PS = null; viewPlacement(v); };
@@ -4855,19 +4899,28 @@ function viewPlacement(v) {
   }
   const q = PLACE[st.i];
   const opts = shuffle(q.o.map((o, i) => ({ o, i })));
+  const oAttr = q.oLang === "ar" ? 'lang="ar" dir="rtl"' : 'lang="de" dir="ltr"';
   v.innerHTML = `<header class="phead"><h1 class="h1">${esc(t("pl_title"))}</h1><p class="muted">${esc(t("pl_sub", PLACE.length))}</p></header>
-    <section class="excard"><span class="eyebrow">${esc(t("q_of", st.i + 1, PLACE.length))}</span>
+    <section class="excard"><span class="eyebrow">${esc(t("q_of", st.i + 1, PLACE.length))} · ${esc(t("pl_k_" + q.k))}</span>
     <div class="track"><i style="width:${st.i / PLACE.length * 100}%"></i></div>
-    <p class="qtext" lang="de" dir="ltr">${esc(q.q).replace("___", '<span class="gap">_____</span>')}</p>
-    <div class="opts">${opts.map(x => `<button class="opt" data-i="${x.i}" lang="de" dir="ltr">${esc(x.o)}</button>`).join("")}</div>
+    ${q.audio ? `<div class="row wrap"><button class="btn primary" id="plPlay">${IC.speak}<span>${esc(t("listen"))}</span></button><button class="btn sm" id="plSlow">${IC.speak}<span>${esc(t("slow"))}</span></button></div><p class="muted small">${esc(t("pl_listen_hint"))}</p>` : ""}
+    ${q.text ? `<blockquote class="pltext" lang="de" dir="ltr">${esc(q.text)}</blockquote>` : ""}
+    <p class="qtext" ${ui() === "de" ? 'lang="de" dir="ltr"' : 'lang="ar" dir="rtl" style="text-align:right"'}>${esc(tl(q.p))}</p>
+    <div class="opts">${opts.map(x => `<button class="opt" data-i="${x.i}" ${oAttr}>${esc(x.o)}</button>`).join("")}</div>
     <div id="fb" class="fb" hidden></div><div class="row-end" id="qnav"></div></section>`;
+  if (q.audio) {
+    $("#plPlay", v).onclick = () => sayInto(q.audio, null);
+    $("#plSlow", v).onclick = () => sayInto(q.audio, null, { rate: 0.7 });
+    setTimeout(() => { if (PS === st && st.i === PLACE.indexOf(q)) sayInto(q.audio, null); }, 400);
+  }
   $$(".opt", v).forEach(b => b.onclick = () => {
+    stopSpeech();
     const ok = +b.dataset.i === q.a;
-    if (ok) { st.right++; st.byLv[q.lv]++; }
+    if (ok) { st.right++; st.byLv[q.lv]++; st.bySk[q.k] = (st.bySk[q.k] || 0) + 1; }
     $$(".opt", v).forEach(x => { x.disabled = true; if (+x.dataset.i === q.a) x.classList.add("right"); });
     if (!ok) b.classList.add("wrongpick");
     const fb = $("#fb", v); fb.hidden = false; fb.className = "fb " + (ok ? "good" : "bad");
-    fb.innerHTML = `<b>${esc(ok ? t("correct") : t("wrong"))}</b><p>${esc(ex(q.w))}</p>`;
+    fb.innerHTML = `<b>${esc(ok ? t("correct") : t("wrong"))}</b>${q.audio ? `<p lang="de" dir="ltr">„${esc(q.audio)}“</p>` : ""}<p>${esc(ex(q.w))}</p>`;
     $("#qnav", v).innerHTML = `<button class="btn primary" id="plNext">${esc(st.i === PLACE.length - 1 ? t("finish") : t("next_q"))}</button>`;
     $("#plNext", v).onclick = () => { st.i++; viewPlacement(v); };
   });
