@@ -29,6 +29,8 @@ jobs:
           sed -i 's#</manifest>#    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <queries><intent><action android:name="android.intent.action.TTS_SERVICE" /></intent></queries>\n</manifest>#' "$M"
           grep -n "permission\|TTS_SERVICE" "$M"
       - run: npx cap sync android
+      - name: Use the fixed test signing key so each new APK installs over the old one
+        run: mkdir -p ~/.android && cp debug.keystore ~/.android/debug.keystore
       - name: Build debug APK
         run: cd android && ./gradlew assembleDebug --no-daemon
       - run: cp android/app/build/outputs/apk/debug/app-debug.apk DeutschFlow.apk
