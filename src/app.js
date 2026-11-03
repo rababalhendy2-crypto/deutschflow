@@ -130,7 +130,7 @@ const STR = {
     clip_url: "رابط يوتيوب", clip_title: "عنوان الدرس", clip_text: "النص مع التوقيت",
     clip_help: "في يوتيوب: افتح الوصف ← «إظهار النص» ← انسخ الأسطر مع التوقيت. لإضافة ترجمة عربية اكتبها بعد علامة | في نفس السطر.",
     clip_id_ok: "رابط صالح", clip_id_bad: "لم نتعرّف على الرابط", clip_lines: "{0} جملة من {1} إلى {2}", clip_lines_bad: "لم نجد أسطراً تبدأ بتوقيت مثل 0:05",
-    clip_save: "أنشئ الدرس", clip_fetch: "اسحب النص تلقائياً", clip_fetching: "جارٍ سحب النص من يوتيوب…", clip_fetch_ok: "سُحب النص. راجعه وأضف العربية بعد | إذا أردت.", clip_fetch_auto: "هذا النص من ترجمة يوتيوب التلقائية، قد تكون فيه أخطاء.", clip_fetch_none: "هذا الفيديو ليس له نص ألماني على يوتيوب.", clip_fetch_err: "لم ينجح سحب النص. الصق النص يدوياً.", clip_fetch_app: "في تطبيق الأندرويد يكفي لصق الرابط، والنص يُسحب تلقائياً.", no_ex: "لا توجد تمارين لهذا المقطع.",
+    clip_save: "أنشئ الدرس", clip_fetch: "اسحب النص تلقائياً", clip_fetching: "جارٍ سحب النص من يوتيوب…", clip_fetch_ok: "سُحب النص. راجعه وأضف العربية بعد | إذا أردت.", clip_fetch_auto: "هذا النص من ترجمة يوتيوب التلقائية، قد تكون فيه أخطاء.", clip_fetch_none: "هذا الفيديو ليس له نص ألماني على يوتيوب.", clip_fetch_blocked: "للفيديو نص ألماني لكن يوتيوب منع سحبه الآن. افتح الفيديو في يوتيوب ← الوصف ← «إظهار النص»، انسخه والصقه هنا.", clip_fetch_err: "لم ينجح سحب النص. الصق النص يدوياً.", clip_fetch_app: "في تطبيق الأندرويد يكفي لصق الرابط، والنص يُسحب تلقائياً.", no_ex: "لا توجد تمارين لهذا المقطع.",
     au_login: "تسجيل الدخول", au_signup: "إنشاء حساب", au_reset: "استعادة كلمة المرور", au_newpw: "كلمة مرور جديدة",
     au_login_btn: "ادخل", au_signup_btn: "أنشئ الحساب", au_reset_btn: "أرسل رابط الاستعادة", au_newpw_btn: "احفظ كلمة المرور",
     au_email: "البريد الإلكتروني", au_pw: "كلمة المرور", au_newpw_field: "كلمة المرور الجديدة (8 أحرف على الأقل)",
@@ -209,7 +209,7 @@ const STR = {
     clip_url: "YouTube-Link", clip_title: "Titel der Lektion", clip_text: "Transkript mit Zeitstempeln",
     clip_help: "Auf YouTube: Beschreibung öffnen → «Transkript anzeigen» → Zeilen mit Zeitstempeln kopieren. Arabische Übersetzung nach einem | in derselben Zeile.",
     clip_id_ok: "Link erkannt", clip_id_bad: "Link nicht erkannt", clip_lines: "{0} Sätze von {1} bis {2}", clip_lines_bad: "Keine Zeilen mit Zeitstempel wie 0:05 gefunden",
-    clip_save: "Lektion erstellen", clip_fetch: "Text automatisch holen", clip_fetching: "Text wird von YouTube geholt…", clip_fetch_ok: "Text geholt. Prüfe ihn und füge nach | Arabisch hinzu, wenn du willst.", clip_fetch_auto: "Dieser Text stammt aus YouTubes automatischen Untertiteln und kann Fehler enthalten.", clip_fetch_none: "Dieses Video hat auf YouTube keinen deutschen Text.", clip_fetch_err: "Text konnte nicht geholt werden. Füge ihn von Hand ein.", clip_fetch_app: "In der Android-App reicht der Link, der Text wird automatisch geholt.", no_ex: "Für diesen Clip gibt es keine Übungen.",
+    clip_save: "Lektion erstellen", clip_fetch: "Text automatisch holen", clip_fetching: "Text wird von YouTube geholt…", clip_fetch_ok: "Text geholt. Prüfe ihn und füge nach | Arabisch hinzu, wenn du willst.", clip_fetch_auto: "Dieser Text stammt aus YouTubes automatischen Untertiteln und kann Fehler enthalten.", clip_fetch_none: "Dieses Video hat auf YouTube keinen deutschen Text.", clip_fetch_blocked: "Das Video hat deutschen Text, aber YouTube blockiert den Abruf gerade. Öffne es in YouTube → Beschreibung → „Transkript anzeigen“, kopiere den Text und füge ihn hier ein.", clip_fetch_err: "Text konnte nicht geholt werden. Füge ihn von Hand ein.", clip_fetch_app: "In der Android-App reicht der Link, der Text wird automatisch geholt.", no_ex: "Für diesen Clip gibt es keine Übungen.",
     au_login: "Anmelden", au_signup: "Konto erstellen", au_reset: "Passwort zurücksetzen", au_newpw: "Neues Passwort",
     au_login_btn: "Anmelden", au_signup_btn: "Konto erstellen", au_reset_btn: "Link senden", au_newpw_btn: "Passwort speichern",
     au_email: "E-Mail", au_pw: "Passwort", au_newpw_field: "Neues Passwort (mind. 8 Zeichen)",
@@ -708,19 +708,67 @@ function jsonArrayAfter(src, key) {
   }
   return null;
 }
+async function nativePost(url, data, headers = {}) {
+  const r = await NATIVE_HTTP().post({ url, headers: { "Content-Type": "application/json", "Accept-Language": "de-DE,de;q=0.9", ...headers }, data, responseType: "json" });
+  if (r.status >= 400) throw new Error("HTTP " + r.status);
+  return typeof r.data === "string" ? JSON.parse(r.data) : r.data;
+}
+const cleanLines = arr => arr.map(x => ({ t: Math.floor(x.t), de: String(x.de || "").replace(/\s+/g, " ").trim() })).filter(x => x.de && !/^[\[(].*[\])]$/.test(x.de));
+const unent = s => s.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/<[^>]+>/g, "");
+// A caption track's text, as json3 or as XML (srv1 <text start> or srv3 <p t>). Empty bodies happen when YouTube wants a token.
+async function captionLines(baseUrl) {
+  const u = baseUrl.replace(/\\u0026/g, "&");
+  try {
+    const body = await nativeGet(u + "&fmt=json3");
+    if (body && body.trim().startsWith("{")) {
+      const j = JSON.parse(body);
+      const out = cleanLines((j.events || []).filter(e => e.segs).map(e => ({ t: e.tStartMs / 1000, de: e.segs.map(x => x.utf8).join("") })));
+      if (out.length) return out;
+    }
+  } catch (e) {}
+  const xml = await nativeGet(u.replace(/&fmt=[^&]*/, ""));
+  const out = [];
+  xml.replace(/<text start="([\d.]+)"[^>]*>([\s\S]*?)<\/text>/g, (_, st, tx) => { out.push({ t: +st, de: unent(tx) }); });
+  if (!out.length) xml.replace(/<p t="(\d+)"[^>]*>([\s\S]*?)<\/p>/g, (_, ms, tx) => { out.push({ t: +ms / 1000, de: unent(tx) }); });
+  return cleanLines(out);
+}
+const pickTrack = tracks => { const de = (tracks || []).filter(x => /^de/.test(x.languageCode || "")); return de.find(x => x.kind !== "asr") || de[0] || null; };
+function findAll(o, key, out = []) { if (o && typeof o === "object") { if (o[key]) out.push(o[key]); Object.values(o).forEach(v => findAll(v, key, out)); } return out; }
+// Three routes, tried in turn: the watch page's tracks, the Android player API's tracks, then the transcript panel.
 async function fetchYtTranscript(id) {
-  const html = await nativeGet("https://www.youtube.com/watch?v=" + id + "&hl=de");
-  const m = jsonArrayAfter(html, '"captionTracks":');
+  let title = "", sawTracks = false;
+  let html = "";
+  try { html = await nativeGet("https://www.youtube.com/watch?v=" + id + "&hl=de&bpctr=9999999999&has_verified=1"); } catch (e) {}
   const tm = html.match(/<meta name="title" content="([^"]*)"/);
-  const title = tm ? tm[1].replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'") : "";
-  if (!m) return { title, lines: [] };
-  const tracks = JSON.parse(m).filter(x => /^de/.test(x.languageCode || ""));
-  const tr = tracks.find(x => x.kind !== "asr") || tracks[0];
-  if (!tr) return { title, lines: [] };
-  const j = JSON.parse(await nativeGet(tr.baseUrl.replace(/\\u0026/g, "&") + "&fmt=json3"));
-  const lines = (j.events || []).filter(e => e.segs).map(e => ({ t: Math.floor(e.tStartMs / 1000), de: e.segs.map(x => x.utf8).join("").replace(/\s+/g, " ").trim() }))
-    .filter(x => x.de && !/^[\[(].*[\])]$/.test(x.de));
-  return { title, lines, auto: tr.kind === "asr" };
+  if (tm) title = unent(tm[1]);
+  // 1. watch page
+  try {
+    const m = jsonArrayAfter(html, '"captionTracks":');
+    const tr = m && pickTrack(JSON.parse(m));
+    if (tr) { sawTracks = true; const lines = await captionLines(tr.baseUrl); if (lines.length) return { title, lines, auto: tr.kind === "asr" }; }
+  } catch (e) {}
+  // 2. Android player API
+  try {
+    const pr = await nativePost("https://www.youtube.com/youtubei/v1/player?prettyPrint=false",
+      { context: { client: { clientName: "ANDROID", clientVersion: "19.44.38", androidSdkVersion: 30, hl: "de", gl: "DE" } }, videoId: id },
+      { "User-Agent": "com.google.android.youtube/19.44.38 (Linux; U; Android 11) gzip", "X-YouTube-Client-Name": "3", "X-YouTube-Client-Version": "19.44.38" });
+    if (!title && pr.videoDetails) title = pr.videoDetails.title || "";
+    const tr = pickTrack(pr.captions && pr.captions.playerCaptionsTracklistRenderer && pr.captions.playerCaptionsTracklistRenderer.captionTracks);
+    if (tr) { sawTracks = true; const lines = await captionLines(tr.baseUrl); if (lines.length) return { title, lines, auto: tr.kind === "asr" }; }
+  } catch (e) {}
+  // 3. transcript panel (what "Show transcript" uses)
+  try {
+    const pm = html.match(/"getTranscriptEndpoint":\{"params":"([^"]+)"/);
+    const vm = html.match(/"INNERTUBE_CLIENT_VERSION":"([^"]+)"/);
+    if (pm) {
+      const j = await nativePost("https://www.youtube.com/youtubei/v1/get_transcript?prettyPrint=false",
+        { context: { client: { clientName: "WEB", clientVersion: vm ? vm[1] : "2.20241101.00.00", hl: "de", gl: "DE" } }, params: pm[1] });
+      const segs = findAll(j, "transcriptSegmentRenderer");
+      const lines = cleanLines(segs.map(sg => ({ t: (+sg.startMs || 0) / 1000, de: ((sg.snippet && sg.snippet.runs) || []).map(r => r.text).join("") })));
+      if (lines.length) return { title, lines, auto: true };
+    }
+  } catch (e) {}
+  return { title, lines: [], reason: sawTracks ? "blocked" : (html ? "none" : "offline") };
 }
 function viewAddClip(v) {
   v.innerHTML = `
@@ -760,7 +808,7 @@ function viewAddClip(v) {
     try {
       const r = await fetchYtTranscript(id);
       if (!title.value.trim() && r.title) title.value = r.title.slice(0, 120);
-      if (!r.lines.length) { prev.textContent = t("clip_fetch_none"); fb.disabled = false; return; }
+      if (!r.lines.length) { prev.textContent = t(r.reason === "blocked" ? "clip_fetch_blocked" : r.reason === "offline" ? "clip_fetch_err" : "clip_fetch_none"); fb.disabled = false; return; }
       text.value = r.lines.map(x => fmtClock(x.t) + "\n" + x.de).join("\n");
       check();
       prev.innerHTML += "<br>" + esc(t("clip_fetch_ok")) + (r.auto ? "<br>" + esc(t("clip_fetch_auto")) : "");
