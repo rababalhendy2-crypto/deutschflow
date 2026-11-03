@@ -24,6 +24,7 @@ const head = `<!doctype html><html lang="ar"><head><meta charset="utf-8"><meta n
 fs.copyFileSync("vendor/supabase.js", "web/supabase.js");
 const vendor = "<script src=\"supabase.js\"></script>";
 fs.writeFileSync("web/index.html", head + vendor + body + "</body></html>");
+fs.copyFileSync("src/sw.js", "web/sw.js");
 fs.writeFileSync("web/netlify.toml", "[build]\n  publish = \".\"\n  command = \"\"\n");
 '
 echo "web/index.html ready"

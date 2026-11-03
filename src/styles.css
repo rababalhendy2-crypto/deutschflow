@@ -444,3 +444,26 @@ body.feedmode main{padding:0}
 .hex small{color:var(--muted)}
 .hide-ar .har{filter:blur(6px);cursor:pointer;transition:filter .2s}
 .hide-ar .har:hover,.hide-ar .har:active{filter:none}
+
+/* lesson covers */
+.lcover{position:relative;flex:0 0 76px;height:76px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,hsl(var(--hue,20) 75% 58%),hsl(calc(var(--hue,20) + 40) 70% 42%));box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.lcover svg{width:38px;height:38px;opacity:.95}
+.lcover.photo{background-size:cover;background-position:center;background-color:var(--line)}
+.lcover em{position:absolute;bottom:4px;inset-inline-end:6px;font-style:normal;font-weight:800;font-size:12px;font-family:var(--f-de);background:rgba(0,0,0,.45);color:#fff;border-radius:6px;padding:1px 5px}
+/* dictation */
+.dictin{width:100%;box-sizing:border-box;font:inherit;font-size:17px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--text);resize:vertical;text-align:left}
+.dictin:focus{outline:2px solid var(--primary);outline-offset:1px}
+.umls{display:flex;flex-wrap:wrap;gap:6px}
+.umls .tok{min-width:38px}
+.dictres{font-size:17px;line-height:1.7;margin:0;text-align:left}
+.dictres .dok{color:var(--ok);font-weight:600}
+.dictres .dnear{background:rgba(245,190,40,.3);border-radius:4px;padding:0 2px}
+.dictres .dbad{color:var(--bad,#c0392b);text-decoration:line-through}
+.dictres sup{color:var(--ok);font-weight:700;margin-inline-start:2px}
+/* recorder */
+.btn.recording{background:#d93a3a;border-color:#d93a3a;color:#fff;animation:recpulse 1.2s ease-in-out infinite}
+@keyframes recpulse{50%{box-shadow:0 0 0 6px rgba(217,58,58,.25)}}
+/* legal */
+.legal ul{padding-inline-start:20px;margin:6px 0 12px}
+.legal p{margin:6px 0 12px}
+.placecard .row-between{gap:12px;align-items:center}
