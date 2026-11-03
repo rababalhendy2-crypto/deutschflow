@@ -414,6 +414,43 @@ body.feedmode main{padding:0}
 .fact a{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:16px;background:rgba(255,255,255,.09);color:#fff;font-size:12px;font-weight:600}
 .fact a svg{width:22px;height:22px}
 
+/* ===== C1 health section ===== */
+.c1card{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--r);background:linear-gradient(135deg,#0C6670 0%,#2A9D8F 60%,#8AC926 100%);color:#fff;box-shadow:var(--shadow)}
+.c1card .lvl{background:#FFD23F;color:#24143A;flex:none}
+.c1card small{opacity:.9}
+.hvbody{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+.hvbody b{font-size:15px;line-height:1.3}
+.hvbody small{font-size:12.5px;color:inherit;opacity:.75}
+.phead .h1 .lvl{vertical-align:middle;font-size:14px}
+.hgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.hvid .hvbody b{font-size:13.5px}
+.hvid{display:flex;flex-direction:column;gap:8px;text-align:start;padding:0 0 10px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;color:inherit;font:inherit;cursor:pointer}
+.hvid:hover{border-color:var(--primary)}
+.hvid .hvbody{padding:0 12px}
+.hthumb{position:relative;display:block;aspect-ratio:16/9;background:#222 center/cover no-repeat}
+.hthumb em{position:absolute;bottom:6px;inset-inline-end:6px;background:rgba(0,0,0,.75);color:#fff;font-style:normal;font-size:12px;padding:2px 6px;border-radius:6px;direction:ltr}
+.hthumb i{position:absolute;top:6px;inset-inline-start:6px;background:#2A9D8F;color:#fff;font-style:normal;font-size:12px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center}
+.hvid.seen{opacity:.85}
+.htopic{display:flex;align-items:center;gap:12px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.htopic:hover{border-color:var(--primary)}
+.hic{font-size:26px;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;background:var(--accent-soft);flex:none}
+.hplayer{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;margin:8px 0}
+.hplayer iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.hctl{align-items:center;margin:10px 0 4px}
+.hitems{list-style:none;padding:0;margin:8px 0 16px;display:flex;flex-direction:column;gap:10px}
+.hitem{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:6px;transition:border-color .2s,box-shadow .2s}
+.hitem.on{border-color:var(--primary);box-shadow:0 0 0 3px var(--accent-soft)}
+.hde{font-size:18px;font-family:var(--f-de)}
+.har{margin:0}
+.hdef{margin:0;font-size:13.5px;color:var(--muted);font-style:italic}
+.hex{list-style:none;padding:0;margin:4px 0;display:flex;flex-direction:column;gap:8px}
+.hex li{display:flex;gap:8px;align-items:flex-start}
+.hex li>span{display:flex;flex-direction:column;gap:2px;min-width:0}
+.hxde mark{background:var(--accent-soft);color:inherit;border-radius:4px;padding:0 2px}
+.hex small{color:var(--muted)}
+.hide-ar .har{filter:blur(6px);cursor:pointer;transition:filter .2s}
+.hide-ar .har:hover,.hide-ar .har:active{filter:none}
+
 </style>
 <div class="app" id="app" dir="rtl" lang="ar">
   <header class="top"><span class="brand">Deutsch<i>Flow</i></span><div class="sync" id="sync" aria-live="polite"></div></header>
@@ -2202,6 +2239,420 @@ window.DF_LESSONS = (window.DF_LESSONS || []).concat([
 }
 ]);
 
+// DeutschFlow – C1 section "Gesundheit & Psyche".
+// videos: official YouTube uploads, embedded only (never re-hosted). The German subtitles are YouTube's own captions;
+//   "about" and "keys" are written for this app (topic vocabulary, not a transcript of the video).
+// topics: original practice material written for this app. Item: { d: German, a: Arabic, f: German definition,
+//   n: Arabic note, r: register f|n|i, x: [[German example, Arabic]] }. *…* in an example marks the gap used in exercises.
+window.DF_HEALTH = {
+videos: [
+  // ---- comedy & scenes ----
+  { yt: "3FA2SgjdCYM", kind: "comedy", len: 182, src: ["Kultkino", "Loriot – Ödipussi"], title: "Rollenspiel in der Gruppensitzung",
+    about: ["مشهد من فيلم لوريو الكوميدي «Ödipussi» (1988): جلسة علاج جماعي يُطلب فيها من المشاركين أداء لعب أدوار.", "Szene aus Loriots Film «Ödipussi» (1988): In einer Gruppentherapie sollen die Teilnehmer ein Rollenspiel machen."],
+    keys: [["die Gruppensitzung", "جلسة جماعية"], ["das Rollenspiel", "لعب الأدوار"], ["sich öffnen", "ينفتح ويتكلم عن مشاعره"], ["Hemmungen haben", "عنده خجل / تحفّظ"]] },
+  { yt: "YyCzQvnpH28", kind: "comedy", len: 90, src: ["Knallerfrauen", "Martina Hill"], title: "Die Vertrauens-Therapie",
+    about: ["سكتش قصير من «Knallerfrauen» مع مارتينا هيل عن تمرين ثقة في جلسة علاج.", "Kurzer Sketch aus «Knallerfrauen» mit Martina Hill über eine Vertrauensübung in der Therapie."],
+    keys: [["das Vertrauen", "الثقة"], ["sich fallen lassen", "يترك نفسه يسقط (تمرين ثقة)"], ["jemandem vertrauen", "يثق بأحد"]] },
+  { yt: "Qwe73JrdEus", kind: "comedy", len: 125, src: ["Sat.1", "Die dreisten Drei"], title: "Besondere Psychotherapie",
+    about: ["سكتش من «Die dreisten Drei – Die Comedy WG» عن جلسة علاج نفسي غريبة جداً.", "Sketch aus «Die dreisten Drei – Die Comedy-WG» über eine sehr ungewöhnliche Psychotherapie."],
+    keys: [["der Therapeut / die Therapeutin", "المعالج / المعالجة"], ["Was führt Sie zu mir?", "ما الذي جاء بك إليّ؟"], ["die Sitzung", "الجلسة"]] },
+  { yt: "5QwMaGVRRHk", kind: "comedy", len: 160, src: ["BR Kabarett & Comedy", "schlachthof"], title: "Mitten in Bayern: Psychotherapeuten",
+    about: ["كباريه من التلفزيون البافاري BR يسخر من المعالجين النفسيين في بافاريا.", "Kabarett vom BR: Psychotherapeuten in Bayern, satirisch betrachtet."],
+    keys: [["der Psychotherapeut", "المعالج النفسي"], ["die Kassenzulassung", "ترخيص العمل مع التأمين الحكومي"], ["die Wartezeit", "مدة الانتظار"]] },
+  { yt: "Sj0d79MDMhU", kind: "comedy", len: 120, src: ["MySpass", "Ladykracher"], title: "Paartherapie",
+    about: ["سكتش من «Ladykracher» مع آنكه إنغلكه: زوجان عند معالج العلاقات.", "Sketch aus «Ladykracher» mit Anke Engelke: Ein Paar bei der Paartherapie."],
+    keys: [["die Paartherapie", "العلاج الزوجي"], ["Vorwürfe machen", "يلوم / يعاتب"], ["aneinander vorbeireden", "لا يفهم أحدهما الآخر في الكلام"]] },
+  { yt: "G0kS0jjCngE", kind: "comedy", len: 183, src: ["Goethe-Institut", "Typisch!?"], title: "Die Krankmeldung",
+    about: ["حلقة من سلسلة معهد غوته «Typisch!?» للمتعلمين: كيف يبلّغ الموظف عن مرضه في ألمانيا.", "Folge der Goethe-Institut-Serie «Typisch!?»: Wie meldet man sich in Deutschland krank?"],
+    keys: [["sich krankmelden", "يبلّغ عن مرضه"], ["die Krankmeldung", "إبلاغ المرض"], ["die Arbeitsunfähigkeitsbescheinigung", "شهادة عدم القدرة على العمل"], ["krankgeschrieben sein", "عنده إجازة مرضية من الطبيب"]] },
+
+  // ---- short explainers ----
+  { yt: "_cWuk2_xu-4", kind: "explain", len: 172, src: ["Stiftung Gesundheitswissen", ""], title: "Was ist eine Depression?",
+    about: ["فيديو شرح قصير: ما هو الاكتئاب؟", "Kurzes Erklärvideo: Was ist eine Depression?"],
+    keys: [["die Niedergeschlagenheit", "الحزن والإحباط"], ["die Antriebslosigkeit", "فقدان الدافع"], ["die Interessenlosigkeit", "فقدان الاهتمام"], ["die Schlafstörung", "اضطراب النوم"]] },
+  { yt: "y_Th0bRevP8", kind: "explain", len: 160, src: ["Stiftung Gesundheitswissen", ""], title: "Depressionen: Welche Behandlungsmöglichkeiten gibt es?",
+    about: ["ما طرق علاج الاكتئاب؟", "Welche Möglichkeiten gibt es, eine Depression zu behandeln?"],
+    keys: [["die Behandlungsmöglichkeit", "إمكانية العلاج"], ["das Antidepressivum", "مضاد الاكتئاب"], ["die Psychotherapie", "العلاج النفسي"]] },
+  { yt: "Va3HUAbDG8M", kind: "explain", len: 239, src: ["Stiftung Gesundheitswissen", ""], title: "Was tun, wenn man eine Depression hat?",
+    about: ["ماذا تفعل إذا كنت مصاباً بالاكتئاب؟", "Was kann man tun, wenn man eine Depression hat?"],
+    keys: [["sich Hilfe holen", "يطلب المساعدة"], ["die Hausärztin", "طبيبة العائلة"], ["sich anvertrauen", "يبوح لشخص يثق به"]] },
+  { yt: "kY2oEaOsJqo", kind: "explain", len: 120, src: ["Stiftung Gesundheitswissen", ""], title: "Was ist eine Panikattacke?",
+    about: ["ما هي نوبة الهلع؟", "Was ist eine Panikattacke?"],
+    keys: [["die Panikattacke", "نوبة الهلع"], ["das Herzrasen", "تسارع ضربات القلب"], ["die Todesangst", "الخوف من الموت"]] },
+  { yt: "iVn6_lqVpgE", kind: "explain", len: 60, src: ["Stiftung Gesundheitswissen", ""], title: "Was tun bei einer Panikattacke?",
+    about: ["ماذا تفعل أثناء نوبة هلع؟ (دقيقة واحدة)", "Was hilft während einer Panikattacke? (1 Minute)"],
+    keys: [["ruhig atmen", "يتنفس بهدوء"], ["abklingen", "يهدأ تدريجياً"]] },
+  { yt: "AopfUaPT3MA", kind: "explain", len: 108, src: ["Stiftung Gesundheitswissen", ""], title: "Was ist eine Psychotherapie?",
+    about: ["ما هو العلاج النفسي؟", "Was ist eine Psychotherapie?"],
+    keys: [["die Psychotherapie", "العلاج النفسي"], ["das Gespräch", "المحادثة"], ["die Verhaltensweise", "طريقة السلوك"]] },
+  { yt: "ijN1vZkC3aI", kind: "explain", len: 133, src: ["Stiftung Gesundheitswissen", ""], title: "Kognitive Verhaltenstherapie",
+    about: ["العلاج المعرفي السلوكي: كيف يعمل؟", "Kognitive Verhaltenstherapie – die Therapie des Erkennens."],
+    keys: [["die Verhaltenstherapie", "العلاج السلوكي"], ["Denkmuster erkennen", "يتعرّف على أنماط التفكير"], ["umlernen", "يتعلّم من جديد بطريقة مختلفة"]] },
+  { yt: "5jEIWRAfIvE", kind: "explain", len: 146, src: ["Stiftung Gesundheitswissen", ""], title: "Was sind Antidepressiva?",
+    about: ["ما هي مضادات الاكتئاب؟", "Was sind Antidepressiva?"],
+    keys: [["die Nebenwirkung", "الأثر الجانبي"], ["verschreiben", "يصف دواءً"], ["absetzen", "يوقف الدواء"]] },
+  { yt: "vWEALfbZYZk", kind: "explain", len: 264, src: ["gesund.bund.de", "Bundesministerium für Gesundheit"], title: "Was ist eine Depression?",
+    about: ["شرح من البوابة الصحية الرسمية للحكومة الألمانية.", "Erklärvideo des offiziellen Gesundheitsportals des Bundes."],
+    keys: [["die Erkrankung", "المرض"], ["behandelbar", "قابل للعلاج"], ["die Ursache", "السبب"]] },
+  { yt: "3vx7_ydK3nM", kind: "explain", len: 319, src: ["AOK", ""], title: "Burnout: Ursachen, Symptome & Auswirkungen",
+    about: ["الاحتراق الوظيفي: الأسباب والأعراض والتأثير على الصحة النفسية (من شركة التأمين AOK).", "Burnout: Ursachen, Symptome und Folgen – von der AOK."],
+    keys: [["das Burnout", "الاحتراق الوظيفي"], ["die Erschöpfung", "الإنهاك"], ["überfordert sein", "مثقل فوق طاقته"]] },
+  { yt: "b6asg8egVQ0", kind: "explain", len: 377, src: ["ZDF", "MAITHINK X"], title: "Burnout",
+    about: ["مايلاب (Mai Thi Nguyen-Kim) تشرح الاحتراق الوظيفي علمياً بأسلوب سريع ومرح.", "Mai Thi Nguyen-Kim erklärt Burnout wissenschaftlich – schnell und mit Humor."],
+    keys: [["die Diagnose", "التشخيص"], ["chronischer Stress", "التوتر المزمن"], ["die Studienlage", "ما تقوله الدراسات"]] },
+  { yt: "VU_FL43lxLs", kind: "explain", len: 292, src: ["Die Techniker", "DocTommy"], title: "Panikstörung verstehen",
+    about: ["اضطراب الهلع: الأسباب والأعراض والتشخيص والعلاج (من شركة التأمين TK).", "Panikstörung: Ursachen, Symptome, Diagnose und Therapie – von der TK."],
+    keys: [["die Panikstörung", "اضطراب الهلع"], ["das Vermeidungsverhalten", "سلوك التجنّب"], ["die Konfrontation", "المواجهة"]] },
+  { yt: "8tiACjJfVhU", kind: "explain", len: 315, src: ["WDR", "Quarks"], title: "Wie Stress dein Herz krank macht",
+    about: ["من برنامج Quarks العلمي: كيف يضرّ التوتر بالقلب.", "Quarks: Wie Stress dem Herzen schadet."],
+    keys: [["das Stresshormon", "هرمون التوتر"], ["der Blutdruck", "ضغط الدم"], ["auf Dauer", "على المدى الطويل"]] },
+
+  // ---- people tell their story ----
+  { yt: "3G7kvd5NAAM", kind: "story", len: 300, src: ["Stiftung Gesundheitswissen", ""], title: "So bewältigt Gulnara ihre Depression",
+    about: ["غولنارا تحكي كيف تتعامل مع اكتئابها.", "Gulnara erzählt, wie sie mit ihrer Depression umgeht."],
+    keys: [["bewältigen", "يتغلّب على / يتعامل مع"], ["der Alltag", "الحياة اليومية"], ["der Rückfall", "الانتكاسة"]] },
+  { yt: "qKQXGPBSx_c", kind: "story", len: 280, src: ["Stiftung Gesundheitswissen", ""], title: "Diagnose Depression: Sophie kann ihre Gefühle endlich zuordnen",
+    about: ["صوفي تحكي كيف ساعدها التشخيص على فهم مشاعرها.", "Sophie erzählt, wie die Diagnose ihr geholfen hat, ihre Gefühle zu verstehen."],
+    keys: [["Gefühle zuordnen", "يفهم مشاعره ويسمّيها"], ["die Erleichterung", "الارتياح"]] },
+  { yt: "Iltw2fxAY6k", kind: "story", len: 251, src: ["Stiftung Gesundheitswissen", ""], title: "Michael findet nach der Diagnose Angststörung zurück ins Leben",
+    about: ["ميشائيل يعود إلى حياته بعد تشخيص اضطراب القلق.", "Michael findet nach der Diagnose Angststörung zurück ins Leben."],
+    keys: [["die Angststörung", "اضطراب القلق"], ["zurück ins Leben finden", "يعود إلى الحياة"]] },
+  { yt: "Hs_pwCkvYqc", kind: "story", len: 718, src: ["ARD", ""], title: "Nico Semsrotts langer Weg zur richtigen Therapie",
+    about: ["الكوميدي والسياسي نيكو زمزروت عن طريقه الطويل إلى العلاج المناسب للاكتئاب.", "Der Kabarettist Nico Semsrott über seinen langen Weg zur richtigen Therapie."],
+    keys: [["der Therapieplatz", "مكان في العلاج النفسي"], ["die Wartezeit", "مدة الانتظار"], ["wieder rauskommen", "يخرج منها من جديد"]] },
+  { yt: "hGZtZF8mTiY", kind: "story", len: 924, src: ["ZDF", "Terra Xplore"], title: "Stark nach außen, krank nach innen: Hochfunktionale Depression",
+    about: ["ليون فيندشايد عن «الاكتئاب عالي الأداء»: من يبدو قوياً من الخارج وهو مريض من الداخل.", "Leon Windscheid über hochfunktionale Depression."],
+    keys: [["hochfunktional", "عالي الأداء"], ["nach außen", "من الخارج / أمام الناس"], ["funktionieren", "يؤدي مهامه بشكل آلي"]] },
+  { yt: "OmMlpP3trIE", kind: "story", len: 714, src: ["funk", "psychologeek"], title: "Angststörungen – wenn Angst zur Krankheit wird",
+    about: ["من قناة psychologeek (funk): متى يصبح الخوف مرضاً؟", "psychologeek (funk): Wann wird Angst zur Krankheit?"],
+    keys: [["zur Krankheit werden", "يتحوّل إلى مرض"], ["die Angst vor der Angst", "الخوف من الخوف"]] },
+  { yt: "TIBbJYrXdLw", kind: "story", len: 828, src: ["funk", "psychologeek"], title: "Psychotherapie – alle wichtigen Infos",
+    about: ["كل المعلومات المهمة عن العلاج النفسي في ألمانيا: كيف تجد معالجاً ومن يدفع.", "Alles Wichtige zur Psychotherapie in Deutschland: Therapeutensuche, Kosten, Ablauf."],
+    keys: [["die psychotherapeutische Sprechstunde", "الموعد الأول للتقييم عند المعالج"], ["die Krankenkasse übernimmt die Kosten", "التأمين يتحمّل التكاليف"], ["die probatorische Sitzung", "جلسة تجريبية"]] }
+],
+
+topics: [
+{ id: "befinden", ic: "🌦️", t: ["وصف الحالة والمشاعر", "Befinden & Gefühle beschreiben"],
+  intro: ["كيف تصف حالتك النفسية بدقة بدل «Mir geht's nicht gut» فقط.", "Wie man die eigene Stimmung genau beschreibt – statt nur «Mir geht's nicht gut»."],
+  items: [
+  { d: "sich niedergeschlagen fühlen", a: "يشعر بالحزن والإحباط", f: "traurig und ohne Energie sein", r: "n",
+    x: [["Seit der Trennung *fühle* ich mich ständig niedergeschlagen.", "منذ الانفصال وأنا أشعر بالإحباط باستمرار."], ["Wenn du dich länger als zwei Wochen niedergeschlagen fühlst, sprich mit deiner Ärztin.", "إذا شعرت بالإحباط أكثر من أسبوعين، تحدّث مع طبيبتك."]] },
+  { d: "antriebslos sein", a: "بلا دافع / لا يقدر أن يبدأ بشيء", f: "keine Kraft und Lust haben, etwas anzufangen", r: "n",
+    x: [["Morgens bin ich so *antriebslos*, dass ich kaum aus dem Bett komme.", "في الصباح أكون بلا دافع لدرجة أنني بالكاد أخرج من السرير."], ["Antriebslosigkeit ist ein typisches Symptom einer Depression.", "فقدان الدافع عرَض نموذجي للاكتئاب."]] },
+  { d: "mir ist alles zu viel", a: "كل شيء صار أكثر من طاقتي", f: "ich fühle mich überfordert", r: "i",
+    n: "تعبير يومي شائع جداً للتعبير عن الضغط. البديل الرسمي: Ich fühle mich überfordert.",
+    x: [["Im Moment *ist* mir einfach alles zu viel: Job, Kinder, Haushalt.", "في هذه الفترة كل شيء أكثر من طاقتي: العمل، الأولاد، البيت."], ["Sag Bescheid, wenn dir alles zu viel wird.", "أخبرني إذا صار كل شيء أكثر من طاقتك."]] },
+  { d: "gereizt sein", a: "عصبي / سريع الانفعال", f: "schnell wütend oder genervt reagieren", r: "n",
+    x: [["Wenn ich schlecht schlafe, bin ich den ganzen Tag *gereizt*.", "عندما أنام بشكل سيئ أكون عصبياً طوال اليوم."], ["Entschuldige, dass ich gestern so gereizt war.", "آسف لأنني كنت عصبياً هكذا أمس."]] },
+  { d: "innerlich leer sein", a: "يشعر بفراغ داخلي", f: "keine Gefühle mehr spüren", r: "n",
+    x: [["Ich bin nicht traurig, ich fühle mich eher innerlich *leer*.", "لست حزيناً، بل أشعر بفراغ داخلي."], ["Viele Betroffene beschreiben die Depression als Gefühl innerer Leere.", "كثير من المصابين يصفون الاكتئاب بأنه شعور بالفراغ الداخلي."]] },
+  { d: "die Stimmungsschwankungen (Pl.)", a: "تقلبات المزاج", f: "die Laune wechselt oft und stark", r: "n",
+    x: [["In den Wechseljahren hatte meine Mutter starke *Stimmungsschwankungen*.", "في سن اليأس كانت عند أمي تقلبات مزاجية شديدة."], ["Stimmungsschwankungen allein sind noch keine Krankheit.", "تقلبات المزاج وحدها ليست مرضاً بعد."]] },
+  { d: "neben sich stehen", a: "مش على بعضه / غير حاضر الذهن", f: "verwirrt und nicht ganz bei sich sein", r: "i",
+    n: "تعبير اصطلاحي: كأن الشخص يقف بجانب نفسه، أي لا يشعر بأنه هو.",
+    x: [["Nach der schlechten Nachricht habe ich total neben mir *gestanden*.", "بعد الخبر السيئ كنت مش على بعضي أبداً."], ["Du wirkst heute, als würdest du neben dir stehen. Alles okay?", "تبدو اليوم كأنك غير حاضر. هل كل شيء بخير؟"]] },
+  { d: "am Boden zerstört sein", a: "محطّم تماماً", f: "extrem traurig und verzweifelt sein", r: "i",
+    x: [["Als sie die Absage bekam, war sie am Boden *zerstört*.", "عندما وصلها الرفض كانت محطّمة تماماً."]] },
+  { d: "es geht bergauf", a: "الأمور تتحسن", f: "die Situation wird langsam besser", r: "i",
+    x: [["Nach der schweren Zeit geht es jetzt endlich wieder *bergauf*.", "بعد الفترة الصعبة، الأمور أخيراً تتحسن من جديد."], ["Seit ich in Therapie bin, geht es langsam bergauf.", "منذ أن بدأت العلاج والأمور تتحسن ببطء."]] },
+  { d: "sich ausgelaugt fühlen", a: "يشعر بالاستنزاف", f: "körperlich und seelisch völlig erschöpft sein", r: "n",
+    x: [["Nach drei Monaten ohne Urlaub fühle ich mich völlig *ausgelaugt*.", "بعد ثلاثة أشهر بلا إجازة أشعر بالاستنزاف التام."]] }
+  ] },
+
+{ id: "depression", ic: "🌧️", t: ["الاكتئاب", "Depression"],
+  intro: ["مفردات وجمل للحديث عن الاكتئاب: الأعراض، التشخيص، والتعافي.", "Wortschatz rund um Depression: Symptome, Diagnose und Genesung."],
+  items: [
+  { d: "an einer Depression erkranken", a: "يُصاب بالاكتئاب", f: "eine Depression bekommen", r: "f",
+    x: [["Jedes Jahr *erkranken* in Deutschland Millionen Menschen an einer Depression.", "كل عام يُصاب ملايين الناس في ألمانيا بالاكتئاب."], ["Auch Kinder und Jugendliche können an einer Depression erkranken.", "الأطفال والمراهقون أيضاً يمكن أن يُصابوا بالاكتئاب."]] },
+  { d: "unter Depressionen leiden", a: "يعاني من الاكتئاب", f: "eine Depression haben", r: "n",
+    x: [["Mein Onkel *leidet* seit Jahren unter Depressionen.", "عمّي يعاني من الاكتئاب منذ سنوات."], ["Wer unter Depressionen leidet, ist nicht faul, sondern krank.", "من يعاني من الاكتئاب ليس كسولاً بل مريضاً."]] },
+  { d: "die Diagnose stellen", a: "يضع التشخيص", f: "feststellen, welche Krankheit jemand hat", r: "f",
+    n: "تلازم لفظي: die Diagnose stellen (وليس machen).",
+    x: [["Die Psychiaterin hat schließlich die Diagnose *gestellt*: mittelgradige Depression.", "وضعت الطبيبة النفسية التشخيص أخيراً: اكتئاب متوسط الشدة."], ["Erst nach mehreren Gesprächen kann man eine sichere Diagnose stellen.", "فقط بعد عدة محادثات يمكن وضع تشخيص أكيد."]] },
+  { d: "die Freudlosigkeit", a: "فقدان القدرة على الفرح", f: "nichts macht mehr Freude", r: "f",
+    x: [["*Freudlosigkeit* gehört zu den Hauptsymptomen einer Depression.", "فقدان الفرح من الأعراض الرئيسية للاكتئاب."]] },
+  { d: "sich zurückziehen", a: "ينعزل / ينسحب من الناس", f: "den Kontakt zu anderen meiden", r: "n",
+    x: [["Er hat sich in den letzten Monaten immer mehr *zurückgezogen*.", "في الأشهر الأخيرة انعزل أكثر فأكثر."], ["Wenn sich jemand plötzlich zurückzieht, kann das ein Warnsignal sein.", "إذا انعزل أحد فجأة فقد يكون ذلك إشارة تحذير."]] },
+  { d: "das Grübeln", a: "التفكير المفرط / الاجترار", f: "immer wieder über dieselben negativen Gedanken nachdenken", r: "n",
+    x: [["Nachts liege ich wach und *grübele* stundenlang.", "في الليل أبقى مستيقظاً وأفكر لساعات."], ["Grübeln löst keine Probleme, es verstärkt sie oft.", "التفكير المفرط لا يحل المشاكل، بل غالباً يزيدها."]] },
+  { d: "eine depressive Episode", a: "نوبة اكتئابية", f: "eine Phase, in der jemand depressiv ist", r: "f",
+    x: [["Die erste depressive *Episode* hatte sie mit Anfang zwanzig.", "النوبة الاكتئابية الأولى كانت عندها في أوائل العشرينات."]] },
+  { d: "einen Rückfall erleiden", a: "يتعرّض لانتكاسة", f: "nach einer Besserung wieder krank werden", r: "f",
+    x: [["Um einen *Rückfall* zu vermeiden, sollte man Medikamente nicht zu früh absetzen.", "لتجنب الانتكاسة لا يجب إيقاف الدواء مبكراً."], ["Ein Rückfall bedeutet nicht, dass die Therapie gescheitert ist.", "الانتكاسة لا تعني أن العلاج فشل."]] },
+  { d: "die Genesung", a: "التعافي", f: "der Weg zurück zur Gesundheit", r: "f",
+    x: [["Ich wünsche Ihnen eine baldige *Genesung*.", "أتمنى لك الشفاء العاجل."], ["Die Genesung braucht Zeit und Geduld.", "التعافي يحتاج وقتاً وصبراً."]] },
+  { d: "Depressionen sind gut behandelbar", a: "الاكتئاب قابل للعلاج بشكل جيد", f: "man kann Depressionen erfolgreich behandeln", r: "n",
+    x: [["Die gute Nachricht: Depressionen sind gut *behandelbar*.", "الخبر الجيد: الاكتئاب قابل للعلاج بشكل جيد."]] }
+  ] },
+
+{ id: "angst", ic: "💓", t: ["القلق والهلع", "Angst & Panik"],
+  intro: ["كيف تصف الخوف ونوبات الهلع وما يحدث في الجسم.", "Angst und Panikattacken beschreiben – auch was im Körper passiert."],
+  items: [
+  { d: "eine Panikattacke bekommen", a: "تأتيه نوبة هلع", f: "plötzlich sehr starke Angst mit körperlichen Symptomen haben", r: "n",
+    x: [["Im vollen Bus habe ich plötzlich eine *Panikattacke* bekommen.", "في الباص المزدحم أصابتني فجأة نوبة هلع."], ["Eine Panikattacke ist unangenehm, aber nicht gefährlich.", "نوبة الهلع مزعجة لكنها ليست خطيرة."]] },
+  { d: "das Herzrasen", a: "تسارع ضربات القلب", f: "das Herz schlägt sehr schnell", r: "n",
+    x: [["Ich hatte *Herzrasen* und dachte, ich bekomme einen Herzinfarkt.", "كان قلبي يدق بسرعة وظننت أنني سأصاب بنوبة قلبية."]] },
+  { d: "keine Luft bekommen", a: "لا يستطيع التنفس", f: "das Gefühl haben, nicht genug atmen zu können", r: "n",
+    x: [["Plötzlich hatte ich das Gefühl, keine *Luft* zu bekommen.", "فجأة شعرت أنني لا أستطيع التنفس."]] },
+  { d: "Angst vor etwas haben", a: "يخاف من شيء", f: "sich vor etwas fürchten", r: "n",
+    x: [["Viele Menschen haben *Angst* davor, vor anderen zu sprechen.", "كثير من الناس يخافون من التحدث أمام الآخرين."], ["Hast du Angst vor dem Termin?", "هل تخاف من الموعد؟"]] },
+  { d: "Situationen vermeiden", a: "يتجنّب مواقف", f: "bestimmten Situationen aus dem Weg gehen", r: "n",
+    x: [["Aus Angst *vermeidet* sie Aufzüge und volle Räume.", "بسبب الخوف تتجنب المصاعد والأماكن المزدحمة."], ["Je mehr man vermeidet, desto größer wird die Angst.", "كلما تجنّب الإنسان أكثر، كبر الخوف."]] },
+  { d: "sich der Angst stellen", a: "يواجه خوفه", f: "die Angst bewusst aushalten statt wegzulaufen", r: "n",
+    x: [["In der Therapie lernt man, sich der Angst Schritt für Schritt zu *stellen*.", "في العلاج يتعلم المرء أن يواجه خوفه خطوة خطوة."]] },
+  { d: "die Angst klingt ab", a: "يخفّ الخوف تدريجياً", f: "die Angst wird langsam schwächer", r: "n",
+    x: [["Nach etwa zehn Minuten *klingt* die Panik meistens wieder ab.", "بعد عشر دقائق تقريباً يخفّ الهلع عادةً."]] },
+  { d: "die Angst vor der Angst", a: "الخوف من الخوف", f: "man fürchtet sich davor, wieder Angst zu bekommen", r: "n",
+    x: [["Oft ist die Angst vor der *Angst* schlimmer als die Panik selbst.", "غالباً يكون الخوف من الخوف أسوأ من الهلع نفسه."]] },
+  { d: "Das ist ganz normal, das geht vorbei.", a: "هذا طبيعي تماماً، سيمرّ.", f: "beruhigender Satz für jemanden mit Angst", r: "i",
+    x: [["Atme ruhig. Das ist ganz normal, das geht *vorbei*.", "تنفّس بهدوء. هذا طبيعي تماماً، سيمرّ."]] },
+  { d: "die soziale Phobie", a: "الرهاب الاجتماعي", f: "starke Angst vor sozialen Situationen und Bewertung", r: "f",
+    x: [["Menschen mit sozialer *Phobie* fürchten, von anderen negativ bewertet zu werden.", "المصابون بالرهاب الاجتماعي يخافون أن يحكم عليهم الآخرون سلبياً."]] }
+  ] },
+
+{ id: "stress", ic: "🔋", t: ["التوتر والاحتراق الوظيفي", "Stress & Burnout"],
+  intro: ["الضغط في العمل، الإنهاك، وكيف تقول إنك تحتاج إلى استراحة.", "Druck im Job, Erschöpfung – und wie man sagt, dass man eine Pause braucht."],
+  items: [
+  { d: "unter Druck stehen", a: "تحت الضغط", f: "viel Stress und Erwartungen spüren", r: "n",
+    x: [["Vor der Deadline *stehen* alle im Team unter enormem Druck.", "قبل الموعد النهائي كل الفريق تحت ضغط هائل."], ["Ich stehe gerade beruflich sehr unter Druck.", "أنا حالياً تحت ضغط كبير في العمل."]] },
+  { d: "überfordert sein mit + D", a: "مثقل فوق طاقته بـ", f: "etwas ist zu viel oder zu schwer für einen", r: "n",
+    x: [["Mit der neuen Stelle und dem Umzug war ich total *überfordert*.", "مع الوظيفة الجديدة والانتقال كنت مثقلاً فوق طاقتي تماماً."]] },
+  { d: "ausgebrannt sein", a: "محترق / منهك تماماً", f: "nach langer Überlastung völlig erschöpft sein", r: "n",
+    x: [["Nach fünf Jahren in der Pflege war sie völlig *ausgebrannt*.", "بعد خمس سنوات في التمريض كانت منهكة تماماً."]] },
+  { d: "nicht mehr abschalten können", a: "لا يستطيع أن يفصل ذهنه عن العمل", f: "auch in der Freizeit an die Arbeit denken", r: "n",
+    x: [["Selbst im Urlaub kann ich nicht mehr *abschalten*.", "حتى في الإجازة لم أعد أستطيع أن أفصل ذهني."], ["Ein Spaziergang hilft mir abzuschalten.", "المشي يساعدني على أن أفصل ذهني."]] },
+  { d: "die Belastung", a: "العبء / الضغط", f: "etwas, das einen stark beansprucht", r: "f",
+    x: [["Die psychische *Belastung* am Arbeitsplatz hat deutlich zugenommen.", "الضغط النفسي في مكان العمل ازداد بشكل واضح."]] },
+  { d: "Überstunden machen", a: "يعمل ساعات إضافية", f: "länger arbeiten als vereinbart", r: "n",
+    x: [["Seit Monaten mache ich jede Woche zehn *Überstunden*.", "منذ أشهر أعمل كل أسبوع عشر ساعات إضافية."]] },
+  { d: "die Reißleine ziehen", a: "يوقف الأمر قبل فوات الأوان", f: "rechtzeitig stoppen, bevor es schlimmer wird", r: "i",
+    n: "حرفياً: يسحب حبل المظلة. يُقال عندما يقرر الشخص التوقف قبل الانهيار.",
+    x: [["Als ich nicht mehr schlafen konnte, habe ich die *Reißleine* gezogen.", "عندما لم أعد أستطيع النوم، أوقفت كل شيء قبل فوات الأوان."]] },
+  { d: "an seine Grenzen stoßen", a: "يصل إلى حدوده", f: "merken, dass man nicht mehr kann", r: "n",
+    x: [["In der Prüfungsphase bin ich an meine *Grenzen* gestoßen.", "في فترة الامتحانات وصلت إلى حدودي."]] },
+  { d: "eine Auszeit nehmen", a: "يأخذ استراحة / فترة توقف", f: "eine Pause von Arbeit oder Alltag machen", r: "n",
+    x: [["Ich brauche dringend eine *Auszeit*, sonst breche ich zusammen.", "أحتاج بشدة إلى استراحة، وإلا سأنهار."]] },
+  { d: "zusammenbrechen", a: "ينهار", f: "körperlich oder seelisch nicht mehr können", r: "n",
+    x: [["Er hat so lange funktioniert, bis er im Büro *zusammengebrochen* ist.", "ظل يعمل كالآلة إلى أن انهار في المكتب."]] }
+  ] },
+
+{ id: "therapie", ic: "🛋️", t: ["العلاج النفسي وطلب المساعدة", "Psychotherapie & Hilfe suchen"],
+  intro: ["كيف تجد معالجاً في ألمانيا، وماذا تقول في الموعد الأول.", "Wie man in Deutschland einen Therapieplatz findet und was man im Erstgespräch sagt."],
+  items: [
+  { d: "sich Hilfe holen", a: "يطلب المساعدة", f: "aktiv Unterstützung suchen", r: "n",
+    x: [["Es ist kein Zeichen von Schwäche, sich *Hilfe* zu holen.", "طلب المساعدة ليس علامة ضعف."], ["Ich habe mir endlich professionelle Hilfe geholt.", "طلبت أخيراً مساعدة متخصصة."]] },
+  { d: "einen Therapieplatz suchen", a: "يبحث عن مكان للعلاج النفسي", f: "einen Psychotherapeuten mit freier Kapazität suchen", r: "n",
+    x: [["Ich *suche* seit vier Monaten einen Therapieplatz.", "أبحث منذ أربعة أشهر عن مكان للعلاج."], ["Die Terminservicestelle hilft bei der Suche nach einem Therapieplatz.", "مكتب خدمة المواعيد يساعد في البحث عن مكان للعلاج."]] },
+  { d: "die psychotherapeutische Sprechstunde", a: "الموعد الأول للتقييم عند المعالج", f: "erster Termin, um zu klären, ob und welche Therapie nötig ist", r: "f",
+    x: [["In der *Sprechstunde* klärt die Therapeutin, welche Hilfe sinnvoll ist.", "في موعد التقييم توضّح المعالجة ما المساعدة المناسبة."]] },
+  { d: "auf der Warteliste stehen", a: "على قائمة الانتظار", f: "warten, bis ein Platz frei wird", r: "n",
+    x: [["Ich *stehe* bei drei Praxen auf der Warteliste.", "أنا على قائمة الانتظار في ثلاث عيادات."]] },
+  { d: "die Krankenkasse übernimmt die Kosten", a: "التأمين الصحي يتحمّل التكاليف", f: "die Versicherung bezahlt die Behandlung", r: "f",
+    x: [["Übernimmt die Krankenkasse die *Kosten* für die Therapie?", "هل يتحمّل التأمين تكاليف العلاج؟"], ["Bei einer Verhaltenstherapie übernimmt die Krankenkasse in der Regel die Kosten.", "في العلاج السلوكي يتحمّل التأمين التكاليف عادةً."]] },
+  { d: "in Therapie sein", a: "يتلقّى علاجاً نفسياً", f: "regelmäßig zu einer Psychotherapie gehen", r: "n",
+    x: [["Ich bin seit einem Jahr in *Therapie*, und es hilft mir sehr.", "أتلقى العلاج منذ سنة، وهذا يساعدني كثيراً."]] },
+  { d: "Was führt Sie zu mir?", a: "ما الذي أتى بك إليّ؟", f: "typische Einstiegsfrage im Erstgespräch", r: "f",
+    x: [["„Was *führt* Sie zu mir?“ – „Ich schlafe seit Wochen kaum noch.“", "«ما الذي أتى بك؟» – «منذ أسابيع بالكاد أنام.»"]] },
+  { d: "sich jemandem anvertrauen", a: "يبوح بسرّه لشخص يثق به", f: "jemandem etwas Persönliches erzählen", r: "n",
+    x: [["Es hat lange gedauert, bis ich mich jemandem *anvertraut* habe.", "استغرق الأمر وقتاً طويلاً حتى بحت لشخص ما."]] },
+  { d: "die Schweigepflicht", a: "واجب السرية المهنية", f: "Ärzte und Therapeuten dürfen nichts weitererzählen", r: "f",
+    x: [["Keine Sorge, Ihre Therapeutin unterliegt der *Schweigepflicht*.", "لا تقلق، معالجتك ملزمة بالسرية المهنية."]] },
+  { d: "die Chemie muss stimmen", a: "يجب أن يكون هناك انسجام", f: "man muss sich mit der Person wohlfühlen", r: "i",
+    x: [["Bei einer Therapie ist wichtig, dass die *Chemie* stimmt.", "في العلاج المهم أن يكون هناك انسجام."]] },
+  { d: "die TelefonSeelsorge", a: "خط الدعم النفسي الهاتفي (مجاني، 24 ساعة)", f: "kostenloses, anonymes Beratungstelefon: 0800 111 0 111", r: "n",
+    x: [["Wenn du nachts nicht weiterweißt, ruf die *TelefonSeelsorge* an.", "إذا لم تعرف ماذا تفعل في الليل، اتصل بخط الدعم الهاتفي."]] }
+  ] },
+
+{ id: "arzt", ic: "🩺", t: ["عند الطبيب: الأعراض والتشخيص", "Beim Arzt: Symptome & Diagnose"],
+  intro: ["جمل دقيقة لوصف الأعراض وفهم كلام الطبيب.", "Präzise Sätze, um Symptome zu schildern und die Ärztin zu verstehen."],
+  items: [
+  { d: "Beschwerden haben", a: "عنده شكاوى / أعراض", f: "gesundheitliche Probleme haben", r: "f",
+    x: [["Welche *Beschwerden* haben Sie genau?", "ما الأعراض التي عندك بالضبط؟"], ["Ich habe seit Tagen Beschwerden im Magen.", "عندي أوجاع في المعدة منذ أيام."]] },
+  { d: "die Symptome schildern", a: "يصف الأعراض", f: "genau erzählen, was man spürt", r: "f",
+    x: [["Können Sie mir Ihre Symptome bitte genauer *schildern*?", "هل يمكنك أن تصف لي أعراضك بدقة أكثر؟"]] },
+  { d: "Es tut weh, wenn …", a: "يؤلمني عندما…", f: "Schmerzen in einer bestimmten Situation haben", r: "n",
+    x: [["Es tut *weh*, wenn ich tief einatme.", "يؤلمني عندما أتنفس بعمق."]] },
+  { d: "Schmerzen strahlen aus", a: "الألم ينتشر إلى", f: "der Schmerz geht in einen anderen Körperteil", r: "f",
+    x: [["Die Schmerzen *strahlen* bis in den linken Arm aus.", "الألم ينتشر حتى الذراع اليسرى."]] },
+  { d: "jemanden untersuchen", a: "يفحص أحداً", f: "als Arzt den Körper prüfen", r: "n",
+    x: [["Die Ärztin hat mich gründlich *untersucht*.", "فحصتني الطبيبة بدقة."]] },
+  { d: "jemanden überweisen an + A", a: "يحوّل أحداً إلى (طبيب مختص)", f: "zu einem Facharzt schicken", r: "f",
+    x: [["Mein Hausarzt hat mich an einen Kardiologen *überwiesen*.", "حوّلني طبيب العائلة إلى طبيب قلب."], ["Brauche ich eine Überweisung zum Facharzt?", "هل أحتاج تحويلاً إلى الطبيب المختص؟"]] },
+  { d: "der Befund", a: "نتيجة الفحص", f: "das Ergebnis einer Untersuchung", r: "f",
+    x: [["Der *Befund* ist zum Glück unauffällig.", "نتيجة الفحص لحسن الحظ طبيعية."]] },
+  { d: "psychosomatisch", a: "نفسي-جسدي", f: "körperliche Beschwerden mit seelischer Ursache", r: "f",
+    x: [["Ihre Rückenschmerzen könnten auch *psychosomatisch* sein.", "آلام ظهرك قد تكون أيضاً نفسية المنشأ."]] },
+  { d: "Das sollten wir abklären.", a: "يجب أن نتحقق من هذا.", f: "das muss man genauer untersuchen", r: "f",
+    x: [["Das Ziehen in der Brust sollten wir sicherheitshalber *abklären*.", "الشد في الصدر يجب أن نتحقق منه احتياطاً."]] },
+  { d: "Mir ist schwindelig.", a: "أشعر بدوخة.", f: "ich habe das Gefühl, dass sich alles dreht", r: "n",
+    n: "انتبه: «Mir ist schwindelig» بالضمير في حالة Dativ، وليس «Ich bin schwindelig».",
+    x: [["Mir ist seit heute Morgen ständig *schwindelig*.", "أشعر بالدوخة باستمرار منذ صباح اليوم."]] }
+  ] },
+
+{ id: "arbeit", ic: "💼", t: ["الإجازة المرضية والعمل", "Krankmeldung & Arbeit"],
+  intro: ["كيف تبلّغ عن مرضك، وكلمات الإجازة المرضية والعودة إلى العمل.", "Sich krankmelden, Krankschreibung und Wiedereinstieg in den Job."],
+  items: [
+  { d: "sich krankmelden", a: "يبلّغ عن مرضه", f: "dem Arbeitgeber sagen, dass man krank ist", r: "n",
+    x: [["Ich muss mich heute leider *krankmelden*.", "للأسف يجب أن أبلّغ عن مرضي اليوم."], ["Bitte melden Sie sich bis 9 Uhr krank.", "من فضلك بلّغ عن مرضك قبل الساعة التاسعة."]] },
+  { d: "krankgeschrieben sein", a: "عنده إجازة مرضية من الطبيب", f: "der Arzt hat bestätigt, dass man nicht arbeiten kann", r: "n",
+    x: [["Ich bin noch bis Freitag *krankgeschrieben*.", "عندي إجازة مرضية حتى الجمعة."]] },
+  { d: "die Arbeitsunfähigkeitsbescheinigung (AU)", a: "شهادة عدم القدرة على العمل", f: "das ärztliche Attest für den Arbeitgeber", r: "f",
+    n: "اليوم تُرسل غالباً إلكترونياً (eAU) من الطبيب إلى التأمين، والموظف يبلّغ فقط صاحب العمل.",
+    x: [["Die *Arbeitsunfähigkeitsbescheinigung* wird inzwischen elektronisch übermittelt.", "شهادة عدم القدرة على العمل تُرسل الآن إلكترونياً."]] },
+  { d: "ausfallen", a: "يغيب (عن العمل)", f: "nicht arbeiten können", r: "n",
+    x: [["Herr Becker *fällt* voraussichtlich drei Wochen aus.", "السيد بيكر سيغيب على الأرجح ثلاثة أسابيع."]] },
+  { d: "die stufenweise Wiedereingliederung", a: "العودة التدريجية إلى العمل", f: "nach langer Krankheit langsam wieder mehr arbeiten", r: "f",
+    n: "معروفة أيضاً باسم «Hamburger Modell».",
+    x: [["Nach dem Burnout beginne ich mit einer stufenweisen *Wiedereingliederung*.", "بعد الاحتراق الوظيفي أبدأ بعودة تدريجية إلى العمل."]] },
+  { d: "das Krankengeld", a: "بدل المرض", f: "Geld von der Krankenkasse nach sechs Wochen Krankheit", r: "f",
+    x: [["Ab der siebten Woche bekommt man *Krankengeld* von der Kasse.", "ابتداءً من الأسبوع السابع يحصل المرء على بدل المرض من التأمين."]] },
+  { d: "jemanden vertreten", a: "ينوب عن أحد", f: "die Aufgaben einer anderen Person übernehmen", r: "n",
+    x: [["Frau Yilmaz *vertritt* mich, solange ich krank bin.", "السيدة يلماز تنوب عني طالما أنا مريض."]] },
+  { d: "Gute Besserung!", a: "سلامتك! / أتمنى لك الشفاء", f: "Wunsch an eine kranke Person", r: "n",
+    x: [["Danke für die Info, und gute *Besserung*!", "شكراً على المعلومة، وسلامتك!"]] },
+  { d: "Ich bin nicht verpflichtet, die Diagnose zu nennen.", a: "لست ملزماً بذكر التشخيص.", f: "der Arbeitgeber hat kein Recht, die Diagnose zu erfahren", r: "f",
+    x: [["Meine Chefin fragte nach dem Grund, aber ich bin nicht *verpflichtet*, die Diagnose zu nennen.", "سألت مديرتي عن السبب، لكنني لست ملزماً بذكر التشخيص."]] },
+  { d: "das betriebliche Eingliederungsmanagement (BEM)", a: "إدارة إعادة الإدماج في الشركة", f: "Gespräche zur Rückkehr nach über sechs Wochen Krankheit im Jahr", r: "f",
+    x: [["Die Personalabteilung hat mir ein *BEM-Gespräch* angeboten.", "قسم الموارد البشرية عرض عليّ محادثة إعادة الإدماج."]] }
+  ] },
+
+{ id: "medikamente", ic: "💊", t: ["الأدوية والعلاج", "Medikamente & Behandlung"],
+  intro: ["الوصفة، الجرعة، الآثار الجانبية… كلمات تحتاجها في الصيدلية وعند الطبيب.", "Rezept, Dosis, Nebenwirkungen – für Praxis und Apotheke."],
+  items: [
+  { d: "ein Medikament verschreiben", a: "يصف دواءً", f: "ein Rezept für ein Medikament ausstellen", r: "n",
+    x: [["Der Arzt hat mir ein leichtes Schlafmittel *verschrieben*.", "وصف لي الطبيب منوّماً خفيفاً."]] },
+  { d: "die Nebenwirkung", a: "الأثر الجانبي", f: "eine unerwünschte Wirkung eines Medikaments", r: "n",
+    x: [["Welche *Nebenwirkungen* kann das Medikament haben?", "ما الآثار الجانبية التي قد يسببها الدواء؟"], ["Die Nebenwirkungen lassen meistens nach ein paar Wochen nach.", "الآثار الجانبية تخف عادةً بعد بضعة أسابيع."]] },
+  { d: "ein Medikament absetzen", a: "يوقف دواءً", f: "aufhören, ein Medikament zu nehmen", r: "n",
+    x: [["Setzen Sie das Antidepressivum bitte nicht eigenmächtig *ab*.", "من فضلك لا توقف مضاد الاكتئاب من تلقاء نفسك."]] },
+  { d: "die Dosis erhöhen / verringern", a: "يرفع / يخفض الجرعة", f: "mehr oder weniger von einem Medikament nehmen", r: "f",
+    x: [["Wir *erhöhen* die Dosis langsam, damit Ihr Körper sich daran gewöhnt.", "سنرفع الجرعة ببطء حتى يعتاد جسمك عليها."]] },
+  { d: "anschlagen", a: "يبدأ مفعوله / ينفع", f: "ein Medikament beginnt zu wirken", r: "n",
+    x: [["Es dauert oft zwei bis vier Wochen, bis ein Antidepressivum *anschlägt*.", "غالباً يستغرق الأمر من أسبوعين إلى أربعة حتى يبدأ مفعول مضاد الاكتئاب."]] },
+  { d: "verschreibungspflichtig", a: "لا يُصرف إلا بوصفة طبية", f: "nur mit Rezept erhältlich", r: "f",
+    x: [["Dieses Medikament ist *verschreibungspflichtig*.", "هذا الدواء لا يُصرف إلا بوصفة."]] },
+  { d: "die Wechselwirkung", a: "التداخل الدوائي", f: "zwei Medikamente beeinflussen sich gegenseitig", r: "f",
+    x: [["Gibt es *Wechselwirkungen* mit meiner Pille?", "هل هناك تداخل مع حبوب منع الحمل التي أتناولها؟"]] },
+  { d: "auf nüchternen Magen", a: "على معدة فارغة", f: "ohne vorher etwas gegessen zu haben", r: "n",
+    x: [["Nehmen Sie die Tablette morgens auf *nüchternen* Magen.", "تناول الحبة صباحاً على معدة فارغة."]] },
+  { d: "abhängig machen", a: "يسبب الإدمان", f: "man kann nicht mehr ohne das Mittel sein", r: "n",
+    x: [["Machen Antidepressiva *abhängig*? – Nein, aber man sollte sie langsam ausschleichen.", "هل تسبب مضادات الاكتئاب الإدمان؟ – لا، لكن يجب إيقافها تدريجياً."]] },
+  { d: "ausschleichen", a: "يوقف الدواء تدريجياً", f: "die Dosis langsam bis auf null reduzieren", r: "f",
+    x: [["Wir *schleichen* das Medikament über sechs Wochen aus.", "سنوقف الدواء تدريجياً على مدى ستة أسابيع."]] }
+  ] },
+
+{ id: "unterstuetzen", ic: "🤝", t: ["دعم شخص يمرّ بوقت صعب", "Jemanden unterstützen"],
+  intro: ["ماذا تقول لصديق أو زميل حزين أو مريض نفسياً، بلطف ودون أحكام.", "Was man einer Freundin oder einem Kollegen sagt – einfühlsam und ohne zu bewerten."],
+  items: [
+  { d: "Ich bin für dich da.", a: "أنا موجود من أجلك.", f: "ich unterstütze dich", r: "i",
+    x: [["Egal, was passiert: Ich bin für dich *da*.", "مهما حدث: أنا موجود من أجلك."]] },
+  { d: "Willst du darüber reden?", a: "هل تريد أن تتحدث عن الأمر؟", f: "ein Gesprächsangebot machen", r: "i",
+    x: [["Du wirkst bedrückt. Willst du darüber *reden*?", "تبدو مهموماً. هل تريد أن نتحدث عن الأمر؟"]] },
+  { d: "Das klingt wirklich belastend.", a: "يبدو هذا مرهقاً فعلاً.", f: "Verständnis für die Gefühle zeigen", r: "n",
+    x: [["Das klingt wirklich *belastend*. Wie lange geht das schon so?", "يبدو هذا مرهقاً فعلاً. منذ متى والوضع هكذا؟"]] },
+  { d: "jemandem zuhören", a: "يستمع إلى أحد", f: "aufmerksam sein, wenn jemand erzählt", r: "n",
+    x: [["Manchmal hilft es schon, wenn einfach jemand *zuhört*.", "أحياناً يكفي أن يستمع إليك أحد."]] },
+  { d: "Mitgefühl zeigen", a: "يُظهر التعاطف", f: "zeigen, dass man die Gefühle anderer versteht", r: "n",
+    x: [["Statt Ratschläge zu geben, sollte man lieber *Mitgefühl* zeigen.", "بدل إعطاء النصائح من الأفضل إظهار التعاطف."]] },
+  { d: "Reiß dich zusammen!", a: "تمالك نفسك! (عبارة جارحة لمريض)", f: "Satz, den man Depressiven NICHT sagen sollte", r: "i",
+    n: "مثال على ما يجب تجنّبه: الاكتئاب ليس مسألة إرادة.",
+    x: [["„Reiß dich *zusammen*“ ist für Menschen mit Depression einer der schlimmsten Sätze.", "«تمالك نفسك» من أسوأ العبارات للمصابين بالاكتئاب."]] },
+  { d: "jemanden ernst nehmen", a: "يأخذ كلام أحد على محمل الجد", f: "die Sorgen einer Person nicht kleinreden", r: "n",
+    x: [["Es ist wichtig, die Gefühle anderer ernst zu *nehmen*.", "من المهم أن نأخذ مشاعر الآخرين على محمل الجد."]] },
+  { d: "Soll ich dich zum Termin begleiten?", a: "هل تريد أن أرافقك إلى الموعد؟", f: "praktische Hilfe anbieten", r: "i",
+    x: [["Soll ich dich morgen zum Termin *begleiten*?", "هل تريد أن أرافقك غداً إلى الموعد؟"]] },
+  { d: "kleinreden", a: "يقلّل من أهمية شيء", f: "so tun, als wäre ein Problem nicht wichtig", r: "n",
+    x: [["Bitte *rede* meine Probleme nicht klein.", "من فضلك لا تقلّل من أهمية مشاكلي."]] },
+  { d: "Nimm dir die Zeit, die du brauchst.", a: "خذ الوقت الذي تحتاجه.", f: "keinen Druck machen", r: "i",
+    x: [["Kein Stress, nimm dir die *Zeit*, die du brauchst.", "لا ضغط، خذ الوقت الذي تحتاجه."]] }
+  ] },
+
+{ id: "selbstfuersorge", ic: "🌱", t: ["المرونة النفسية والعناية بالنفس", "Resilienz & Selbstfürsorge"],
+  intro: ["عبارات عن وضع الحدود، والراحة، والعادات الصحية.", "Grenzen setzen, sich erholen, gesunde Routinen."],
+  items: [
+  { d: "Grenzen setzen", a: "يضع حدوداً", f: "klar sagen, was man nicht mehr mitmacht", r: "n",
+    x: [["Ich habe gelernt, auch im Job *Grenzen* zu setzen.", "تعلمت أن أضع حدوداً حتى في العمل."]] },
+  { d: "Nein sagen", a: "يقول لا", f: "eine Bitte ablehnen", r: "n",
+    x: [["Es fällt mir schwer, *Nein* zu sagen, wenn mich jemand um Hilfe bittet.", "يصعب عليّ أن أقول لا عندما يطلب مني أحد المساعدة."]] },
+  { d: "sich erholen von + D", a: "يتعافى من / يرتاح من", f: "wieder Kraft bekommen", r: "n",
+    x: [["Von der stressigen Woche *erhole* ich mich am Wochenende im Garten.", "أرتاح من الأسبوع المرهق في عطلة نهاية الأسبوع في الحديقة."]] },
+  { d: "auf sich achten", a: "يعتني بنفسه", f: "auf die eigene Gesundheit aufpassen", r: "n",
+    x: [["Pass auf dich auf und *achte* auf genug Schlaf.", "اعتنِ بنفسك وانتبه أن تنام كفاية."]] },
+  { d: "die Resilienz", a: "المرونة النفسية", f: "die Fähigkeit, Krisen gut zu überstehen", r: "f",
+    x: [["*Resilienz* kann man trainieren, zum Beispiel durch soziale Kontakte.", "يمكن تدريب المرونة النفسية، مثلاً من خلال العلاقات الاجتماعية."]] },
+  { d: "Kraft tanken", a: "يشحن طاقته", f: "sich erholen und neue Energie bekommen", r: "i",
+    x: [["Beim Wandern in den Bergen kann ich richtig Kraft *tanken*.", "في المشي في الجبال أستطيع فعلاً أن أشحن طاقتي."]] },
+  { d: "sich etwas Gutes tun", a: "يدلّل نفسه", f: "etwas Schönes für sich selbst machen", r: "i",
+    x: [["Heute tue ich mir etwas *Gutes* und gehe in die Sauna.", "اليوم سأدلل نفسي وأذهب إلى الساونا."]] },
+  { d: "achtsam sein", a: "يكون واعياً بالحاضر", f: "bewusst im Moment leben", r: "n",
+    x: [["Achtsamkeitsübungen helfen mir, im Alltag *achtsamer* zu sein.", "تمارين اليقظة تساعدني أن أكون أكثر وعياً في حياتي اليومية."]] },
+  { d: "einen geregelten Tagesablauf haben", a: "عنده روتين يومي منتظم", f: "jeden Tag ähnliche feste Zeiten haben", r: "f",
+    x: [["Ein geregelter *Tagesablauf* gibt in einer Krise Halt.", "الروتين اليومي المنتظم يعطي ثباتاً في الأزمات."]] },
+  { d: "das Handy weglegen", a: "يضع الهاتف جانباً", f: "eine Pause vom Smartphone machen", r: "i",
+    x: [["Eine Stunde vor dem Schlafen *lege* ich das Handy weg.", "قبل النوم بساعة أضع الهاتف جانباً."]] }
+  ] },
+
+{ id: "praep", ic: "🔗", t: ["أفعال مع حروف الجر (صحة)", "Verben mit Präpositionen"],
+  intro: ["أفعال C1 مهمة في موضوع الصحة مع حرف الجر والحالة الإعرابية. في التمرين: اختر حرف الجر الصحيح.", "Wichtige Verben mit fester Präposition. In der Übung: die richtige Präposition wählen."],
+  items: [
+  { d: "leiden an + D", a: "يعاني من (مرض)", f: "eine bestimmte Krankheit haben", r: "f",
+    n: "leiden an = مرض محدد (an Krebs). leiden unter = حالة أو ظروف (unter Stress).",
+    x: [["Sie leidet *an* einer chronischen Erkrankung.", "تعاني من مرض مزمن."]] },
+  { d: "leiden unter + D", a: "يعاني من (ظرف / حالة)", f: "durch etwas belastet sein", r: "n",
+    x: [["Viele Studierende leiden *unter* Prüfungsangst.", "كثير من الطلاب يعانون من قلق الامتحانات."], ["Ich leide unter dem Lärm der Nachbarn.", "أعاني من ضجيج الجيران."]] },
+  { d: "sich erholen von + D", a: "يتعافى من", f: "nach einer Krankheit wieder gesund werden", r: "n",
+    x: [["Er hat sich gut *von* der Operation erholt.", "تعافى جيداً من العملية."]] },
+  { d: "sich kümmern um + A", a: "يعتني بـ", f: "für jemanden oder etwas sorgen", r: "n",
+    x: [["Wer kümmert sich *um* deine Mutter, während du arbeitest?", "من يعتني بأمك بينما أنت في العمل؟"]] },
+  { d: "sich sorgen um + A", a: "يقلق على", f: "Angst haben, dass jemandem etwas passiert", r: "n",
+    x: [["Ich sorge mich *um* meinen Bruder, er isst kaum noch.", "أنا قلق على أخي، فهو بالكاد يأكل."]] },
+  { d: "sich wenden an + A", a: "يلجأ إلى / يتوجّه إلى", f: "jemanden um Hilfe oder Rat bitten", r: "f",
+    x: [["Bei Fragen wenden Sie sich bitte *an* Ihre Hausärztin.", "إذا كانت عندك أسئلة توجّه من فضلك إلى طبيبة العائلة."]] },
+  { d: "sterben an + D", a: "يموت بسبب", f: "durch eine Krankheit sterben", r: "n",
+    x: [["Noch immer sterben zu viele Menschen *an* Herz-Kreislauf-Erkrankungen.", "لا يزال كثير من الناس يموتون بسبب أمراض القلب والدورة الدموية."]] },
+  { d: "achten auf + A", a: "ينتبه إلى", f: "aufmerksam sein für etwas", r: "n",
+    x: [["Achten Sie in nächster Zeit besonders *auf* Ihren Schlaf.", "انتبه في الفترة القادمة خاصةً إلى نومك."]] },
+  { d: "sich gewöhnen an + A", a: "يعتاد على", f: "etwas wird mit der Zeit normal", r: "n",
+    x: [["Ich habe mich langsam *an* die Tabletten gewöhnt.", "اعتدت ببطء على الحبوب."]] },
+  { d: "Angst haben vor + D", a: "يخاف من", f: "sich vor etwas fürchten", r: "n",
+    x: [["Mein Sohn hat große Angst *vor* Spritzen.", "ابني يخاف كثيراً من الإبر."]] },
+  { d: "sich beschweren über + A", a: "يشتكي من", f: "sagen, dass man unzufrieden ist", r: "n",
+    x: [["Patienten beschweren sich oft *über* die langen Wartezeiten.", "المرضى يشتكون غالباً من فترات الانتظار الطويلة."]] },
+  { d: "zweifeln an + D", a: "يشكّ في", f: "unsicher sein, ob etwas stimmt", r: "n",
+    x: [["In der Depression zweifelt man oft *an* sich selbst.", "في الاكتئاب يشك المرء غالباً في نفسه."]] }
+  ] },
+
+{ id: "nvv", ic: "🧩", t: ["تراكيب الاسم والفعل", "Nomen-Verb-Verbindungen"],
+  intro: ["تراكيب ثابتة من اسم + فعل، مهمة جداً في مستوى C1 وفي اللغة الرسمية. في التمرين: اختر الفعل الصحيح.", "Feste Verbindungen aus Nomen und Verb – typisch für C1 und offizielle Sprache. In der Übung: das passende Verb wählen."],
+  items: [
+  { d: "in Behandlung sein", a: "تحت العلاج", f: "behandelt werden", r: "f",
+    x: [["Ich *bin* wegen meiner Angststörung in Behandlung.", "أنا تحت العلاج بسبب اضطراب القلق."]] },
+  { d: "Hilfe in Anspruch nehmen", a: "يستفيد من المساعدة", f: "Hilfe nutzen", r: "f",
+    x: [["Nur wenige Betroffene *nehmen* professionelle Hilfe in Anspruch.", "قليل فقط من المصابين يستفيدون من المساعدة المتخصصة."]] },
+  { d: "einen Antrag stellen", a: "يقدّم طلباً", f: "offiziell etwas beantragen", r: "f",
+    x: [["Für die Reha muss man einen Antrag bei der Rentenversicherung *stellen*.", "لإعادة التأهيل يجب تقديم طلب لدى تأمين التقاعد."]] },
+  { d: "eine Entscheidung treffen", a: "يتخذ قراراً", f: "sich entscheiden", r: "n",
+    x: [["Ich habe die *Entscheidung* getroffen, in eine Klinik zu gehen.", "اتخذت قراراً بأن أذهب إلى مصحة."]] },
+  { d: "Rücksicht nehmen auf + A", a: "يراعي", f: "an die Bedürfnisse anderer denken", r: "n",
+    x: [["Bitte *nehmt* Rücksicht auf eure kranke Kollegin.", "من فضلكم راعوا زميلتكم المريضة."]] },
+  { d: "zur Verfügung stehen", a: "متاح / تحت التصرف", f: "da sein und genutzt werden können", r: "f",
+    x: [["Die Beratungsstelle *steht* Ihnen rund um die Uhr zur Verfügung.", "مركز الاستشارة متاح لك على مدار الساعة."]] },
+  { d: "Einfluss nehmen auf + A", a: "يؤثّر على", f: "etwas beeinflussen", r: "f",
+    x: [["Schlaf *nimmt* großen Einfluss auf unsere Stimmung.", "النوم يؤثر تأثيراً كبيراً على مزاجنا."]] },
+  { d: "unter Beweis stellen", a: "يُثبت", f: "zeigen, dass man etwas kann", r: "f",
+    x: [["In der Krise hat sie ihre Stärke unter Beweis *gestellt*.", "في الأزمة أثبتت قوتها."]] },
+  { d: "Abstand gewinnen", a: "يأخذ مسافة (من مشكلة)", f: "etwas aus der Distanz betrachten können", r: "n",
+    x: [["Im Urlaub konnte ich endlich *Abstand* gewinnen.", "في الإجازة استطعت أخيراً أن آخذ مسافة."]] },
+  { d: "in Kauf nehmen", a: "يقبل (بثمن أو عيب)", f: "einen Nachteil akzeptieren", r: "f",
+    x: [["Leichte Nebenwirkungen *nehme* ich in Kauf, wenn das Medikament hilft.", "أقبل بآثار جانبية خفيفة إذا كان الدواء يساعد."]] },
+  { d: "zum Ausdruck bringen", a: "يعبّر عن", f: "etwas zeigen oder sagen", r: "f",
+    x: [["In der Therapie lernt man, Gefühle zum Ausdruck zu *bringen*.", "في العلاج يتعلم المرء أن يعبّر عن مشاعره."]] },
+  { d: "Bescheid geben / sagen", a: "يُخبر / يُعلم", f: "jemanden informieren", r: "i",
+    x: [["Gib mir bitte *Bescheid*, wenn du Hilfe brauchst.", "أخبرني من فضلك إذا احتجت مساعدة."]] }
+  ] }
+]
+};
+
 // DeutschFlow – comedy scenes for the clip feed (Sat.1, ZDF, MySpass, Prime Video). Official YouTube uploads, embedded only.
 // German follows the uploader's subtitles; auto:true marks scenes taken from YouTube's automatic captions
 // (only clearly audible lines kept, obvious misspellings fixed). Arabic is ours.
@@ -2567,7 +3018,16 @@ const STR = {
     review_now: "راجع الآن", nothing_due: "لا مراجعات مستحقة",
     all: "الكل", open_l: "غير مكتملة", done_l: "مكتملة", new_l: "جديد", opened_l: "بدأته", completed: "مكتمل", best: "أفضل نتيجة",
     lessons_title: "دروس B2", lessons_sub: "20 درساً أصلياً و10 دروس بمشاهد حقيقية من التلفزيون الألماني. كل درس: حوار، شرح لكل جملة، وتمارين.", real_scenes: "مشاهد حقيقية من التلفزيون الألماني", real_scenes_sub: "مقاطع رسمية من قنوات ARD على يوتيوب، مع نص ألماني وترجمة عربية وتمارين.",
-    c1_note: "دروس C1 قيد الإعداد وستُضاف لاحقاً. لا يوجد محتوى لـ A1–B1 لأن التطبيق يبدأ من B2.",
+    c1_note: "محتوى C1 يُضاف تدريجياً، وأوله قسم الصحة والصحة النفسية. لا يوجد محتوى لـ A1–B1 لأن التطبيق يبدأ من B2.",
+    h_title: "الصحة والصحة النفسية", h_sub: "مقاطع ألمانية حقيقية عن الاكتئاب والقلق والتوتر والعلاج، وتدريب على الأفعال والتعبيرات مع جمل كثيرة مسموعة.",
+    h_card_sub: "{0} مقطعاً · {1} موضوعاً · {2} جملة وتعبيراً مع صوت", h_tab_videos: "مقاطع فيديو", h_tab_practice: "تدرّب",
+    h_comedy: "مشاهد كوميدية", h_explain: "شرح قصير", h_story: "تجارب حقيقية وتقارير",
+    h_videos_note: "فيديوهات رسمية من يوتيوب (تُعرض داخل التطبيق ولا تُنسخ). الترجمة الألمانية هي ترجمة يوتيوب نفسها، والمفردات تحت كل فيديو كتبناها للموضوع.",
+    h_cc_note: "الترجمة الألمانية تظهر من يوتيوب. إن لم تظهر، اضغط زر CC داخل الفيديو.", h_keys: "مفردات للموضوع",
+    h_to_clip: "حوّله إلى درس بالنص", h_to_clip_sub: "في تطبيق أندرويد يسحب التطبيق النص الألماني من يوتيوب تلقائياً، ثم تحصل على تمارين.",
+    h_items: "تعبيراً", h_sentences: "جملة", h_learn: "تعلّم واستمع", h_play_all: "استمع للكل", h_stop: "إيقاف", h_hide_ar: "إخفاء العربية", h_speak: "انطق", h_all_topics: "كل المواضيع",
+    h_tts_note: "الصوت هنا قراءة آلية من جهازك (وليس تسجيلاً لشخص حقيقي).",
+    h_help: "إذا كنت تمرّ بوقت صعب: خط الدعم النفسي TelefonSeelsorge مجاني وعلى مدار الساعة: 0800 111 0 111 أو 0800 111 0 222. في الطوارئ: 112.",
     tab_dialog: "الحوار", tab_ex: "التمارين", tab_expr: "تعبيرات الدرس",
     demo_audio: "صوت مولَّد بقارئ الكلام في جهازك، وليس تسجيلاً بشرياً",
     show_de: "النص الألماني", show_ar: "الترجمة العربية", speed: "السرعة",
@@ -2636,7 +3096,16 @@ const STR = {
     review_now: "Jetzt wiederholen", nothing_due: "Nichts fällig",
     all: "Alle", open_l: "Offen", done_l: "Abgeschlossen", new_l: "Neu", opened_l: "Begonnen", completed: "Abgeschlossen", best: "Bestes Ergebnis",
     lessons_title: "B2-Lektionen", lessons_sub: "20 eigene Lektionen und 10 Lektionen mit echten Szenen aus dem deutschen Fernsehen – mit Dialog, Satzerklärungen und Übungen.", real_scenes: "Echte Szenen aus dem deutschen Fernsehen", real_scenes_sub: "Offizielle Clips der ARD auf YouTube, mit deutschem Text, arabischer Übersetzung und Übungen.",
-    c1_note: "C1-Lektionen sind in Arbeit. Inhalte für A1–B1 gibt es nicht, die App beginnt bei B2.",
+    c1_note: "C1-Inhalte kommen nach und nach – zuerst der Bereich Gesundheit & Psyche. Inhalte für A1–B1 gibt es nicht, die App beginnt bei B2.",
+    h_title: "Gesundheit & Psyche", h_sub: "Echte deutsche Videos zu Depression, Angst, Stress und Therapie – dazu Verben, Ausdrücke und viele Beispielsätze zum Anhören.",
+    h_card_sub: "{0} Videos · {1} Themen · {2} Sätze und Ausdrücke mit Audio", h_tab_videos: "Videos", h_tab_practice: "Üben",
+    h_comedy: "Comedy & Szenen", h_explain: "Kurz erklärt", h_story: "Erfahrungen & Reportagen",
+    h_videos_note: "Offizielle YouTube-Videos (eingebettet, nicht kopiert). Die deutschen Untertitel kommen von YouTube; den Wortschatz unter jedem Video haben wir zum Thema geschrieben.",
+    h_cc_note: "Die deutschen Untertitel kommen von YouTube. Falls nicht sichtbar: CC im Video antippen.", h_keys: "Wortschatz zum Thema",
+    h_to_clip: "Als Lektion mit Text anlegen", h_to_clip_sub: "In der Android-App wird der deutsche Text automatisch von YouTube geholt, dann gibt es Übungen.",
+    h_items: "Ausdrücke", h_sentences: "Sätze", h_learn: "Lernen & Hören", h_play_all: "Alles abspielen", h_stop: "Stopp", h_hide_ar: "Arabisch ausblenden", h_speak: "Sprechen", h_all_topics: "Alle Themen",
+    h_tts_note: "Die Stimme ist eine automatische Sprachausgabe deines Geräts (keine echte Aufnahme).",
+    h_help: "Wenn es dir nicht gut geht: Die TelefonSeelsorge ist kostenlos und rund um die Uhr erreichbar: 0800 111 0 111 oder 0800 111 0 222. Im Notfall: 112.",
     tab_dialog: "Dialog", tab_ex: "Übungen", tab_expr: "Ausdrücke",
     demo_audio: "Synthetische Stimme deines Geräts, keine menschliche Aufnahme",
     show_de: "Deutscher Text", show_ar: "Arabische Übersetzung", speed: "Tempo",
@@ -3147,6 +3616,7 @@ function viewAddClip(v) {
   ${CUSTOM.length ? `<section class="block"><h2 class="h2">${esc(t("my_clips"))}</h2><ul class="vbook">${CUSTOM.map(l => `<li class="vitem"><a class="vmain" href="#lesson-${l.id}"><b lang="de" dir="ltr">${esc(l.title)}</b><small class="muted">${l.L.length} · ${fmtClock(l.video.t[0])}–${fmtClock(l.video.end)}</small></a>
     <button class="linkbtn danger" data-cdel="${l.id}">${esc(clipConfirm === l.id ? t("confirm_remove") : t("remove"))}</button></li>`).join("")}</ul></section>` : ""}`;
   const url = $("#cUrl", v), title = $("#cTitle", v), text = $("#cText", v), prev = $("#cPrev", v), btn = $("#cSave", v);
+  if (clipPrefill) { url.value = "https://www.youtube.com/watch?v=" + clipPrefill.yt; title.value = clipPrefill.title || ""; clipPrefill = null; }
   let parsed = [];
   const check = () => {
     const id = ytId(url.value); parsed = parseTranscript(text.value);
@@ -3192,7 +3662,8 @@ let clipConfirm = null;
 function route() {
   const h = decodeURIComponent((location.hash || "#feed").slice(1));
   if (h.startsWith("lesson-")) return { name: "lesson", id: h.slice(7) };
-  return { name: ["feed", "home", "lessons", "vocab", "review", "stats", "profile", "addclip"].includes(h) ? h : "feed" };
+  if (h.startsWith("health-")) return { name: "htopic", id: h.slice(7) };
+  return { name: ["feed", "home", "lessons", "vocab", "review", "stats", "profile", "addclip", "health"].includes(h) ? h : "feed" };
 }
 let viewCleanup = null;
 function render() {
@@ -3200,11 +3671,11 @@ function render() {
   if (viewCleanup) { viewCleanup(); viewCleanup = null; }
   if (dialogCleanup) { dialogCleanup(); dialogCleanup = null; }
   const r = route();
-  const nav = r.name === "lesson" || r.name === "addclip" ? "lessons" : r.name === "review" ? "vocab" : r.name;
+  const nav = ["lesson", "addclip", "health", "htopic"].includes(r.name) ? "lessons" : r.name === "review" ? "vocab" : r.name;
   $$(".nav a").forEach(a => a.classList.toggle("on", a.dataset.r === nav));
   const v = $("#view");
   v.scrollTop = 0; window.scrollTo(0, 0);
-  ({ feed: viewFeed, home: viewHome, lessons: viewLessons, lesson: viewLesson, vocab: viewVocab, review: viewReview, stats: viewStats, profile: viewProfile, addclip: viewAddClip })[r.name](v, r);
+  ({ feed: viewFeed, home: viewHome, lessons: viewLessons, lesson: viewLesson, vocab: viewVocab, review: viewReview, stats: viewStats, profile: viewProfile, addclip: viewAddClip, health: viewHealth, htopic: viewHealthTopic })[r.name](v, r);
 }
 addEventListener("hashchange", render);
 
@@ -3334,6 +3805,12 @@ function viewFeed(v) {
 }
 
 /* ================= views ================= */
+function c1Card() {
+  if (!HEALTH.topics.length) return "";
+  const n = HEALTH.topics.reduce((a, tp) => a + tp.items.reduce((b, it) => b + 1 + it.x.length, 0), 0);
+  return `<a class="c1card" href="#health"><span class="lvl" lang="de">C1</span><span class="hvbody"><b>${esc(t("h_title"))}</b>
+    <small>${esc(t("h_card_sub", HEALTH.videos.length, HEALTH.topics.length, n))}</small></span></a>`;
+}
 function viewHome(v) {
   const done = doneCount(), due = dueItems().length, nv = Object.keys(S.vocab.items).length;
   const last = S.progress.last && LMAP[S.progress.last];
@@ -3357,6 +3834,7 @@ function viewHome(v) {
     <a class="tile ${due ? "hot" : ""}" href="#review"><b>${due}</b><span>${esc(t("due_today"))}</span></a>
     <div class="tile"><b>${st.cur}</b><span>${esc(t("streak"))}</span></div>
   </section>
+  <section class="block">${c1Card()}</section>
   ${last ? `<section class="block"><h2 class="h2">${esc(t("last_opened"))}</h2>${lessonCard(last)}</section>` : ""}
   ${LESSONS.some(l => l.src) ? `<section class="block"><div class="row-between"><h2 class="h2">${esc(t("real_scenes"))}</h2><a class="btn sm" href="#lessons">${esc(t("all"))}</a></div><p class="muted small">${esc(t("real_scenes_sub"))}</p><div class="lgrid">${LESSONS.filter(l => l.src && !S.progress.lessons[l.id]?.done).slice(0, 3).map(lessonCard).join("") || LESSONS.filter(l => l.src).slice(0, 3).map(lessonCard).join("")}</div></section>` : ""}
   <section class="block card">
@@ -3381,8 +3859,155 @@ function viewLessons(v) {
   <div class="lgrid">${list.map(lessonCard).join("") || `<p class="muted">${esc(t("no_data"))}</p>`}</div>
   <section class="block"><div class="row-between"><h2 class="h2">${esc(t("my_clips"))}</h2><a class="btn sm primary" href="#addclip">+ ${esc(t("add_clip"))}</a></div>
     ${CUSTOM.length ? `<div class="lgrid">${CUSTOM.map(lessonCard).join("")}</div>` : `<p class="muted small">${esc(t("my_clips_empty"))}</p>`}</section>
+  <section class="block">${c1Card()}</section>
   <p class="note">${esc(t("c1_note"))}</p>`;
   $$(".fchip", v).forEach(b => b.onclick = () => { lessonFilter = b.dataset.f; viewLessons(v); });
+}
+
+/* ================= C1 section: health & mental health ================= */
+// Content in window.DF_HEALTH (src/content/c1-health.js). Audio = device text-to-speech, labelled as such.
+const HEALTH = window.DF_HEALTH || { videos: [], topics: [] };
+const HTOPIC = Object.fromEntries(HEALTH.topics.map(tp => [tp.id, tp]));
+const HQ = {};
+let healthTab = "videos", clipPrefill = null;
+const tl = pair => Array.isArray(pair) ? pair[ui() === "de" ? 1 : 0] : pair;
+const unstar = s => s.replace(/\*/g, "");
+const sayable = d => d.replace(/\s*\+\s*[DA]\b/g, "").replace(/\s*\([^)]*\)/g, "").replace(/ \/ /g, ", ");
+const starHTML = s => esc(s).replace(/\*([^*]+)\*/g, "<mark>$1</mark>");
+const hp = () => (S.progress.health ||= { seen: {} });
+function healthQuiz(tp) {
+  const Q = [];
+  const withGap = tp.items.flatMap(it => it.x.filter(x => /\*[^*]+\*/.test(x[0])).slice(0, 1).map(x => ({ it, x, ans: x[0].match(/\*([^*]+)\*/)[1] })));
+  const answers = [...new Set(withGap.map(g => g.ans))];
+  const gaps = shuffle(withGap).slice(0, 6);
+  gaps.forEach(g => {
+    const others = shuffle(answers.filter(a => a.toLowerCase() !== g.ans.toLowerCase())).slice(0, 2);
+    if (others.length < 2) return;
+    Q.push({ k: "gap", q: g.x[0].replace(/\*[^*]+\*/, "___"), o: [g.ans, ...others], a: 0,
+      w: [`«${g.it.d}» = ${g.it.a}.${g.it.n ? " " + g.it.n : ""} — ${g.x[1]}`, `«${g.it.d}»: ${g.it.f || ""}`] });
+  });
+  const pairs = shuffle(tp.items.filter(it => it.d.length <= 42));
+  for (let i = 0; i + 4 <= pairs.length && i < 8; i += 4)
+    Q.push({ k: "match", p: pairs.slice(i, i + 4).map(it => [it.d, it.a]), w: ["كل تعبير مع معناه بالعربية.", "Jeder Ausdruck mit seiner Bedeutung."] });
+  const ord = shuffle(tp.items.flatMap(it => it.x.map(x => ({ it, s: unstar(x[0]).replace(/\s+/g, " ").trim(), ar: x[1] })))
+    .filter(o => { const n = o.s.split(" ").length; return n >= 5 && n <= 11 && !/[„“]/.test(o.s); })).slice(0, 3);
+  ord.forEach(o => Q.push({ k: "order", s: o.s, w: [o.ar, o.it.f || ""] }));
+  const order = { gap: 0, match: 1, order: 2 };
+  return Q.sort((a, b) => order[a.k] - order[b.k]);
+}
+function healthLesson(tp) {
+  const id = "h-" + tp.id;
+  if (!HQ[id]) HQ[id] = { id, L: [], Q: healthQuiz(tp), back: "#health", backLabel: t("h_all_topics") };
+  return HQ[id];
+}
+function viewHealth(v) {
+  const seen = hp().seen;
+  const kinds = [["comedy", t("h_comedy")], ["explain", t("h_explain")], ["story", t("h_story")]];
+  const vcard = it => `<button class="hvid ${seen[it.yt] ? "seen" : ""}" data-yt="${esc(it.yt)}">
+      <span class="hthumb" style="background-image:url('https://i.ytimg.com/vi/${encodeURIComponent(it.yt)}/mqdefault.jpg')"><em>${fmtLen(it.len)}</em>${seen[it.yt] ? `<i>✓</i>` : ""}</span>
+      <span class="hvbody"><b lang="de" dir="ltr">${esc(it.title)}</b><small lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}</small></span></button>`;
+  const tcard = tp => { const p = S.progress.lessons["h-" + tp.id] || {};
+    return `<a class="htopic" href="#health-${tp.id}"><span class="hic">${tp.ic}</span><span class="hvbody"><b>${esc(tl(tp.t))}</b>
+      <small>${tp.items.length} ${esc(t("h_items"))} · ${tp.items.reduce((a, it) => a + it.x.length, 0)} ${esc(t("h_sentences"))}</small></span>
+      ${p.done ? `<span class="chip ok">${p.best}%</span>` : ""}</a>`; };
+  v.innerHTML = `
+  <header class="phead"><a class="iconbtn" href="#lessons">${IC.back}</a><h1 class="h1"><span class="lvl" lang="de">C1</span> ${esc(t("h_title"))}</h1>
+    <p class="muted">${esc(t("h_sub"))}</p></header>
+  <div class="chips" role="tablist">${[["videos", t("h_tab_videos")], ["practice", t("h_tab_practice")]].map(([k, lab]) =>
+    `<button class="fchip ${healthTab === k ? "on" : ""}" data-t="${k}" role="tab" aria-selected="${healthTab === k}">${esc(lab)}</button>`).join("")}</div>
+  ${healthTab === "videos" ? `
+    <p class="muted small">${esc(t("h_videos_note"))}</p>
+    ${kinds.map(([k, lab]) => `<section class="block"><h2 class="h2">${esc(lab)}</h2><div class="hgrid">${HEALTH.videos.filter(x => x.kind === k).map(vcard).join("")}</div></section>`).join("")}`
+  : `<p class="note">🔊 ${esc(t("h_tts_note"))}</p><div class="lgrid">${HEALTH.topics.map(tcard).join("")}</div>`}
+  <p class="note">${esc(t("h_help"))}</p>`;
+  $$(".fchip", v).forEach(b => b.onclick = () => { healthTab = b.dataset.t; viewHealth(v); });
+  $$("[data-yt]", v).forEach(b => b.onclick = () => openHealthVideo(HEALTH.videos.find(x => x.yt === b.dataset.yt), () => viewHealth(v)));
+}
+function openHealthVideo(it, after) {
+  if (!it) return;
+  const seen = hp().seen; if (!seen[it.yt]) { seen[it.yt] = Date.now(); save("progress"); }
+  const sh = openSheet(`
+    <div class="eyebrow" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))} · ${fmtLen(it.len)}</div>
+    <h2 class="h2" lang="de" dir="ltr">${esc(it.title)}</h2>
+    <div class="hplayer"><iframe src="https://www.youtube.com/embed/${encodeURIComponent(it.yt)}?cc_load_policy=1&cc_lang_pref=de&hl=de&rel=0&playsinline=1&modestbranding=1" title="${esc(it.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+    <p class="muted small">${esc(t("h_cc_note"))}</p>
+    <p>${esc(tl(it.about))}</p>
+    <h3 class="h3">${esc(t("h_keys"))}</h3>
+    <ul class="vlist">${it.keys.map(([d, a]) => `<li><span><b lang="de" dir="ltr">${esc(d)}</b><small lang="ar" dir="rtl">${esc(a)}</small></span><span class="row"><button class="iconbtn" data-say="${esc(d)}" aria-label="${esc(t("listen"))}">${IC.speak}</button>${saveBtn(d)}</span></li>`).join("")}</ul>
+    <div class="row wrap"><button class="btn sm" id="hToClip">+ ${esc(t("h_to_clip"))}</button><a class="btn sm ghost" href="https://www.youtube.com/watch?v=${encodeURIComponent(it.yt)}" target="_blank" rel="noopener">YouTube ↗</a></div>
+    <p class="muted small">${esc(t("h_to_clip_sub"))}</p>`);
+  $$("[data-say]", sh).forEach(b => b.onclick = () => sayInto(b.dataset.say, null));
+  $$("[data-save]", sh).forEach(b => b.onclick = () => { const k = it.keys.find(x => x[0] === b.dataset.save); if (k && saveVocab({ de: k[0], ar: k[1], exDe: "", lesson: "", type: "word" })) { b.disabled = true; b.classList.add("done"); $("span", b).textContent = t("saved"); } });
+  $("#hToClip", sh).onclick = () => { clipPrefill = { yt: it.yt, title: it.title }; closeSheet(); location.hash = "addclip"; };
+  if (after) after();
+}
+const HT = { id: null, tab: "learn", hideAr: false };
+function viewHealthTopic(v, r) {
+  if (viewCleanup) { viewCleanup(); viewCleanup = null; }
+  const tp = HTOPIC[r.id];
+  if (!tp) { location.hash = "health"; return; }
+  if (HT.id !== tp.id) Object.assign(HT, { id: tp.id, tab: "learn" });
+  healthTab = "practice";
+  const l = healthLesson(tp);
+  v.innerHTML = `
+  <header class="phead"><a class="iconbtn" href="#health">${IC.back}</a><h1 class="h1">${tp.ic} ${esc(tl(tp.t))}</h1><p class="muted">${esc(tl(tp.intro))}</p></header>
+  <div class="chips" role="tablist">${[["learn", t("h_learn")], ["quiz", t("ex_title")]].map(([k, lab]) =>
+    `<button class="fchip ${HT.tab === k ? "on" : ""}" data-t="${k}" role="tab" aria-selected="${HT.tab === k}">${esc(lab)}</button>`).join("")}</div>
+  <div id="hBox"></div>`;
+  $$(".fchip", v).forEach(b => b.onclick = () => { stopSpeech(); HT.tab = b.dataset.t; viewHealthTopic(v, r); });
+  const box = $("#hBox", v);
+  if (HT.tab === "quiz") { renderExercises(l, box); return; }
+  box.innerHTML = `
+    <div class="row wrap hctl"><button class="btn primary sm" id="hAll">${IC.play}<span>${esc(t("h_play_all"))}</span></button>
+      <button class="btn sm" id="hStop" hidden>${IC.pause}<span>${esc(t("h_stop"))}</span></button>
+      <button class="fchip ${HT.hideAr ? "on" : ""}" id="hAr">${esc(t("h_hide_ar"))}</button></div>
+    <p class="muted small">🔊 ${esc(t("h_tts_note"))}</p>
+    <ol class="hitems ${HT.hideAr ? "hide-ar" : ""}">${tp.items.map((it, i) => `<li class="hitem" id="hi-${i}">
+      <div class="row-between"><b class="hde" lang="de" dir="ltr" id="hd-${i}">${wordsHTML(it.d)}</b>${it.r ? `<span class="reg reg-${it.r}">${esc(t("reg_" + it.r))}</span>` : ""}</div>
+      <p class="har" lang="ar" dir="rtl">${esc(it.a)}</p>
+      ${it.f ? `<p class="hdef" lang="de" dir="ltr">= ${esc(it.f)}</p>` : ""}
+      ${it.n ? `<p class="muted small" lang="ar" dir="rtl">💡 ${esc(it.n)}</p>` : ""}
+      <ul class="hex">${it.x.map((x, j) => `<li><button class="iconbtn" data-x="${i}:${j}" aria-label="${esc(t("listen"))}">${IC.speak}</button>
+        <span><span lang="de" dir="ltr" id="hx-${i}-${j}" class="hxde">${starHTML(x[0])}</span><small class="har" lang="ar" dir="rtl">${esc(x[1])}</small></span></li>`).join("")}</ul>
+      <div class="row wrap"><button class="btn sm" data-p="${i}">${IC.speak}<span>${esc(t("listen"))}</span></button><button class="btn sm" data-slow="${i}">${IC.speak}<span>${esc(t("slow"))}</span></button>
+        ${saveBtn(it.d)}<button class="btn sm" data-rec="${i}">${IC.mic}<span>${esc(t("h_speak"))}</span></button></div></li>`).join("")}</ol>
+    <a class="btn primary big" href="#health-${tp.id}" id="hGoQuiz">${esc(t("ex_start"))}</a>`;
+  const g = i => (i % 2 ? "m" : "f");
+  $$("[data-p]", box).forEach(b => b.onclick = () => { const i = +b.dataset.p; sayInto(sayable(tp.items[i].d), $("#hd-" + i, box), { g: g(i) }); });
+  $$("[data-slow]", box).forEach(b => b.onclick = () => { const i = +b.dataset.slow; sayInto(sayable(tp.items[i].d), $("#hd-" + i, box), { g: g(i), rate: 0.6 }); });
+  $$("[data-x]", box).forEach(b => b.onclick = () => { const [i, j] = b.dataset.x.split(":").map(Number); stopSpeech(); speak(unstar(tp.items[i].x[j][0]), { g: g(i + j + 1) }); });
+  $$("[data-save]", box).forEach(b => b.onclick = () => { const it = tp.items.find(x => x.d === b.dataset.save); if (it && saveVocab({ de: it.d, ar: it.a, exDe: unstar(it.x[0][0]), lesson: "", type: "word" })) { b.disabled = true; b.classList.add("done"); $("span", b).textContent = t("saved"); } });
+  $$("[data-rec]", box).forEach(b => b.onclick = () => {
+    const it = tp.items[+b.dataset.rec], s = unstar(it.x[0][0]);
+    const sh = openSheet(`<div class="eyebrow">${esc(tl(tp.t))}</div><p class="big-de" lang="de" dir="ltr" id="shDe">${wordsHTML(s)}</p><p class="big-ar" lang="ar" dir="rtl">${esc(it.x[0][1])}</p>
+      <div class="row wrap"><button class="btn sm" id="shPlay">${IC.speak}<span>${esc(t("listen"))}</span></button><button class="btn sm" id="shSlow">${IC.speak}<span>${esc(t("slow"))}</span></button>${saveBtn(s, t("save_sentence"))}</div>${recorderHTML()}`);
+    $("#shPlay", sh).onclick = () => sayInto(s, $("#shDe", sh));
+    $("#shSlow", sh).onclick = () => sayInto(s, $("#shDe", sh), { rate: 0.6 });
+    $$("[data-save]", sh).forEach(x => x.onclick = () => { if (saveVocab({ de: s, ar: it.x[0][1], exDe: "", lesson: "", type: "sentence" })) { x.disabled = true; x.classList.add("done"); } });
+    bindRecorder(sh, s);
+  });
+  $("#hAr", box).onclick = e => { HT.hideAr = !HT.hideAr; e.currentTarget.classList.toggle("on", HT.hideAr); $(".hitems", box).classList.toggle("hide-ar", HT.hideAr); };
+  $("#hGoQuiz", box).onclick = e => { e.preventDefault(); stopSpeech(); HT.tab = "quiz"; viewHealthTopic(v, r); };
+  const allBtn = $("#hAll", box), stopBtn = $("#hStop", box);
+  const done = () => { allBtn.hidden = false; stopBtn.hidden = true; $$(".hitem.on", box).forEach(x => x.classList.remove("on")); };
+  stopBtn.onclick = () => { stopSpeech(); done(); };
+  allBtn.onclick = async () => {
+    stopSpeech(); const my = speechRun; allBtn.hidden = true; stopBtn.hidden = false;
+    for (let i = 0; i < tp.items.length; i++) {
+      const li = $("#hi-" + i, box); if (!li) return;
+      $$(".hitem.on", box).forEach(x => x.classList.remove("on")); li.classList.add("on"); li.scrollIntoView({ block: "center", behavior: "smooth" });
+      await speak(sayable(tp.items[i].d), { g: g(i), onWord: highlighter($("#hd-" + i, box)) }); clearHl(li);
+      if (my !== speechRun) return; await wait(500);
+      for (let j = 0; j < tp.items[i].x.length; j++) {
+        await speak(unstar(tp.items[i].x[j][0]), { g: g(i + j + 1) });
+        if (my !== speechRun) return; await wait(700);
+      }
+    }
+    done();
+  };
+  const onStop = () => { if (stopBtn && !stopBtn.hidden) done(); };
+  document.addEventListener("df:stop", onStop);
+  viewCleanup = () => document.removeEventListener("df:stop", onStop);
 }
 
 /* ----- lesson ----- */
@@ -3761,7 +4386,7 @@ function renderResult(l, box) {
     <p>${esc(t("result_sub", right, total))}</p>
     <div class="row wrap center-row">
       <button class="btn ghost" id="rAgain">${esc(t("ex_again"))}</button>
-      ${idx < LESSONS.length - 1 ? `<a class="btn primary" href="#lesson-${LESSONS[idx + 1].id}">${esc(t("next_lesson"))}</a>` : `<a class="btn primary" href="#lessons">${esc(t("to_lessons"))}</a>`}
+      ${l.back ? `<a class="btn primary" href="${l.back}">${esc(l.backLabel || t("to_lessons"))}</a>` : idx < LESSONS.length - 1 ? `<a class="btn primary" href="#lesson-${LESSONS[idx + 1].id}">${esc(t("next_lesson"))}</a>` : `<a class="btn primary" href="#lessons">${esc(t("to_lessons"))}</a>`}
     </div></section>`;
   // the next visit to this tab starts with the intro card again
   delete ES[l.id];
@@ -3933,7 +4558,7 @@ function openSheet(html) {
   $("#sheetX").onclick = () => closeSheet();
   return sh;
 }
-function closeSheet(silent) { if (!silent) stopSpeech(); $("#sheet").hidden = true; $("#scrim").hidden = true; }
+function closeSheet(silent) { if (!silent) stopSpeech(); $$("#sheet iframe").forEach(f => f.replaceWith(document.createElement("div"))); $("#sheet").hidden = true; $("#scrim").hidden = true; }
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#sheet").hidden) closeSheet(); });
 
 /* ================= onboarding / gate ================= */

@@ -29,7 +29,16 @@ const STR = {
     review_now: "راجع الآن", nothing_due: "لا مراجعات مستحقة",
     all: "الكل", open_l: "غير مكتملة", done_l: "مكتملة", new_l: "جديد", opened_l: "بدأته", completed: "مكتمل", best: "أفضل نتيجة",
     lessons_title: "دروس B2", lessons_sub: "20 درساً أصلياً و10 دروس بمشاهد حقيقية من التلفزيون الألماني. كل درس: حوار، شرح لكل جملة، وتمارين.", real_scenes: "مشاهد حقيقية من التلفزيون الألماني", real_scenes_sub: "مقاطع رسمية من قنوات ARD على يوتيوب، مع نص ألماني وترجمة عربية وتمارين.",
-    c1_note: "دروس C1 قيد الإعداد وستُضاف لاحقاً. لا يوجد محتوى لـ A1–B1 لأن التطبيق يبدأ من B2.",
+    c1_note: "محتوى C1 يُضاف تدريجياً، وأوله قسم الصحة والصحة النفسية. لا يوجد محتوى لـ A1–B1 لأن التطبيق يبدأ من B2.",
+    h_title: "الصحة والصحة النفسية", h_sub: "مقاطع ألمانية حقيقية عن الاكتئاب والقلق والتوتر والعلاج، وتدريب على الأفعال والتعبيرات مع جمل كثيرة مسموعة.",
+    h_card_sub: "{0} مقطعاً · {1} موضوعاً · {2} جملة وتعبيراً مع صوت", h_tab_videos: "مقاطع فيديو", h_tab_practice: "تدرّب",
+    h_comedy: "مشاهد كوميدية", h_explain: "شرح قصير", h_story: "تجارب حقيقية وتقارير",
+    h_videos_note: "فيديوهات رسمية من يوتيوب (تُعرض داخل التطبيق ولا تُنسخ). الترجمة الألمانية هي ترجمة يوتيوب نفسها، والمفردات تحت كل فيديو كتبناها للموضوع.",
+    h_cc_note: "الترجمة الألمانية تظهر من يوتيوب. إن لم تظهر، اضغط زر CC داخل الفيديو.", h_keys: "مفردات للموضوع",
+    h_to_clip: "حوّله إلى درس بالنص", h_to_clip_sub: "في تطبيق أندرويد يسحب التطبيق النص الألماني من يوتيوب تلقائياً، ثم تحصل على تمارين.",
+    h_items: "تعبيراً", h_sentences: "جملة", h_learn: "تعلّم واستمع", h_play_all: "استمع للكل", h_stop: "إيقاف", h_hide_ar: "إخفاء العربية", h_speak: "انطق", h_all_topics: "كل المواضيع",
+    h_tts_note: "الصوت هنا قراءة آلية من جهازك (وليس تسجيلاً لشخص حقيقي).",
+    h_help: "إذا كنت تمرّ بوقت صعب: خط الدعم النفسي TelefonSeelsorge مجاني وعلى مدار الساعة: 0800 111 0 111 أو 0800 111 0 222. في الطوارئ: 112.",
     tab_dialog: "الحوار", tab_ex: "التمارين", tab_expr: "تعبيرات الدرس",
     demo_audio: "صوت مولَّد بقارئ الكلام في جهازك، وليس تسجيلاً بشرياً",
     show_de: "النص الألماني", show_ar: "الترجمة العربية", speed: "السرعة",
@@ -98,7 +107,16 @@ const STR = {
     review_now: "Jetzt wiederholen", nothing_due: "Nichts fällig",
     all: "Alle", open_l: "Offen", done_l: "Abgeschlossen", new_l: "Neu", opened_l: "Begonnen", completed: "Abgeschlossen", best: "Bestes Ergebnis",
     lessons_title: "B2-Lektionen", lessons_sub: "20 eigene Lektionen und 10 Lektionen mit echten Szenen aus dem deutschen Fernsehen – mit Dialog, Satzerklärungen und Übungen.", real_scenes: "Echte Szenen aus dem deutschen Fernsehen", real_scenes_sub: "Offizielle Clips der ARD auf YouTube, mit deutschem Text, arabischer Übersetzung und Übungen.",
-    c1_note: "C1-Lektionen sind in Arbeit. Inhalte für A1–B1 gibt es nicht, die App beginnt bei B2.",
+    c1_note: "C1-Inhalte kommen nach und nach – zuerst der Bereich Gesundheit & Psyche. Inhalte für A1–B1 gibt es nicht, die App beginnt bei B2.",
+    h_title: "Gesundheit & Psyche", h_sub: "Echte deutsche Videos zu Depression, Angst, Stress und Therapie – dazu Verben, Ausdrücke und viele Beispielsätze zum Anhören.",
+    h_card_sub: "{0} Videos · {1} Themen · {2} Sätze und Ausdrücke mit Audio", h_tab_videos: "Videos", h_tab_practice: "Üben",
+    h_comedy: "Comedy & Szenen", h_explain: "Kurz erklärt", h_story: "Erfahrungen & Reportagen",
+    h_videos_note: "Offizielle YouTube-Videos (eingebettet, nicht kopiert). Die deutschen Untertitel kommen von YouTube; den Wortschatz unter jedem Video haben wir zum Thema geschrieben.",
+    h_cc_note: "Die deutschen Untertitel kommen von YouTube. Falls nicht sichtbar: CC im Video antippen.", h_keys: "Wortschatz zum Thema",
+    h_to_clip: "Als Lektion mit Text anlegen", h_to_clip_sub: "In der Android-App wird der deutsche Text automatisch von YouTube geholt, dann gibt es Übungen.",
+    h_items: "Ausdrücke", h_sentences: "Sätze", h_learn: "Lernen & Hören", h_play_all: "Alles abspielen", h_stop: "Stopp", h_hide_ar: "Arabisch ausblenden", h_speak: "Sprechen", h_all_topics: "Alle Themen",
+    h_tts_note: "Die Stimme ist eine automatische Sprachausgabe deines Geräts (keine echte Aufnahme).",
+    h_help: "Wenn es dir nicht gut geht: Die TelefonSeelsorge ist kostenlos und rund um die Uhr erreichbar: 0800 111 0 111 oder 0800 111 0 222. Im Notfall: 112.",
     tab_dialog: "Dialog", tab_ex: "Übungen", tab_expr: "Ausdrücke",
     demo_audio: "Synthetische Stimme deines Geräts, keine menschliche Aufnahme",
     show_de: "Deutscher Text", show_ar: "Arabische Übersetzung", speed: "Tempo",
@@ -609,6 +627,7 @@ function viewAddClip(v) {
   ${CUSTOM.length ? `<section class="block"><h2 class="h2">${esc(t("my_clips"))}</h2><ul class="vbook">${CUSTOM.map(l => `<li class="vitem"><a class="vmain" href="#lesson-${l.id}"><b lang="de" dir="ltr">${esc(l.title)}</b><small class="muted">${l.L.length} · ${fmtClock(l.video.t[0])}–${fmtClock(l.video.end)}</small></a>
     <button class="linkbtn danger" data-cdel="${l.id}">${esc(clipConfirm === l.id ? t("confirm_remove") : t("remove"))}</button></li>`).join("")}</ul></section>` : ""}`;
   const url = $("#cUrl", v), title = $("#cTitle", v), text = $("#cText", v), prev = $("#cPrev", v), btn = $("#cSave", v);
+  if (clipPrefill) { url.value = "https://www.youtube.com/watch?v=" + clipPrefill.yt; title.value = clipPrefill.title || ""; clipPrefill = null; }
   let parsed = [];
   const check = () => {
     const id = ytId(url.value); parsed = parseTranscript(text.value);
@@ -654,7 +673,8 @@ let clipConfirm = null;
 function route() {
   const h = decodeURIComponent((location.hash || "#feed").slice(1));
   if (h.startsWith("lesson-")) return { name: "lesson", id: h.slice(7) };
-  return { name: ["feed", "home", "lessons", "vocab", "review", "stats", "profile", "addclip"].includes(h) ? h : "feed" };
+  if (h.startsWith("health-")) return { name: "htopic", id: h.slice(7) };
+  return { name: ["feed", "home", "lessons", "vocab", "review", "stats", "profile", "addclip", "health"].includes(h) ? h : "feed" };
 }
 let viewCleanup = null;
 function render() {
@@ -662,11 +682,11 @@ function render() {
   if (viewCleanup) { viewCleanup(); viewCleanup = null; }
   if (dialogCleanup) { dialogCleanup(); dialogCleanup = null; }
   const r = route();
-  const nav = r.name === "lesson" || r.name === "addclip" ? "lessons" : r.name === "review" ? "vocab" : r.name;
+  const nav = ["lesson", "addclip", "health", "htopic"].includes(r.name) ? "lessons" : r.name === "review" ? "vocab" : r.name;
   $$(".nav a").forEach(a => a.classList.toggle("on", a.dataset.r === nav));
   const v = $("#view");
   v.scrollTop = 0; window.scrollTo(0, 0);
-  ({ feed: viewFeed, home: viewHome, lessons: viewLessons, lesson: viewLesson, vocab: viewVocab, review: viewReview, stats: viewStats, profile: viewProfile, addclip: viewAddClip })[r.name](v, r);
+  ({ feed: viewFeed, home: viewHome, lessons: viewLessons, lesson: viewLesson, vocab: viewVocab, review: viewReview, stats: viewStats, profile: viewProfile, addclip: viewAddClip, health: viewHealth, htopic: viewHealthTopic })[r.name](v, r);
 }
 addEventListener("hashchange", render);
 
@@ -796,6 +816,12 @@ function viewFeed(v) {
 }
 
 /* ================= views ================= */
+function c1Card() {
+  if (!HEALTH.topics.length) return "";
+  const n = HEALTH.topics.reduce((a, tp) => a + tp.items.reduce((b, it) => b + 1 + it.x.length, 0), 0);
+  return `<a class="c1card" href="#health"><span class="lvl" lang="de">C1</span><span class="hvbody"><b>${esc(t("h_title"))}</b>
+    <small>${esc(t("h_card_sub", HEALTH.videos.length, HEALTH.topics.length, n))}</small></span></a>`;
+}
 function viewHome(v) {
   const done = doneCount(), due = dueItems().length, nv = Object.keys(S.vocab.items).length;
   const last = S.progress.last && LMAP[S.progress.last];
@@ -819,6 +845,7 @@ function viewHome(v) {
     <a class="tile ${due ? "hot" : ""}" href="#review"><b>${due}</b><span>${esc(t("due_today"))}</span></a>
     <div class="tile"><b>${st.cur}</b><span>${esc(t("streak"))}</span></div>
   </section>
+  <section class="block">${c1Card()}</section>
   ${last ? `<section class="block"><h2 class="h2">${esc(t("last_opened"))}</h2>${lessonCard(last)}</section>` : ""}
   ${LESSONS.some(l => l.src) ? `<section class="block"><div class="row-between"><h2 class="h2">${esc(t("real_scenes"))}</h2><a class="btn sm" href="#lessons">${esc(t("all"))}</a></div><p class="muted small">${esc(t("real_scenes_sub"))}</p><div class="lgrid">${LESSONS.filter(l => l.src && !S.progress.lessons[l.id]?.done).slice(0, 3).map(lessonCard).join("") || LESSONS.filter(l => l.src).slice(0, 3).map(lessonCard).join("")}</div></section>` : ""}
   <section class="block card">
@@ -843,8 +870,155 @@ function viewLessons(v) {
   <div class="lgrid">${list.map(lessonCard).join("") || `<p class="muted">${esc(t("no_data"))}</p>`}</div>
   <section class="block"><div class="row-between"><h2 class="h2">${esc(t("my_clips"))}</h2><a class="btn sm primary" href="#addclip">+ ${esc(t("add_clip"))}</a></div>
     ${CUSTOM.length ? `<div class="lgrid">${CUSTOM.map(lessonCard).join("")}</div>` : `<p class="muted small">${esc(t("my_clips_empty"))}</p>`}</section>
+  <section class="block">${c1Card()}</section>
   <p class="note">${esc(t("c1_note"))}</p>`;
   $$(".fchip", v).forEach(b => b.onclick = () => { lessonFilter = b.dataset.f; viewLessons(v); });
+}
+
+/* ================= C1 section: health & mental health ================= */
+// Content in window.DF_HEALTH (src/content/c1-health.js). Audio = device text-to-speech, labelled as such.
+const HEALTH = window.DF_HEALTH || { videos: [], topics: [] };
+const HTOPIC = Object.fromEntries(HEALTH.topics.map(tp => [tp.id, tp]));
+const HQ = {};
+let healthTab = "videos", clipPrefill = null;
+const tl = pair => Array.isArray(pair) ? pair[ui() === "de" ? 1 : 0] : pair;
+const unstar = s => s.replace(/\*/g, "");
+const sayable = d => d.replace(/\s*\+\s*[DA]\b/g, "").replace(/\s*\([^)]*\)/g, "").replace(/ \/ /g, ", ");
+const starHTML = s => esc(s).replace(/\*([^*]+)\*/g, "<mark>$1</mark>");
+const hp = () => (S.progress.health ||= { seen: {} });
+function healthQuiz(tp) {
+  const Q = [];
+  const withGap = tp.items.flatMap(it => it.x.filter(x => /\*[^*]+\*/.test(x[0])).slice(0, 1).map(x => ({ it, x, ans: x[0].match(/\*([^*]+)\*/)[1] })));
+  const answers = [...new Set(withGap.map(g => g.ans))];
+  const gaps = shuffle(withGap).slice(0, 6);
+  gaps.forEach(g => {
+    const others = shuffle(answers.filter(a => a.toLowerCase() !== g.ans.toLowerCase())).slice(0, 2);
+    if (others.length < 2) return;
+    Q.push({ k: "gap", q: g.x[0].replace(/\*[^*]+\*/, "___"), o: [g.ans, ...others], a: 0,
+      w: [`«${g.it.d}» = ${g.it.a}.${g.it.n ? " " + g.it.n : ""} — ${g.x[1]}`, `«${g.it.d}»: ${g.it.f || ""}`] });
+  });
+  const pairs = shuffle(tp.items.filter(it => it.d.length <= 42));
+  for (let i = 0; i + 4 <= pairs.length && i < 8; i += 4)
+    Q.push({ k: "match", p: pairs.slice(i, i + 4).map(it => [it.d, it.a]), w: ["كل تعبير مع معناه بالعربية.", "Jeder Ausdruck mit seiner Bedeutung."] });
+  const ord = shuffle(tp.items.flatMap(it => it.x.map(x => ({ it, s: unstar(x[0]).replace(/\s+/g, " ").trim(), ar: x[1] })))
+    .filter(o => { const n = o.s.split(" ").length; return n >= 5 && n <= 11 && !/[„“]/.test(o.s); })).slice(0, 3);
+  ord.forEach(o => Q.push({ k: "order", s: o.s, w: [o.ar, o.it.f || ""] }));
+  const order = { gap: 0, match: 1, order: 2 };
+  return Q.sort((a, b) => order[a.k] - order[b.k]);
+}
+function healthLesson(tp) {
+  const id = "h-" + tp.id;
+  if (!HQ[id]) HQ[id] = { id, L: [], Q: healthQuiz(tp), back: "#health", backLabel: t("h_all_topics") };
+  return HQ[id];
+}
+function viewHealth(v) {
+  const seen = hp().seen;
+  const kinds = [["comedy", t("h_comedy")], ["explain", t("h_explain")], ["story", t("h_story")]];
+  const vcard = it => `<button class="hvid ${seen[it.yt] ? "seen" : ""}" data-yt="${esc(it.yt)}">
+      <span class="hthumb" style="background-image:url('https://i.ytimg.com/vi/${encodeURIComponent(it.yt)}/mqdefault.jpg')"><em>${fmtLen(it.len)}</em>${seen[it.yt] ? `<i>✓</i>` : ""}</span>
+      <span class="hvbody"><b lang="de" dir="ltr">${esc(it.title)}</b><small lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}</small></span></button>`;
+  const tcard = tp => { const p = S.progress.lessons["h-" + tp.id] || {};
+    return `<a class="htopic" href="#health-${tp.id}"><span class="hic">${tp.ic}</span><span class="hvbody"><b>${esc(tl(tp.t))}</b>
+      <small>${tp.items.length} ${esc(t("h_items"))} · ${tp.items.reduce((a, it) => a + it.x.length, 0)} ${esc(t("h_sentences"))}</small></span>
+      ${p.done ? `<span class="chip ok">${p.best}%</span>` : ""}</a>`; };
+  v.innerHTML = `
+  <header class="phead"><a class="iconbtn" href="#lessons">${IC.back}</a><h1 class="h1"><span class="lvl" lang="de">C1</span> ${esc(t("h_title"))}</h1>
+    <p class="muted">${esc(t("h_sub"))}</p></header>
+  <div class="chips" role="tablist">${[["videos", t("h_tab_videos")], ["practice", t("h_tab_practice")]].map(([k, lab]) =>
+    `<button class="fchip ${healthTab === k ? "on" : ""}" data-t="${k}" role="tab" aria-selected="${healthTab === k}">${esc(lab)}</button>`).join("")}</div>
+  ${healthTab === "videos" ? `
+    <p class="muted small">${esc(t("h_videos_note"))}</p>
+    ${kinds.map(([k, lab]) => `<section class="block"><h2 class="h2">${esc(lab)}</h2><div class="hgrid">${HEALTH.videos.filter(x => x.kind === k).map(vcard).join("")}</div></section>`).join("")}`
+  : `<p class="note">🔊 ${esc(t("h_tts_note"))}</p><div class="lgrid">${HEALTH.topics.map(tcard).join("")}</div>`}
+  <p class="note">${esc(t("h_help"))}</p>`;
+  $$(".fchip", v).forEach(b => b.onclick = () => { healthTab = b.dataset.t; viewHealth(v); });
+  $$("[data-yt]", v).forEach(b => b.onclick = () => openHealthVideo(HEALTH.videos.find(x => x.yt === b.dataset.yt), () => viewHealth(v)));
+}
+function openHealthVideo(it, after) {
+  if (!it) return;
+  const seen = hp().seen; if (!seen[it.yt]) { seen[it.yt] = Date.now(); save("progress"); }
+  const sh = openSheet(`
+    <div class="eyebrow" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))} · ${fmtLen(it.len)}</div>
+    <h2 class="h2" lang="de" dir="ltr">${esc(it.title)}</h2>
+    <div class="hplayer"><iframe src="https://www.youtube.com/embed/${encodeURIComponent(it.yt)}?cc_load_policy=1&cc_lang_pref=de&hl=de&rel=0&playsinline=1&modestbranding=1" title="${esc(it.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>
+    <p class="muted small">${esc(t("h_cc_note"))}</p>
+    <p>${esc(tl(it.about))}</p>
+    <h3 class="h3">${esc(t("h_keys"))}</h3>
+    <ul class="vlist">${it.keys.map(([d, a]) => `<li><span><b lang="de" dir="ltr">${esc(d)}</b><small lang="ar" dir="rtl">${esc(a)}</small></span><span class="row"><button class="iconbtn" data-say="${esc(d)}" aria-label="${esc(t("listen"))}">${IC.speak}</button>${saveBtn(d)}</span></li>`).join("")}</ul>
+    <div class="row wrap"><button class="btn sm" id="hToClip">+ ${esc(t("h_to_clip"))}</button><a class="btn sm ghost" href="https://www.youtube.com/watch?v=${encodeURIComponent(it.yt)}" target="_blank" rel="noopener">YouTube ↗</a></div>
+    <p class="muted small">${esc(t("h_to_clip_sub"))}</p>`);
+  $$("[data-say]", sh).forEach(b => b.onclick = () => sayInto(b.dataset.say, null));
+  $$("[data-save]", sh).forEach(b => b.onclick = () => { const k = it.keys.find(x => x[0] === b.dataset.save); if (k && saveVocab({ de: k[0], ar: k[1], exDe: "", lesson: "", type: "word" })) { b.disabled = true; b.classList.add("done"); $("span", b).textContent = t("saved"); } });
+  $("#hToClip", sh).onclick = () => { clipPrefill = { yt: it.yt, title: it.title }; closeSheet(); location.hash = "addclip"; };
+  if (after) after();
+}
+const HT = { id: null, tab: "learn", hideAr: false };
+function viewHealthTopic(v, r) {
+  if (viewCleanup) { viewCleanup(); viewCleanup = null; }
+  const tp = HTOPIC[r.id];
+  if (!tp) { location.hash = "health"; return; }
+  if (HT.id !== tp.id) Object.assign(HT, { id: tp.id, tab: "learn" });
+  healthTab = "practice";
+  const l = healthLesson(tp);
+  v.innerHTML = `
+  <header class="phead"><a class="iconbtn" href="#health">${IC.back}</a><h1 class="h1">${tp.ic} ${esc(tl(tp.t))}</h1><p class="muted">${esc(tl(tp.intro))}</p></header>
+  <div class="chips" role="tablist">${[["learn", t("h_learn")], ["quiz", t("ex_title")]].map(([k, lab]) =>
+    `<button class="fchip ${HT.tab === k ? "on" : ""}" data-t="${k}" role="tab" aria-selected="${HT.tab === k}">${esc(lab)}</button>`).join("")}</div>
+  <div id="hBox"></div>`;
+  $$(".fchip", v).forEach(b => b.onclick = () => { stopSpeech(); HT.tab = b.dataset.t; viewHealthTopic(v, r); });
+  const box = $("#hBox", v);
+  if (HT.tab === "quiz") { renderExercises(l, box); return; }
+  box.innerHTML = `
+    <div class="row wrap hctl"><button class="btn primary sm" id="hAll">${IC.play}<span>${esc(t("h_play_all"))}</span></button>
+      <button class="btn sm" id="hStop" hidden>${IC.pause}<span>${esc(t("h_stop"))}</span></button>
+      <button class="fchip ${HT.hideAr ? "on" : ""}" id="hAr">${esc(t("h_hide_ar"))}</button></div>
+    <p class="muted small">🔊 ${esc(t("h_tts_note"))}</p>
+    <ol class="hitems ${HT.hideAr ? "hide-ar" : ""}">${tp.items.map((it, i) => `<li class="hitem" id="hi-${i}">
+      <div class="row-between"><b class="hde" lang="de" dir="ltr" id="hd-${i}">${wordsHTML(it.d)}</b>${it.r ? `<span class="reg reg-${it.r}">${esc(t("reg_" + it.r))}</span>` : ""}</div>
+      <p class="har" lang="ar" dir="rtl">${esc(it.a)}</p>
+      ${it.f ? `<p class="hdef" lang="de" dir="ltr">= ${esc(it.f)}</p>` : ""}
+      ${it.n ? `<p class="muted small" lang="ar" dir="rtl">💡 ${esc(it.n)}</p>` : ""}
+      <ul class="hex">${it.x.map((x, j) => `<li><button class="iconbtn" data-x="${i}:${j}" aria-label="${esc(t("listen"))}">${IC.speak}</button>
+        <span><span lang="de" dir="ltr" id="hx-${i}-${j}" class="hxde">${starHTML(x[0])}</span><small class="har" lang="ar" dir="rtl">${esc(x[1])}</small></span></li>`).join("")}</ul>
+      <div class="row wrap"><button class="btn sm" data-p="${i}">${IC.speak}<span>${esc(t("listen"))}</span></button><button class="btn sm" data-slow="${i}">${IC.speak}<span>${esc(t("slow"))}</span></button>
+        ${saveBtn(it.d)}<button class="btn sm" data-rec="${i}">${IC.mic}<span>${esc(t("h_speak"))}</span></button></div></li>`).join("")}</ol>
+    <a class="btn primary big" href="#health-${tp.id}" id="hGoQuiz">${esc(t("ex_start"))}</a>`;
+  const g = i => (i % 2 ? "m" : "f");
+  $$("[data-p]", box).forEach(b => b.onclick = () => { const i = +b.dataset.p; sayInto(sayable(tp.items[i].d), $("#hd-" + i, box), { g: g(i) }); });
+  $$("[data-slow]", box).forEach(b => b.onclick = () => { const i = +b.dataset.slow; sayInto(sayable(tp.items[i].d), $("#hd-" + i, box), { g: g(i), rate: 0.6 }); });
+  $$("[data-x]", box).forEach(b => b.onclick = () => { const [i, j] = b.dataset.x.split(":").map(Number); stopSpeech(); speak(unstar(tp.items[i].x[j][0]), { g: g(i + j + 1) }); });
+  $$("[data-save]", box).forEach(b => b.onclick = () => { const it = tp.items.find(x => x.d === b.dataset.save); if (it && saveVocab({ de: it.d, ar: it.a, exDe: unstar(it.x[0][0]), lesson: "", type: "word" })) { b.disabled = true; b.classList.add("done"); $("span", b).textContent = t("saved"); } });
+  $$("[data-rec]", box).forEach(b => b.onclick = () => {
+    const it = tp.items[+b.dataset.rec], s = unstar(it.x[0][0]);
+    const sh = openSheet(`<div class="eyebrow">${esc(tl(tp.t))}</div><p class="big-de" lang="de" dir="ltr" id="shDe">${wordsHTML(s)}</p><p class="big-ar" lang="ar" dir="rtl">${esc(it.x[0][1])}</p>
+      <div class="row wrap"><button class="btn sm" id="shPlay">${IC.speak}<span>${esc(t("listen"))}</span></button><button class="btn sm" id="shSlow">${IC.speak}<span>${esc(t("slow"))}</span></button>${saveBtn(s, t("save_sentence"))}</div>${recorderHTML()}`);
+    $("#shPlay", sh).onclick = () => sayInto(s, $("#shDe", sh));
+    $("#shSlow", sh).onclick = () => sayInto(s, $("#shDe", sh), { rate: 0.6 });
+    $$("[data-save]", sh).forEach(x => x.onclick = () => { if (saveVocab({ de: s, ar: it.x[0][1], exDe: "", lesson: "", type: "sentence" })) { x.disabled = true; x.classList.add("done"); } });
+    bindRecorder(sh, s);
+  });
+  $("#hAr", box).onclick = e => { HT.hideAr = !HT.hideAr; e.currentTarget.classList.toggle("on", HT.hideAr); $(".hitems", box).classList.toggle("hide-ar", HT.hideAr); };
+  $("#hGoQuiz", box).onclick = e => { e.preventDefault(); stopSpeech(); HT.tab = "quiz"; viewHealthTopic(v, r); };
+  const allBtn = $("#hAll", box), stopBtn = $("#hStop", box);
+  const done = () => { allBtn.hidden = false; stopBtn.hidden = true; $$(".hitem.on", box).forEach(x => x.classList.remove("on")); };
+  stopBtn.onclick = () => { stopSpeech(); done(); };
+  allBtn.onclick = async () => {
+    stopSpeech(); const my = speechRun; allBtn.hidden = true; stopBtn.hidden = false;
+    for (let i = 0; i < tp.items.length; i++) {
+      const li = $("#hi-" + i, box); if (!li) return;
+      $$(".hitem.on", box).forEach(x => x.classList.remove("on")); li.classList.add("on"); li.scrollIntoView({ block: "center", behavior: "smooth" });
+      await speak(sayable(tp.items[i].d), { g: g(i), onWord: highlighter($("#hd-" + i, box)) }); clearHl(li);
+      if (my !== speechRun) return; await wait(500);
+      for (let j = 0; j < tp.items[i].x.length; j++) {
+        await speak(unstar(tp.items[i].x[j][0]), { g: g(i + j + 1) });
+        if (my !== speechRun) return; await wait(700);
+      }
+    }
+    done();
+  };
+  const onStop = () => { if (stopBtn && !stopBtn.hidden) done(); };
+  document.addEventListener("df:stop", onStop);
+  viewCleanup = () => document.removeEventListener("df:stop", onStop);
 }
 
 /* ----- lesson ----- */
@@ -1223,7 +1397,7 @@ function renderResult(l, box) {
     <p>${esc(t("result_sub", right, total))}</p>
     <div class="row wrap center-row">
       <button class="btn ghost" id="rAgain">${esc(t("ex_again"))}</button>
-      ${idx < LESSONS.length - 1 ? `<a class="btn primary" href="#lesson-${LESSONS[idx + 1].id}">${esc(t("next_lesson"))}</a>` : `<a class="btn primary" href="#lessons">${esc(t("to_lessons"))}</a>`}
+      ${l.back ? `<a class="btn primary" href="${l.back}">${esc(l.backLabel || t("to_lessons"))}</a>` : idx < LESSONS.length - 1 ? `<a class="btn primary" href="#lesson-${LESSONS[idx + 1].id}">${esc(t("next_lesson"))}</a>` : `<a class="btn primary" href="#lessons">${esc(t("to_lessons"))}</a>`}
     </div></section>`;
   // the next visit to this tab starts with the intro card again
   delete ES[l.id];
@@ -1395,7 +1569,7 @@ function openSheet(html) {
   $("#sheetX").onclick = () => closeSheet();
   return sh;
 }
-function closeSheet(silent) { if (!silent) stopSpeech(); $("#sheet").hidden = true; $("#scrim").hidden = true; }
+function closeSheet(silent) { if (!silent) stopSpeech(); $$("#sheet iframe").forEach(f => f.replaceWith(document.createElement("div"))); $("#sheet").hidden = true; $("#scrim").hidden = true; }
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#sheet").hidden) closeSheet(); });
 
 /* ================= onboarding / gate ================= */
