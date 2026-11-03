@@ -467,3 +467,7 @@ body.feedmode main{padding:0}
 .legal ul{padding-inline-start:20px;margin:6px 0 12px}
 .legal p{margin:6px 0 12px}
 .placecard .row-between{gap:12px;align-items:center}
+.pltext{margin:0;padding:12px 14px;border-inline-start:4px solid var(--primary);background:var(--bg);border-radius:10px;font-size:17px;line-height:1.55;text-align:left}
+.opt[lang="ar"]{text-align:right}
+.fadd{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:999px;background:var(--primary);color:#fff;font-weight:700;font-size:14px;text-decoration:none;margin-top:22px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.fcard.loading .fplay{animation:recpulse 1s ease-in-out infinite}
