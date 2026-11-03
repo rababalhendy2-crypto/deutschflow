@@ -839,7 +839,7 @@ function viewFeed(v) {
   const first = Math.max(0, FEED.findIndex(it => !seen[it.id]));
   document.body.classList.add("feedmode");
   v.innerHTML = `<div class="feed ${P.showDe ? "" : "hide-de"} ${P.showAr ? "" : "hide-ar"}" id="feed">
-    <div class="ftop"><span class="fcount" id="fCount"></span>
+    <div class="ftop"><a class="fadd" href="#addclip" aria-label="${esc(t("add_clip"))}">+ <span>${esc(t("add_clip"))}</span></a><span class="fcount" id="fCount"></span>
       <button class="fchip2 ${P.showDe ? "on" : ""}" id="fDe" lang="de">DE</button><button class="fchip2 ${P.showAr ? "on" : ""}" id="fAr">ع</button></div>
     ${FEED.map((it, i) => `<article class="fcard" data-i="${i}">
       <div class="fvid" style="background-image:url('https://i.ytimg.com/vi/${encodeURIComponent(it.yt)}/hqdefault.jpg')"><div class="fyt"></div>
@@ -867,16 +867,24 @@ function viewFeed(v) {
   const stopPlayer = () => { clearInterval(timer); timer = null; try { yp && yp.destroy(); } catch (e) {} yp = null; $$(".fcard.playing", feed).forEach(c => c.classList.remove("playing")); };
   const showLine = (c, it, j) => { li = j; const x = it.lines[j]; $(".fde", c).textContent = x[1]; $(".far", c).textContent = x[2] || ""; };
   const lineEnd = (it, j) => it.lines[j + 1] ? it.lines[j + 1][0] : it.end;
-  const activate = i => {
+  // Scrolling only focuses a card (cheap: a still image). The YouTube player loads when the card is tapped.
+  const focus = i => {
     if (i === cur || dead) return;
     stopPlayer(); cur = i; rate = 1; stopAt = null;
     $("#fCount").textContent = `${i + 1} / ${FEED.length}`;
     const it = FEED[i]; const c = card(i); if (!it || !c) return;
     showLine(c, it, 0);
+  };
+  const activate = i => {
+    if (dead) return;
+    focus(i);
+    const it = FEED[i]; const c = card(i); if (!it || !c || yp) return;
     if (!seen[it.id]) { seen[it.id] = Date.now(); save("progress"); }
+    c.classList.add("loading");
     loadYT().then(YT => {
       if (dead || cur !== i) return;
       const box = document.createElement("div"); $(".fyt", c).replaceChildren(box);
+      c.classList.remove("loading");
       yp = new YT.Player(box, { videoId: it.yt, width: "100%", height: "100%",
         playerVars: { start: Math.floor(it.start), end: Math.ceil(it.end), autoplay: 1, controls: 0, rel: 0, playsinline: 1, modestbranding: 1, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, hl: ui() },
         events: {
@@ -896,12 +904,13 @@ function viewFeed(v) {
       }, 200);
     }).catch(() => { if (cur === i) { const m = $(".fmsg", c); m.hidden = false; m.innerHTML = `<b>${esc(t("video_blocked"))}</b>`; } });
   };
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && e.intersectionRatio > 0.6 && e.target.dataset.i) activate(+e.target.dataset.i); }), { root: feed, threshold: [0.6] });
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting && e.intersectionRatio > 0.6 && e.target.dataset.i) focus(+e.target.dataset.i); }), { root: feed, threshold: [0.6] });
   $$(".fcard[data-i]", feed).forEach(c => io.observe(c));
   feed.addEventListener("click", e => {
     const c = e.target.closest(".fcard[data-i]"); if (!c) return;
     const i = +c.dataset.i, it = FEED[i];
-    if (i !== cur) activate(i);
+    if (i !== cur) focus(i);
+    if (!yp && e.target.closest(".fvid, [data-a=rep], [data-a=slow]")) { activate(i); return; }
     const k = e.target.closest("[data-key]");
     if (k) { const x = it.keys.find(([d]) => d === k.dataset.key); if (x && saveVocab({ de: x[0], ar: x[1], exDe: it.lines[li][1], lesson: it.lesson || "", type: "word" })) { k.classList.add("done"); toast(t("saved")); } return; }
     const a = e.target.closest("[data-a]");
@@ -925,7 +934,7 @@ function viewFeed(v) {
   });
   const tg = (id, key, cls) => $(id, v).onclick = e => { P[key] = !P[key]; e.currentTarget.classList.toggle("on", P[key]); feed.classList.toggle(cls, !P[key]); save("profile"); };
   tg("#fDe", "showDe", "hide-de"); tg("#fAr", "showAr", "hide-ar");
-  requestAnimationFrame(() => { const c = card(first); if (c) feed.scrollTop = c.offsetTop; activate(first); });
+  requestAnimationFrame(() => { const c = card(first); if (c) feed.scrollTop = c.offsetTop; focus(first); });
   viewCleanup = () => { dead = true; io.disconnect(); stopPlayer(); removeEventListener("resize", fit); document.body.classList.remove("feedmode"); };
 }
 
