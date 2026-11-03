@@ -1,0 +1,12 @@
+{
+  "appId": "io.github.rababalhendy2.deutschflow",
+  "appName": "DeutschFlow",
+  "webDir": "www",
+  "server": {
+    "url": "https://rababalhendy2-crypto.github.io/deutschflow/",
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "CapacitorHttp": { "enabled": false }
+  }
+}

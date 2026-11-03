@@ -2607,7 +2607,7 @@ const STR = {
     clip_url: "رابط يوتيوب", clip_title: "عنوان الدرس", clip_text: "النص مع التوقيت",
     clip_help: "في يوتيوب: افتح الوصف ← «إظهار النص» ← انسخ الأسطر مع التوقيت. لإضافة ترجمة عربية اكتبها بعد علامة | في نفس السطر.",
     clip_id_ok: "رابط صالح", clip_id_bad: "لم نتعرّف على الرابط", clip_lines: "{0} جملة من {1} إلى {2}", clip_lines_bad: "لم نجد أسطراً تبدأ بتوقيت مثل 0:05",
-    clip_save: "أنشئ الدرس", no_ex: "لا توجد تمارين لهذا المقطع.",
+    clip_save: "أنشئ الدرس", clip_fetch: "اسحب النص تلقائياً", clip_fetching: "جارٍ سحب النص من يوتيوب…", clip_fetch_ok: "سُحب النص. راجعه وأضف العربية بعد | إذا أردت.", clip_fetch_auto: "هذا النص من ترجمة يوتيوب التلقائية، قد تكون فيه أخطاء.", clip_fetch_none: "هذا الفيديو ليس له نص ألماني على يوتيوب.", clip_fetch_err: "لم ينجح سحب النص. الصق النص يدوياً.", clip_fetch_app: "في تطبيق الأندرويد يكفي لصق الرابط، والنص يُسحب تلقائياً.", no_ex: "لا توجد تمارين لهذا المقطع.",
     au_login: "تسجيل الدخول", au_signup: "إنشاء حساب", au_reset: "استعادة كلمة المرور", au_newpw: "كلمة مرور جديدة",
     au_login_btn: "ادخل", au_signup_btn: "أنشئ الحساب", au_reset_btn: "أرسل رابط الاستعادة", au_newpw_btn: "احفظ كلمة المرور",
     au_email: "البريد الإلكتروني", au_pw: "كلمة المرور", au_newpw_field: "كلمة المرور الجديدة (8 أحرف على الأقل)",
@@ -2676,7 +2676,7 @@ const STR = {
     clip_url: "YouTube-Link", clip_title: "Titel der Lektion", clip_text: "Transkript mit Zeitstempeln",
     clip_help: "Auf YouTube: Beschreibung öffnen → «Transkript anzeigen» → Zeilen mit Zeitstempeln kopieren. Arabische Übersetzung nach einem | in derselben Zeile.",
     clip_id_ok: "Link erkannt", clip_id_bad: "Link nicht erkannt", clip_lines: "{0} Sätze von {1} bis {2}", clip_lines_bad: "Keine Zeilen mit Zeitstempel wie 0:05 gefunden",
-    clip_save: "Lektion erstellen", no_ex: "Für diesen Clip gibt es keine Übungen.",
+    clip_save: "Lektion erstellen", clip_fetch: "Text automatisch holen", clip_fetching: "Text wird von YouTube geholt…", clip_fetch_ok: "Text geholt. Prüfe ihn und füge nach | Arabisch hinzu, wenn du willst.", clip_fetch_auto: "Dieser Text stammt aus YouTubes automatischen Untertiteln und kann Fehler enthalten.", clip_fetch_none: "Dieses Video hat auf YouTube keinen deutschen Text.", clip_fetch_err: "Text konnte nicht geholt werden. Füge ihn von Hand ein.", clip_fetch_app: "In der Android-App reicht der Link, der Text wird automatisch geholt.", no_ex: "Für diesen Clip gibt es keine Übungen.",
     au_login: "Anmelden", au_signup: "Konto erstellen", au_reset: "Passwort zurücksetzen", au_newpw: "Neues Passwort",
     au_login_btn: "Anmelden", au_signup_btn: "Konto erstellen", au_reset_btn: "Link senden", au_newpw_btn: "Passwort speichern",
     au_email: "E-Mail", au_pw: "Passwort", au_newpw_field: "Neues Passwort (mind. 8 Zeichen)",
@@ -3097,12 +3097,45 @@ function rebuildLessons() {
   CUSTOM.length = 0;
   Object.values(S.custom.items).sort((a, b) => a.added - b.added).forEach(c => { const l = customLesson(c); CUSTOM.push(l); LMAP[l.id] = l; });
 }
+/* In the Android app (Capacitor) native HTTP is not bound by browser CORS, so the app can read YouTube's own caption track. */
+const NATIVE_HTTP = () => window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins && window.Capacitor.Plugins.CapacitorHttp;
+async function nativeGet(url) {
+  const r = await NATIVE_HTTP().get({ url, headers: { "Accept-Language": "de-DE,de;q=0.9" }, responseType: "text" });
+  if (r.status >= 400) throw new Error("HTTP " + r.status);
+  return typeof r.data === "string" ? r.data : JSON.stringify(r.data);
+}
+function jsonArrayAfter(src, key) {
+  const i = src.indexOf(key); if (i < 0) return null;
+  let d = 0, q = false, k = i + key.length;
+  for (let j = k; j < src.length; j++) {
+    const c = src[j];
+    if (q) { if (c === "\\") j++; else if (c === '"') q = false; continue; }
+    if (c === '"') q = true; else if (c === "[") d++; else if (c === "]" && --d === 0) return src.slice(k, j + 1);
+  }
+  return null;
+}
+async function fetchYtTranscript(id) {
+  const html = await nativeGet("https://www.youtube.com/watch?v=" + id + "&hl=de");
+  const m = jsonArrayAfter(html, '"captionTracks":');
+  const tm = html.match(/<meta name="title" content="([^"]*)"/);
+  const title = tm ? tm[1].replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'") : "";
+  if (!m) return { title, lines: [] };
+  const tracks = JSON.parse(m).filter(x => /^de/.test(x.languageCode || ""));
+  const tr = tracks.find(x => x.kind !== "asr") || tracks[0];
+  if (!tr) return { title, lines: [] };
+  const j = JSON.parse(await nativeGet(tr.baseUrl.replace(/\\u0026/g, "&") + "&fmt=json3"));
+  const lines = (j.events || []).filter(e => e.segs).map(e => ({ t: Math.floor(e.tStartMs / 1000), de: e.segs.map(x => x.utf8).join("").replace(/\s+/g, " ").trim() }))
+    .filter(x => x.de && !/^[\[(].*[\])]$/.test(x.de));
+  return { title, lines, auto: tr.kind === "asr" };
+}
 function viewAddClip(v) {
   v.innerHTML = `
   <header class="phead"><a class="iconbtn" href="#lessons">${IC.back}</a><h1 class="h1">${esc(t("add_clip"))}</h1></header>
   <p class="muted">${esc(t("add_clip_sub"))}</p>
   <section class="card block form">
     <label for="cUrl">${esc(t("clip_url"))}</label><input id="cUrl" class="search" dir="ltr" placeholder="https://www.youtube.com/watch?v=…">
+    <button class="btn sm" id="cFetch" type="button" ${NATIVE_HTTP() ? "" : "hidden"}>${esc(t("clip_fetch"))}</button>
+    ${NATIVE_HTTP() ? "" : `<p class="muted small">${esc(t("clip_fetch_app"))}</p>`}
     <label for="cTitle">${esc(t("clip_title"))}</label><input id="cTitle" class="search" dir="ltr" lang="de">
     <label for="cText">${esc(t("clip_text"))}</label>
     <textarea id="cText" class="search" rows="9" dir="ltr" lang="de" placeholder="0:05&#10;Na, wie war dein Wochenende? | كيف كانت عطلتك؟&#10;0:08&#10;Ziemlich entspannt."></textarea>
@@ -3124,6 +3157,21 @@ function viewAddClip(v) {
     btn.disabled = !(okId && okLines && title.value.trim());
   };
   [url, title, text].forEach(el => el.oninput = check);
+  const fb = $("#cFetch", v);
+  fb.onclick = async () => {
+    const id = ytId(url.value);
+    if (!id) { check(); return; }
+    fb.disabled = true; prev.textContent = t("clip_fetching");
+    try {
+      const r = await fetchYtTranscript(id);
+      if (!title.value.trim() && r.title) title.value = r.title.slice(0, 120);
+      if (!r.lines.length) { prev.textContent = t("clip_fetch_none"); fb.disabled = false; return; }
+      text.value = r.lines.map(x => fmtClock(x.t) + "\n" + x.de).join("\n");
+      check();
+      prev.innerHTML += "<br>" + esc(t("clip_fetch_ok")) + (r.auto ? "<br>" + esc(t("clip_fetch_auto")) : "");
+    } catch (e) { prev.textContent = t("clip_fetch_err"); }
+    fb.disabled = false;
+  };
   btn.onclick = () => {
     const id = "c-" + Date.now().toString(36);
     const last = parsed[parsed.length - 1];
