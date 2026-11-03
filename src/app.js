@@ -5,6 +5,56 @@
 /* ================= content ================= */
 const LESSONS = (window.DF_LESSONS || []).slice().sort((a, b) => a.n - b.n);
 const LMAP = Object.fromEntries(LESSONS.map(l => [l.id, l]));
+/* Extra practice built from each lesson's own dialogue: dictation, translation, who-said-it, register and a vocabulary gap.
+   Deterministic per lesson (seeded), so the same question keeps its id for mistake statistics. */
+function seeded(seed) { let x = seed >>> 0 || 1; return () => { x ^= x << 13; x >>>= 0; x ^= x >> 17; x ^= x << 5; x >>>= 0; return x / 4294967296; }; }
+function augmentLesson(l) {
+  if (l.xaug || !l.L || l.L.length < 4 || !l.Q) return;
+  l.xaug = true;
+  const rnd = seeded(l.n * 7919 + 13), pick = a => a[Math.floor(rnd() * a.length)];
+  const mix = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+  const lines = l.L.map((x, i) => ({ i, sp: x[0], de: String(x[1] || "").trim(), ar: String(x[2] || "").trim(), reg: x[3], eA: x[4] || "", eD: x[5] || "", voc: Array.isArray(x[6]) ? x[6] : [] })).filter(x => x.de);
+  const wc = x => x.de.split(/\s+/).length;
+  const add = [];
+  // 1. dictation: a mid-length line
+  const dictable = lines.filter(x => wc(x) >= 4 && wc(x) <= 13 && !/[„“"«»]/.test(x.de));
+  if (dictable.length) {
+    const d = pick(dictable);
+    add.push({ k: "dict", d: d.de, g: (l.sp && l.sp[d.sp] && l.sp[d.sp][1]) || "f", w: [d.ar + (d.eA ? " — " + d.eA : ""), d.eD || d.de] });
+  }
+  // 2. translation: Arabic line -> the right German line
+  const withAr = lines.filter(x => x.ar && wc(x) <= 22);
+  if (withAr.length >= 3) {
+    const c = pick(withAr), others = mix(withAr.filter(x => x !== c)).slice(0, 2);
+    const o = mix([c, ...others]);
+    add.push({ k: "trans", ar: c.ar, o: o.map(x => x.de), a: o.indexOf(c), w: [c.eA || "هذه هي الجملة التي تطابق المعنى بالعربية.", c.eD || "Das ist die passende Übersetzung."] });
+  }
+  // 3. who says it?
+  const sp = l.sp ? Object.keys(l.sp) : [];
+  if (sp.length >= 2) {
+    const c = pick(lines.filter(x => wc(x) >= 4 && wc(x) <= 22));
+    if (c && l.sp[c.sp]) {
+      const names = sp.map(k => l.sp[k][0]);
+      add.push({ k: "who", q: "Wer sagt: „" + c.de + "“?", o: names, a: sp.indexOf(c.sp), w: [`قالها ${l.sp[c.sp][0]}. ${c.ar}`, `Das sagt ${l.sp[c.sp][0]}.`] });
+    }
+  }
+  // 4. register: formal / neutral / informal
+  const regs = lines.filter(x => /^[fni]$/.test(x.reg) && wc(x) <= 22);
+  if (regs.length) {
+    const rare = regs.filter(x => x.reg !== "n"), c = pick(rare.length ? rare : regs);
+    add.push({ k: "reg", q: "„" + c.de + "“", o: ["formell", "neutral", "informell"], a: "fni".indexOf(c.reg), reg: true, w: [c.eA || c.ar, c.eD || ""] });
+  }
+  // 5. vocabulary gap inside the original sentence
+  const vocAll = lines.flatMap(x => x.voc.map(v => ({ x, de: String(v[0] || ""), ar: v[1] })));
+  const gappable = vocAll.filter(v => v.de && !/\s/.test(v.de.replace(/^(der|die|das|sich) /, "")) && v.x.de.includes(v.de.replace(/^(der|die|das) /, "")));
+  if (gappable.length >= 3) {
+    const c = pick(gappable), word = c.de.replace(/^(der|die|das) /, "");
+    const others = mix(gappable.filter(v => v.de.replace(/^(der|die|das) /, "") !== word)).map(v => v.de.replace(/^(der|die|das) /, "")).filter((v, i, a) => a.indexOf(v) === i).slice(0, 2);
+    if (others.length === 2) add.push({ k: "gap", q: c.x.de.replace(word, "___"), o: [word, ...others], a: 0, w: [`«${c.de}» = ${c.ar}. ${c.x.ar}`, `«${c.de}» passt hier.`] });
+  }
+  l.Q = l.Q.concat(add);
+}
+LESSONS.forEach(augmentLesson);
 const BASE_IDS = new Set(LESSONS.map(l => l.id));
 const CUSTOM = [];
 const GOAL_LESSONS = { daily: [1, 8, 11, 12, 15, 16, 17, 22, 26, 29, 30], work: [2, 3, 4, 9, 10, 14, 18, 19, 21, 23, 27, 28], exam: [5, 6, 7, 8, 13, 14, 19, 20, 24, 25, 28] };
@@ -47,6 +97,7 @@ const STR = {
     hidden_de: "النص مخفي، استمع وحاول أن تفهم",
     no_voice: "لم نجد صوتاً ألمانياً على جهازك، فقد يكون النطق غير دقيق. أضف صوتاً ألمانياً من إعدادات الجهاز (تحويل النص إلى كلام).",
     no_tts: "متصفحك لا يدعم قراءة النص بصوت. جرّب Chrome أو Safari.",
+    voice_native: "صوت ألماني من محرك النطق في جهازك (Android).", rec_hint_live: "استمع للجملة، ثم اضغط «ابدأ التسجيل»، تكلّم، واضغط «أوقف». بعدها قارن تسجيلك بالنموذج.", rec_start: "ابدأ التسجيل", rec_stop: "أوقف التسجيل", rec_again: "سجّل من جديد", rec_file: "أو اختر ملفاً صوتياً", rec_both: "النموذج ثم تسجيلك", rec_denied: "لم يُسمح باستخدام الميكروفون. فعّله من إعدادات الجهاز أو المتصفح.", k_dict: "إملاء سمعي", k_trans: "ترجمة", k_who: "من قال ذلك؟", k_reg: "درجة الرسمية", dict_hint: "استمع واكتب الجملة الألمانية كما تسمعها. الأحرف الكبيرة وعلامات الترقيم لا تُحتسب.", dict_ph: "اكتب ما تسمعه…", dict_typos: "صحيح، مع أخطاء إملائية بسيطة (المعلَّمة باللون الأصفر).", trans_hint: "اختر الجملة الألمانية التي تعني:", reg_hint: "ما درجة الرسمية في هذه الجملة؟", pl_title: "اختبار تحديد المستوى", pl_sub: "{0} سؤالاً من B1 إلى C1، نحو 5 دقائق. يقترح لك من أين تبدأ.", pl_start: "ابدأ الاختبار", pl_again: "أعد الاختبار", pl_go: "ابدأ من هنا", pl_done_line: "نتيجتك: {0} من {1} · {2}", pl_lv_B2s: "بداية B2", pl_lv_B2: "B2", pl_lv_C1: "قريب من C1", pl_rec_B2s: "ابدأ من الدرس الأول وخذ وقتك مع كل حوار. التمارين والمراجعة ستثبّت الأساس.", pl_rec_B2: "مستواك مناسب لدروس B2. اختر الدروس حسب هدفك وتابع المشاهد الحقيقية.", pl_rec_C1: "أنت جاهز لمحتوى C1. جرّب قسم «الصحة والنفس» وأكمل دروس B2 للمراجعة السريعة.", pl_note: "هذا اختبار قصير للتوجيه فقط، وليس شهادة رسمية.", lg_title: "الخصوصية وحماية البيانات", lg_asof: "آخر تحديث: 3 نوفمبر 2026", lg_contact: "التواصل", back: "رجوع", lg_privacy_html: "<h2 class=\"h2\">ما الذي نحفظه؟</h2><ul><li>بريدك الإلكتروني وكلمة المرور (مشفّرة) لتسجيل الدخول.</li><li>تقدّمك: الدروس، نتائج التمارين، المفردات المحفوظة، وقت التعلّم والإعدادات.</li></ul><h2 class=\"h2\">أين تُحفظ؟</h2><p>في قاعدة بيانات Supabase داخل الاتحاد الأوروبي (فرانكفورت). لا يستطيع أي مستخدم آخر رؤية بياناتك. في وضع «بدون حساب» تبقى البيانات على جهازك فقط.</p><h2 class=\"h2\">ما الذي لا نحفظه؟</h2><ul><li>تسجيلاتك الصوتية تبقى على جهازك ولا تُرفع إلى أي خادم.</li><li>لا إعلانات ولا أدوات تتبّع أو تحليلات.</li><li>النطق يتم بمحرك الكلام في جهازك.</li></ul><h2 class=\"h2\">الفيديوهات</h2><p>المقاطع معروضة من YouTube عبر المشغّل الرسمي. عند تشغيلها قد تجمع Google بيانات حسب سياستها الخاصة.</p><h2 class=\"h2\">حقوقك</h2><p>يمكنك حذف كل بياناتك في أي وقت من صفحة «حسابي» بزر «احذف حسابي وبياناتي».</p>", rm_title: "تذكير يومي", rm_on: "ذكّرني بالتعلّم كل يوم", rm_time: "الوقت", rm_body: "حان وقت 10 دقائق ألمانية 🇩🇪 مشهد واحد يكفي اليوم.", rm_set: "تم ضبط التذكير.", rm_denied: "الإشعارات غير مسموح بها. فعّلها من إعدادات التطبيق.", rm_fail: "تعذّر ضبط التذكير.", del_account: "احذف حسابي وبياناتي", del_local: "احذف بياناتي من هذا الجهاز", del_confirm: "متأكد؟ اضغط مجدداً للحذف النهائي", del_note: "يحذف التقدّم والمفردات والإعدادات نهائياً ولا يمكن التراجع.", del_fail: "تعذّر الحذف. تحقق من الاتصال وحاول مجدداً.", del_done_full: "تم حذف حسابك وكل بياناتك.", del_done_data: "تم حذف كل بياناتك وتسجيل خروجك.",
     register: "درجة الرسمية", reg_f: "رسمي", reg_n: "محايد", reg_i: "غير رسمي",
     meaning: "المعنى في السياق", vocab_h: "مفردات مهمة", example: "مثال إضافي", listen: "استمع", slow: "ببطء",
     save: "احفظ", saved: "محفوظ ✓", save_sentence: "احفظ الجملة",
@@ -125,6 +176,7 @@ const STR = {
     hidden_de: "Text ausgeblendet – hör genau hin",
     no_voice: "Keine deutsche Stimme gefunden, die Aussprache kann ungenau sein. Füge in den Geräteeinstellungen (Text-in-Sprache) eine deutsche Stimme hinzu.",
     no_tts: "Dein Browser unterstützt keine Sprachausgabe. Versuche Chrome oder Safari.",
+    voice_native: "Deutsche Stimme aus der Sprachausgabe deines Geräts (Android).", rec_hint_live: "Hör dir den Satz an, tippe auf „Aufnahme starten“, sprich und tippe auf „Stopp“. Dann vergleiche mit dem Vorbild.", rec_start: "Aufnahme starten", rec_stop: "Aufnahme stoppen", rec_again: "Neu aufnehmen", rec_file: "oder Audiodatei wählen", rec_both: "Vorbild, dann du", rec_denied: "Kein Zugriff auf das Mikrofon. Bitte in den Einstellungen erlauben.", k_dict: "Hördiktat", k_trans: "Übersetzung", k_who: "Wer sagt das?", k_reg: "Register", dict_hint: "Hör zu und schreib den Satz auf. Groß-/Kleinschreibung und Satzzeichen zählen nicht.", dict_ph: "Schreib, was du hörst …", dict_typos: "Richtig, mit kleinen Tippfehlern (gelb markiert).", trans_hint: "Welcher deutsche Satz bedeutet:", reg_hint: "Wie formell ist dieser Satz?", pl_title: "Einstufungstest", pl_sub: "{0} Fragen von B1 bis C1, ca. 5 Minuten. Der Test schlägt dir einen Startpunkt vor.", pl_start: "Test starten", pl_again: "Test wiederholen", pl_go: "Hier starten", pl_done_line: "Ergebnis: {0} von {1} · {2}", pl_lv_B2s: "Beginnendes B2", pl_lv_B2: "B2", pl_lv_C1: "Nah an C1", pl_rec_B2s: "Starte mit Lektion 1 und nimm dir Zeit für jeden Dialog. Übungen und Wiederholung festigen die Basis.", pl_rec_B2: "Die B2-Lektionen passen zu dir. Wähle nach deinem Ziel und schau die echten Szenen.", pl_rec_C1: "Du bist bereit für C1. Probier den Bereich „Gesundheit & Psyche“ und nutze B2 zur Wiederholung.", pl_note: "Kurzer Orientierungstest, kein offizielles Zertifikat.", lg_title: "Datenschutz", lg_asof: "Stand: 3. November 2026", lg_contact: "Kontakt", back: "Zurück", lg_privacy_html: "<h2 class=\"h2\">Was speichern wir?</h2><ul><li>E-Mail und Passwort (verschlüsselt) für die Anmeldung.</li><li>Deinen Fortschritt: Lektionen, Übungsergebnisse, gespeicherte Wörter, Lernzeit und Einstellungen.</li></ul><h2 class=\"h2\">Wo?</h2><p>In einer Supabase-Datenbank in der EU (Frankfurt). Andere Nutzer können deine Daten nicht sehen. Ohne Konto bleiben die Daten nur auf deinem Gerät.</p><h2 class=\"h2\">Was speichern wir nicht?</h2><ul><li>Sprachaufnahmen bleiben auf deinem Gerät und werden nicht hochgeladen.</li><li>Keine Werbung, kein Tracking, keine Analyse-Tools.</li><li>Die Aussprache kommt aus der Sprachausgabe deines Geräts.</li></ul><h2 class=\"h2\">Videos</h2><p>Die Clips werden über den offiziellen YouTube-Player eingebettet. Beim Abspielen kann Google Daten nach eigener Richtlinie verarbeiten.</p><h2 class=\"h2\">Deine Rechte</h2><p>Du kannst alle Daten jederzeit unter „Profil“ mit „Konto und Daten löschen“ entfernen.</p>", rm_title: "Tägliche Erinnerung", rm_on: "Jeden Tag ans Lernen erinnern", rm_time: "Uhrzeit", rm_body: "Zeit für 10 Minuten Deutsch 🇩🇪 Eine Szene reicht heute.", rm_set: "Erinnerung gestellt.", rm_denied: "Benachrichtigungen sind nicht erlaubt. Bitte in den App-Einstellungen aktivieren.", rm_fail: "Erinnerung konnte nicht gestellt werden.", del_account: "Konto und Daten löschen", del_local: "Daten auf diesem Gerät löschen", del_confirm: "Sicher? Nochmal tippen zum endgültigen Löschen", del_note: "Löscht Fortschritt, Wörter und Einstellungen endgültig.", del_fail: "Löschen fehlgeschlagen. Bitte Verbindung prüfen.", del_done_full: "Dein Konto und alle Daten wurden gelöscht.", del_done_data: "Alle Daten wurden gelöscht und du bist abgemeldet.",
     register: "Register", reg_f: "formell", reg_n: "neutral", reg_i: "informell",
     meaning: "Bedeutung im Kontext", vocab_h: "Wichtige Wörter", example: "Weiteres Beispiel", listen: "Anhören", slow: "Langsam",
     save: "Speichern", saved: "Gespeichert ✓", save_sentence: "Satz speichern",
@@ -216,6 +268,7 @@ function wordsHTML(text) {
   return out;
 }
 let toastT;
+function alertDone(full) { try { sessionStorage.setItem("df_deleted", full ? "full" : "data"); } catch (e) {} location.hash = "home"; location.reload(); }
 function toast(msg, ms = 2600) { const el = $("#toast"); el.textContent = msg; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { el.hidden = true; }, ms); }
 function fmtMin(sec) { const m = Math.round(sec / 60); return m < 60 ? `${m} ${t("min_short")}` : `${Math.floor(m / 60)}:${String(m % 60).padStart(2, "0")} h`; }
 function fmtDate(ts) { return new Date(ts).toLocaleDateString(ui() === "de" ? "de-DE" : "ar", { weekday: "short", day: "numeric", month: "short" }); }
@@ -419,8 +472,37 @@ function voiceFor(g) {
   return deVoices.find(v => re.test(v.name)) || deVoices[g === "f" ? 0 : Math.min(1, deVoices.length - 1)];
 }
 let speechRun = 0;
-function stopSpeech() { speechRun++; speaking = false; if (synth) synth.cancel(); document.dispatchEvent(new Event("df:stop")); }
+/* In the Android app the WebView has no speechSynthesis, so speech goes through the native TTS plugin. */
+const NTTS = () => window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech;
+let nativeRange = null, nativeVoices = null;
+async function nativeVoiceFor(g) {
+  const T = NTTS();
+  if (!nativeVoices) {
+    nativeVoices = [];
+    try { const r = await T.getSupportedVoices(); nativeVoices = (r.voices || []).map((v, i) => ({ ...v, i })).filter(v => /^de([-_]|$)/i.test(v.lang || "")); } catch (e) {}
+  }
+  if (!nativeVoices.length) return undefined;
+  const re = g === "f" ? FEMALE : MALE;
+  const hit = nativeVoices.find(v => re.test(v.name || "") || re.test(v.voiceURI || ""));
+  return (hit || nativeVoices[g === "f" ? 0 : Math.min(1, nativeVoices.length - 1)]).i;
+}
+async function speakNative(text, rate, g, onWord) {
+  const T = NTTS();
+  if (!nativeRange && T.addListener) {
+    try { nativeRange = await T.addListener("onRangeStart", e => { if (nativeRange && nativeRange.cb) nativeRange.cb(e.start); }); } catch (e) { nativeRange = {}; }
+  }
+  if (nativeRange) nativeRange.cb = onWord || null;
+  const voice = await nativeVoiceFor(g);
+  const distinct = nativeVoices && nativeVoices.length > 1;
+  try {
+    await T.speak({ text, lang: "de-DE", rate: Math.max(0.4, Math.min(1.6, rate)), pitch: distinct ? 1 : (g === "f" ? 1.12 : 0.85), volume: 1, voice, category: "playback" });
+    return true;
+  } catch (e) { return false; }
+  finally { if (nativeRange) nativeRange.cb = null; }
+}
+function stopSpeech() { speechRun++; speaking = false; if (synth) synth.cancel(); const T = NTTS(); if (T) T.stop().catch(() => {}); document.dispatchEvent(new Event("df:stop")); }
 function speak(text, { rate = S.profile.rate, g = "f", onWord } = {}) {
+  if (NTTS()) { speaking = true; lastInput = Date.now(); return speakNative(text, rate, g, onWord).then(r => { speaking = false; return r; }); }
   return new Promise(res => {
     if (!synth) { toast(t("no_tts"), 4000); return res(false); }
     if (!deVoices.length && !voiceWarned) { voiceWarned = true; toast(t("no_voice"), 6000); }
@@ -501,10 +583,41 @@ function statusChip(l) {
   if (p?.opened) return `<span class="chip warn">${esc(t("opened_l"))}</span>`;
   return `<span class="chip">${esc(t("new_l"))}</span>`;
 }
+/* Lesson cover art: a video lesson shows its own YouTube still; a dialogue lesson gets a drawn topic icon on its own colour. */
+const TOPIC_ART = {
+  1: '<path d="M21 11.5a8.4 8.4 0 0 1-12 7.6L3 21l1.9-5.7A8.4 8.4 0 1 1 21 11.5z"/><path d="M8 10h8M8 14h5"/>',
+  2: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+  3: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/>',
+  4: '<circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/><path d="M12 11l-1.2 3 1.2 4 1.2-4z"/>',
+  5: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
+  6: '<path d="M3 21h18M5 21V10M19 21V10M9 21v-7M15 21v-7M2 10l10-7 10 7z"/>',
+  7: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',
+  8: '<path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/>',
+  9: '<path d="M12 3v18M5 7h14M5 7l-3 7a3 3 0 0 0 6 0zM19 7l-3 7a3 3 0 0 0 6 0zM8 21h8"/>',
+  10: '<path d="M11 17l2 2a1.4 1.4 0 0 0 2-2"/><path d="M14 14l2.5 2.5a1.4 1.4 0 0 0 2-2l-3.9-3.9a2.1 2.1 0 0 0-3 0l-.9.9a1.4 1.4 0 0 1-2-2l2.8-2.8a5.2 5.2 0 0 1 6.2-.8l.5.3a3 3 0 0 0 2 .4H21v8M3 4h2l.9.9M21 15h-2M3 4v9l6.5 6.5a1.4 1.4 0 0 0 2-2"/>',
+  11: '<path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/>',
+  12: '<path d="M4 7h4a2 2 0 1 1 4 0h4v4a2 2 0 1 1 0 4v4h-4a2 2 0 1 0-4 0H4v-4a2 2 0 1 0 0-4z"/>',
+  13: '<path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/>',
+  14: '<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>',
+  15: '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>',
+  16: '<path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/>',
+  17: '<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h0"/>',
+  18: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  19: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/>',
+  20: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>'
+};
+function coverHTML(l) {
+  const num = l.custom ? "▶" : String(l.n).padStart(2, "0");
+  const yt = l.video && l.video.yt;
+  if (yt) return `<span class="lcover photo" style="background-image:url('https://i.ytimg.com/vi/${encodeURIComponent(yt)}/mqdefault.jpg')"><em lang="de">${num}</em></span>`;
+  const hue = (l.n * 47 + 200) % 360;
+  const icon = TOPIC_ART[l.n] || TOPIC_ART[1];
+  return `<span class="lcover" style="--hue:${hue}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icon}</svg><em lang="de">${num}</em></span>`;
+}
 function lessonCard(l) {
   const p = S.progress.lessons[l.id] || {};
   return `<a class="lcard" href="#lesson-${l.id}">
-    <span class="lnum" lang="de">${l.custom ? "▶" : String(l.n).padStart(2, "0")}</span>
+    ${coverHTML(l)}
     <span class="lbody"><span class="ltopic">${esc(l.topic[ui() === "de" ? 1 : 0])}</span>
       <span class="ltitle" lang="de" dir="ltr">${esc(l.title)}</span>
       <span class="lmeta">${statusChip(l)}${l.video ? `<span class="chip vid">${esc(t("video_badge"))}</span>` : ""}${p.videoError ? `<span class="chip bad">${esc(t("video_gone"))}</span>` : ""}<span class="muted">${l.L.length} · ${l.Q.length} ${ui() === "de" ? "Übungen" : "تمارين"}</span></span></span>
@@ -674,19 +787,20 @@ function route() {
   const h = decodeURIComponent((location.hash || "#feed").slice(1));
   if (h.startsWith("lesson-")) return { name: "lesson", id: h.slice(7) };
   if (h.startsWith("health-")) return { name: "htopic", id: h.slice(7) };
-  return { name: ["feed", "home", "lessons", "vocab", "review", "stats", "profile", "addclip", "health"].includes(h) ? h : "feed" };
+  return { name: ["feed", "home", "lessons", "vocab", "review", "stats", "profile", "addclip", "health", "placement", "legal"].includes(h) ? h : "feed" };
 }
 let viewCleanup = null;
 function render() {
+  if (recStop) recStop();
   stopSpeech(); flushTime(); closeSheet(true);
   if (viewCleanup) { viewCleanup(); viewCleanup = null; }
   if (dialogCleanup) { dialogCleanup(); dialogCleanup = null; }
   const r = route();
-  const nav = ["lesson", "addclip", "health", "htopic"].includes(r.name) ? "lessons" : r.name === "review" ? "vocab" : r.name;
+  const nav = ["lesson", "addclip", "health", "htopic"].includes(r.name) ? "lessons" : r.name === "review" ? "vocab" : ["placement", "legal"].includes(r.name) ? "profile" : r.name;
   $$(".nav a").forEach(a => a.classList.toggle("on", a.dataset.r === nav));
   const v = $("#view");
   v.scrollTop = 0; window.scrollTo(0, 0);
-  ({ feed: viewFeed, home: viewHome, lessons: viewLessons, lesson: viewLesson, vocab: viewVocab, review: viewReview, stats: viewStats, profile: viewProfile, addclip: viewAddClip, health: viewHealth, htopic: viewHealthTopic })[r.name](v, r);
+  ({ feed: viewFeed, home: viewHome, lessons: viewLessons, lesson: viewLesson, vocab: viewVocab, review: viewReview, stats: viewStats, profile: viewProfile, addclip: viewAddClip, health: viewHealth, htopic: viewHealthTopic, placement: viewPlacement, legal: viewLegal })[r.name](v, r);
 }
 addEventListener("hashchange", render);
 
@@ -845,6 +959,7 @@ function viewHome(v) {
     <a class="tile ${due ? "hot" : ""}" href="#review"><b>${due}</b><span>${esc(t("due_today"))}</span></a>
     <div class="tile"><b>${st.cur}</b><span>${esc(t("streak"))}</span></div>
   </section>
+  ${placementCard()}
   <section class="block">${c1Card()}</section>
   ${last ? `<section class="block"><h2 class="h2">${esc(t("last_opened"))}</h2>${lessonCard(last)}</section>` : ""}
   ${LESSONS.some(l => l.src) ? `<section class="block"><div class="row-between"><h2 class="h2">${esc(t("real_scenes"))}</h2><a class="btn sm" href="#lessons">${esc(t("all"))}</a></div><p class="muted small">${esc(t("real_scenes_sub"))}</p><div class="lgrid">${LESSONS.filter(l => l.src && !S.progress.lessons[l.id]?.done).slice(0, 3).map(lessonCard).join("") || LESSONS.filter(l => l.src).slice(0, 3).map(lessonCard).join("")}</div></section>` : ""}
@@ -1248,24 +1363,45 @@ function openLineSheet(l, i) {
   });
   bindRecorder(sh, de, g);
 }
+const CAN_REC = () => !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
 function recorderHTML() {
-  return `<section class="rec"><h3 class="h3">${IC.mic} ${esc(t("rec_title"))}</h3><p class="muted small">${esc(t("rec_hint"))}</p>
-    <div class="row wrap"><label class="btn sm primary" for="recFile">${IC.mic}<span>${esc(t("rec_btn"))}</span></label>
+  return `<section class="rec"><h3 class="h3">${IC.mic} ${esc(t("rec_title"))}</h3><p class="muted small">${esc(t(CAN_REC() ? "rec_hint_live" : "rec_hint"))}</p>
+    <div class="row wrap">${CAN_REC() ? `<button class="btn sm primary" id="recLive">${IC.mic}<span>${esc(t("rec_start"))}</span></button>` : ""}
+    <label class="btn sm ${CAN_REC() ? "ghost" : "primary"}" for="recFile">${IC.mic}<span>${esc(t(CAN_REC() ? "rec_file" : "rec_btn"))}</span></label>
     <input type="file" id="recFile" accept="audio/*" capture class="visually-hidden"></div>
     <div id="recOut" hidden></div><p class="muted small">${esc(t("rec_note"))}</p></section>`;
 }
-let recUrl = null;
+let recUrl = null, recStop = null;
 function bindRecorder(root, de, g) {
-  const input = $("#recFile", root), out = $("#recOut", root);
-  input.onchange = () => {
-    const f = input.files && input.files[0]; if (!f) return;
+  const input = $("#recFile", root), out = $("#recOut", root), live = $("#recLive", root);
+  const show = blob => {
     if (recUrl) URL.revokeObjectURL(recUrl);
-    recUrl = URL.createObjectURL(f);
+    recUrl = URL.createObjectURL(blob);
     out.hidden = false;
     out.innerHTML = `<div class="cmp"><div><span class="eyebrow">${esc(t("rec_model"))}</span><p lang="de" dir="ltr" class="cmp-de">${esc(de)}</p><button class="btn sm" id="recModel">${IC.speak}<span>${esc(t("listen"))}</span></button></div>
-      <div><span class="eyebrow">${esc(t("rec_yours"))}</span><audio controls src="${recUrl}"></audio></div></div>`;
+      <div><span class="eyebrow">${esc(t("rec_yours"))}</span><audio controls src="${recUrl}"></audio><button class="btn sm" id="recBoth">${IC.play}<span>${esc(t("rec_both"))}</span></button></div></div>`;
     $("#recModel", out).onclick = () => sayInto(de, null, { g });
-    input.value = "";
+    $("#recBoth", out).onclick = async () => { await sayInto(de, null, { g }); await wait(400); const a = $("audio", out); if (a) { a.currentTime = 0; a.play().catch(() => {}); } };
+  };
+  input.onchange = () => { const f = input.files && input.files[0]; if (!f) return; show(f); input.value = ""; };
+  if (!live) return;
+  live.onclick = async () => {
+    if (recStop) { recStop(); return; }
+    stopSpeech();
+    let stream;
+    try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+    catch (e) { toast(t("rec_denied"), 5000); return; }
+    const chunks = [], mr = new MediaRecorder(stream);
+    mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+    const auto = setTimeout(() => recStop && recStop(), 30000);
+    recStop = () => { clearTimeout(auto); recStop = null; try { mr.stop(); } catch (e) {} };
+    mr.onstop = () => {
+      stream.getTracks().forEach(x => x.stop());
+      live.classList.remove("recording"); $("span", live).textContent = t("rec_again");
+      if (chunks.length) show(new Blob(chunks, { type: mr.mimeType || "audio/webm" }));
+    };
+    mr.start();
+    live.classList.add("recording"); $("span", live).textContent = t("rec_stop");
   };
 }
 
@@ -1282,6 +1418,21 @@ function renderExpr(l, box) {
   });
 }
 
+/* Dictation check: case and punctuation do not count; a few letter slips across the sentence still pass, marked as typos. */
+function dictNorm(w) { return w.toLowerCase().replace(/[.,!?;:„“"«»()…–-]/g, "").replace(/ß/g, "ss").replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue"); }
+function lev(a, b) { const d = Array.from({ length: a.length + 1 }, (_, i) => [i]); for (let j = 1; j <= b.length; j++) d[0][j] = j; for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[a.length][b.length]; }
+function dictCompare(target, typed) {
+  const T = target.split(/\s+/).filter(Boolean), U = typed.trim().split(/\s+/).filter(Boolean);
+  let dist = 0, html = "";
+  T.forEach((w, i) => {
+    const u = U[i] || "", a = dictNorm(w), b = dictNorm(u), d = lev(a, b);
+    dist += d;
+    html += (i ? " " : "") + (d === 0 ? `<span class="dok">${esc(u || w)}</span>` : d <= 1 && a.length > 3 ? `<span class="dnear" title="${esc(w)}">${esc(u)}</span>` : `<span class="dbad">${esc(u || "—")}</span><sup>${esc(w)}</sup>`);
+  });
+  const total = dictNorm(T.join(""));
+  const ok = U.length === T.length && dist <= Math.max(1, Math.floor(total.length / 25));
+  return { ok, typos: dist > 0, html };
+}
 /* ----- exercises ----- */
 const ES = {};
 function renderExercises(l, box) {
@@ -1328,8 +1479,9 @@ function renderExercises(l, box) {
   if (q.o) {
     const opts = shuffle(q.o.map((o, i) => ({ o, i })));
     qb.innerHTML = `${q.k === "listen" ? `<button class="btn sm" id="qListen">${IC.speak}<span>${esc(t("replay_dialog"))}</span></button>` : ""}
-      <p class="qtext" lang="de" dir="ltr">${esc(q.q).replace("___", '<span class="gap">_____</span>')}</p>
-      <div class="opts">${opts.map(x => `<button class="opt" data-i="${x.i}" lang="de" dir="ltr">${esc(x.o)}</button>`).join("")}</div>`;
+      ${q.ar ? `<p class="muted small">${esc(t("trans_hint"))}</p><p class="qtext" lang="ar" dir="rtl">${esc(q.ar)}</p>` : q.reg ? `<p class="muted small">${esc(t("reg_hint"))}</p><p class="qtext" lang="de" dir="ltr">${esc(q.q)}</p><button class="btn sm" id="qSay">${IC.speak}<span>${esc(t("listen"))}</span></button>` : `<p class="qtext" lang="de" dir="ltr">${esc(q.q).replace("___", '<span class="gap">_____</span>')}</p>`}
+      <div class="opts">${opts.map(x => `<button class="opt" data-i="${x.i}" lang="de" dir="ltr">${esc(q.reg ? t("reg_" + "fni"[x.i]) : x.o)}</button>`).join("")}</div>`;
+    if (q.reg) $("#qSay", qb).onclick = () => sayInto(q.q.replace(/[„“]/g, ""), null);
     if (q.k === "listen") $("#qListen", qb).onclick = async () => { stopSpeech(); const my = speechRun; for (const x of l.L) { await speak(x[1], { g: l.sp[x[0]][1] }); if (my !== speechRun) return; await wait(300); } };
     const reset = () => { fb.hidden = true; nav.innerHTML = ""; $$(".opt", qb).forEach(b => { b.disabled = false; b.className = "opt"; }); };
     $$(".opt", qb).forEach(b => b.onclick = () => {
@@ -1355,6 +1507,25 @@ function renderExercises(l, box) {
       else { anyWrong = true; b.classList.add("shake", "wrongpick"); setTimeout(() => b.classList.remove("shake", "wrongpick"), 600); }
       if (matched === q.p.length) { record(!anyWrong); feedback(true, null); if (anyWrong) { fb.className = "fb mixed"; } }
     });
+  } else if (q.k === "dict") {
+    qb.innerHTML = `<p class="muted">${esc(t("dict_hint"))}</p>
+      <div class="row wrap"><button class="btn sm primary" id="dPlay">${IC.speak}<span>${esc(t("listen"))}</span></button><button class="btn sm" id="dSlow">${IC.speak}<span>${esc(t("slow"))}</span></button></div>
+      <textarea id="dIn" class="dictin" rows="3" lang="de" dir="ltr" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="${esc(t("dict_ph"))}"></textarea>
+      <div class="umls" lang="de" dir="ltr">${["ä", "ö", "ü", "ß", "Ä", "Ö", "Ü"].map(c => `<button class="tok" data-c="${c}">${c}</button>`).join("")}</div>
+      <div id="dOut"></div>
+      <div class="row-end"><button class="btn primary sm" id="dCheck">${esc(t("check"))}</button></div>`;
+    const inp = $("#dIn", qb);
+    $("#dPlay", qb).onclick = () => sayInto(q.d, null, { g: q.g });
+    $("#dSlow", qb).onclick = () => sayInto(q.d, null, { g: q.g, rate: 0.6 });
+    $$("[data-c]", qb).forEach(b => b.onclick = () => { const p = inp.selectionStart ?? inp.value.length; inp.value = inp.value.slice(0, p) + b.dataset.c + inp.value.slice(inp.selectionEnd ?? p); inp.focus(); inp.selectionStart = inp.selectionEnd = p + 1; });
+    $("#dCheck", qb).onclick = () => {
+      if (!inp.value.trim()) { inp.focus(); return; }
+      const r = dictCompare(q.d, inp.value);
+      record(r.ok);
+      $("#dOut", qb).innerHTML = `<p class="dictres" lang="de" dir="ltr">${r.html}</p>${r.ok && r.typos ? `<p class="muted small">${esc(t("dict_typos"))}</p>` : ""}${r.ok ? "" : `<p class="solution" lang="de" dir="ltr">✓ ${esc(q.d)}</p>`}`;
+      $("#dCheck", qb).disabled = true;
+      feedback(r.ok, () => { $("#dOut", qb).innerHTML = ""; $("#dCheck", qb).disabled = false; fb.hidden = true; nav.innerHTML = ""; inp.focus(); });
+    };
   } else if (q.s) {
     const words = q.s.split(" ");
     let pool = shuffle(words.map((w, i) => ({ w, i })));
@@ -1512,12 +1683,103 @@ function viewStats(v) {
     <div class="legend">${["new", "learning", "mastered"].map(k => `<span><i class="s-${k}"></i>${esc(t("st_" + k))} ${vc[k]}</span>`).join("")}</div>` : `<p class="muted">${esc(t("no_data"))}</p>`}</section>
   <section class="card block"><h2 class="h2">${esc(t("mistakes"))}</h2>
     ${kinds.length ? `<ul class="kbars">${kinds.map(k => `<li><span>${esc(t("k_" + k.k))}</span><span class="kb"><i style="width:${Math.round(k.rate * 100)}%"></i></span><small class="muted">${esc(t("wrong_n", k.wrong, k.n))}</small></li>`).join("")}</ul>` : `<p class="muted">${esc(t("mistakes_empty"))}</p>`}
-    ${topWrong.length ? `<ul class="wlist">${topWrong.map(x => `<li><a href="#lesson-${x.l.id}"><span class="muted">${x.l.n} · ${esc(t("k_" + x.q.k))} · ${x.n}×</span><span lang="de" dir="ltr">${esc(x.q.q || x.q.s || x.q.p.map(p => p[0]).join(", "))}</span></a></li>`).join("")}</ul>` : ""}
+    ${topWrong.length ? `<ul class="wlist">${topWrong.map(x => `<li><a href="#lesson-${x.l.id}"><span class="muted">${x.l.n} · ${esc(t("k_" + x.q.k))} · ${x.n}×</span><span lang="de" dir="ltr">${esc(x.q.q || x.q.s || x.q.d || x.q.ar || (x.q.p || []).map(p => p[0]).join(", "))}</span></a></li>`).join("")}</ul>` : ""}
   </section>`;
 }
 
+/* ----- placement test ----- */
+const PLACE = window.DF_PLACEMENT || [];
+let PS = null;
+function placementCard() {
+  if (!PLACE.length) return "";
+  const pl = S.profile.placement;
+  return `<section class="block card placecard"><div class="row-between"><div><h2 class="h2">${esc(t("pl_title"))}</h2>
+    <p class="muted small">${esc(pl ? t("pl_done_line", pl.score, PLACE.length, t("pl_lv_" + pl.lv)) : t("pl_sub", PLACE.length))}</p></div>
+    <a class="btn sm ${pl ? "ghost" : "primary"}" href="#placement">${esc(pl ? t("pl_again") : t("pl_start"))}</a></div></section>`;
+}
+function placementResult(right, byLv) {
+  if (right >= 12 && byLv.C1 >= 3) return "C1";
+  if (right >= 7) return "B2";
+  return "B2s";
+}
+function viewPlacement(v) {
+  if (!PS) PS = { i: 0, right: 0, byLv: { B1: 0, B2: 0, C1: 0 }, answered: false };
+  const st = PS;
+  if (st.i >= PLACE.length) {
+    const lv = placementResult(st.right, st.byLv);
+    if (!st.saved) { st.saved = true; S.profile.placement = { score: st.right, lv, at: Date.now() }; save("profile"); }
+    const go = lv === "C1" ? "#health" : lv === "B2" ? "#lessons" : "#lesson-" + (LESSONS[0] && LESSONS[0].id);
+    v.innerHTML = `<section class="card center result"><span class="eyebrow">${esc(t("pl_title"))}</span>
+      <div class="ring" style="--p:${Math.round(st.right / PLACE.length * 100)}"><b>${st.right}/${PLACE.length}</b></div>
+      <h2 class="h2">${esc(t("pl_lv_" + lv))}</h2><p>${esc(t("pl_rec_" + lv))}</p>
+      <p class="muted small">B1 ${st.byLv.B1}/3 · B2 ${st.byLv.B2}/7 · C1 ${st.byLv.C1}/5</p>
+      <p class="muted small">${esc(t("pl_note"))}</p>
+      <div class="row wrap center-row"><button class="btn ghost" id="plAgain">${esc(t("pl_again"))}</button><a class="btn primary" href="${go}">${esc(t("pl_go"))}</a></div></section>`;
+    $("#plAgain", v).onclick = () => { PS = null; viewPlacement(v); };
+    return;
+  }
+  const q = PLACE[st.i];
+  const opts = shuffle(q.o.map((o, i) => ({ o, i })));
+  v.innerHTML = `<header class="phead"><h1 class="h1">${esc(t("pl_title"))}</h1><p class="muted">${esc(t("pl_sub", PLACE.length))}</p></header>
+    <section class="excard"><span class="eyebrow">${esc(t("q_of", st.i + 1, PLACE.length))}</span>
+    <div class="track"><i style="width:${st.i / PLACE.length * 100}%"></i></div>
+    <p class="qtext" lang="de" dir="ltr">${esc(q.q).replace("___", '<span class="gap">_____</span>')}</p>
+    <div class="opts">${opts.map(x => `<button class="opt" data-i="${x.i}" lang="de" dir="ltr">${esc(x.o)}</button>`).join("")}</div>
+    <div id="fb" class="fb" hidden></div><div class="row-end" id="qnav"></div></section>`;
+  $$(".opt", v).forEach(b => b.onclick = () => {
+    const ok = +b.dataset.i === q.a;
+    if (ok) { st.right++; st.byLv[q.lv]++; }
+    $$(".opt", v).forEach(x => { x.disabled = true; if (+x.dataset.i === q.a) x.classList.add("right"); });
+    if (!ok) b.classList.add("wrongpick");
+    const fb = $("#fb", v); fb.hidden = false; fb.className = "fb " + (ok ? "good" : "bad");
+    fb.innerHTML = `<b>${esc(ok ? t("correct") : t("wrong"))}</b><p>${esc(ex(q.w))}</p>`;
+    $("#qnav", v).innerHTML = `<button class="btn primary" id="plNext">${esc(st.i === PLACE.length - 1 ? t("finish") : t("next_q"))}</button>`;
+    $("#plNext", v).onclick = () => { st.i++; viewPlacement(v); };
+  });
+}
+
+/* ----- privacy, legal notice ----- */
+// Contact and Impressum details are filled in by the site owner; the sections stay hidden until they are set.
+const OWNER = { contact: "", impressum: "" };
+function viewLegal(v) {
+  v.innerHTML = `<header class="phead"><h1 class="h1">${esc(t("lg_title"))}</h1><p class="muted small">${esc(t("lg_asof"))}</p></header>
+    <section class="card block legal">${t("lg_privacy_html")}</section>
+    ${OWNER.contact ? `<section class="card block"><h2 class="h2">${esc(t("lg_contact"))}</h2><p dir="ltr">${esc(OWNER.contact)}</p></section>` : ""}
+    ${OWNER.impressum ? `<section class="card block"><h2 class="h2">Impressum</h2><p dir="ltr" style="white-space:pre-line">${esc(OWNER.impressum)}</p></section>` : ""}
+    <section class="block"><a class="btn ghost" href="#profile">${esc(t("back"))}</a></section>`;
+}
+
+/* ----- daily reminder (Android app only) ----- */
+const LNOTE = () => window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications;
+async function applyReminder() {
+  const N = LNOTE(); if (!N) return false;
+  const r = S.profile.remind || { on: false, h: 19, m: 0 };
+  try {
+    await N.cancel({ notifications: [{ id: 7001 }] }).catch(() => {});
+    if (!r.on) return true;
+    const perm = await N.requestPermissions();
+    if (perm && perm.display && perm.display !== "granted") { toast(t("rm_denied"), 5000); return false; }
+    await N.schedule({ notifications: [{ id: 7001, title: "DeutschFlow", body: t("rm_body"), schedule: { on: { hour: r.h, minute: r.m }, repeats: true } }] });
+    return true;
+  } catch (e) { toast(t("rm_fail"), 4000); return false; }
+}
+
+/* ----- delete account ----- */
+async function deleteEverything() {
+  if (backend.mode === "supa") {
+    const { error } = await sb.from("user_docs").delete().eq("user_id", backend.uid);
+    if (error) throw error;
+    let full = false;
+    try { const r = await sb.rpc("delete_my_account"); full = !r.error; } catch (e) {}
+    try { await sb.auth.signOut(); } catch (e) {}
+    return full;
+  }
+  if (backend.mode === "local") DOCS.forEach(n => { try { localStorage.removeItem(LOCAL_KEY + n); } catch (e) {} });
+  return true;
+}
+
 /* ----- profile / settings ----- */
-let resetArmed = false;
+let resetArmed = false, deleteArmed = false;
 async function viewProfile(v) {
   const P = S.profile;
   const sel = (id, val, opts) => `<select id="${id}">${opts.map(([k, lab]) => `<option value="${k}" ${String(val) === String(k) ? "selected" : ""}>${esc(lab)}</option>`).join("")}</select>`;
@@ -1535,10 +1797,15 @@ async function viewProfile(v) {
     <label>${esc(t("def_speed"))}${sel("sRate", P.rate, [[0.6, "0.6×"], [0.8, "0.8×"], [1, "1×"], [1.2, "1.2×"]])}</label>
   </section>
   <section class="card block"><h2 class="h2">${esc(t("voice"))}</h2>
-    <p>${deVoices.length ? esc(deVoices.slice(0, 3).map(x => x.name).join(" · ")) : esc(t("voice_none"))}</p>
+    <p>${NTTS() ? esc(t("voice_native")) : deVoices.length ? esc(deVoices.slice(0, 3).map(x => x.name).join(" · ")) : esc(t("voice_none"))}</p>
     <button class="btn sm" id="sVoice">${IC.speak}<span>${esc(t("test_voice"))}</span></button></section>
-  <section class="card block"><h2 class="h2">${esc(t("about"))}</h2><p>${esc(t("about_body"))}</p></section>
-  <section class="block"><button class="btn danger" id="sReset">${esc(resetArmed ? t("reset_confirm") : t("reset_all"))}</button></section>`;
+  ${LNOTE() ? `<section class="card block form"><h2 class="h2">${esc(t("rm_title"))}</h2>
+    <label class="row"><input type="checkbox" id="sRemOn" ${P.remind && P.remind.on ? "checked" : ""}> ${esc(t("rm_on"))}</label>
+    <label>${esc(t("rm_time"))}${sel("sRemAt", (P.remind ? P.remind.h : 19), [7, 8, 9, 12, 13, 17, 18, 19, 20, 21, 22].map(h => [h, String(h).padStart(2, "0") + ":00"]))}</label></section>` : ""}
+  ${placementCard()}
+  <section class="card block"><h2 class="h2">${esc(t("about"))}</h2><p>${esc(t("about_body"))}</p><a class="btn sm ghost" href="#legal">${esc(t("lg_title"))}</a></section>
+  <section class="block"><button class="btn danger" id="sReset">${esc(resetArmed ? t("reset_confirm") : t("reset_all"))}</button></section>
+  ${backend.mode !== "cloud" ? `<section class="block"><button class="btn danger" id="sDelete">${esc(deleteArmed ? t("del_confirm") : t(backend.mode === "supa" ? "del_account" : "del_local"))}</button><p class="muted small">${esc(t("del_note"))}</p></section>` : ""}`;
   const bind = (id, key, num, after) => { $(id, v).onchange = e => { P[key] = num ? +e.target.value : e.target.value; save("profile"); if (after) after(); }; };
   bind("#sUi", "uiLang", false, () => { applyChrome(); viewProfile(v); });
   bind("#sExpl", "explLang");
@@ -1548,6 +1815,16 @@ async function viewProfile(v) {
   if ($("#sLogout", v)) $("#sLogout", v).onclick = async () => { await flush(); try { await sb.auth.signOut(); } catch (e) {} location.hash = "home"; location.reload(); };
   if ($("#sLogin", v)) $("#sLogin", v).onclick = () => { location.hash = "home"; location.reload(); };
   $("#sVoice", v).onclick = () => sayInto("Da muss ich noch einmal eine Nacht drüber schlafen.", null);
+  if ($("#sRemOn", v)) {
+    const upd = async () => { P.remind = { on: $("#sRemOn", v).checked, h: +$("#sRemAt", v).value, m: 0 }; save("profile"); if (await applyReminder() && P.remind.on) toast(t("rm_set")); };
+    $("#sRemOn", v).onchange = upd; $("#sRemAt", v).onchange = upd;
+  }
+  if ($("#sDelete", v)) $("#sDelete", v).onclick = async e => {
+    if (!deleteArmed) { deleteArmed = true; viewProfile(v); return; }
+    deleteArmed = false; e.target.disabled = true;
+    try { const full = await deleteEverything(); alertDone(full); }
+    catch (err) { e.target.disabled = false; toast(t("del_fail"), 5000); }
+  };
   $("#sReset", v).onclick = () => {
     if (!resetArmed) { resetArmed = true; viewProfile(v); return; }
     resetArmed = false;
@@ -1569,7 +1846,7 @@ function openSheet(html) {
   $("#sheetX").onclick = () => closeSheet();
   return sh;
 }
-function closeSheet(silent) { if (!silent) stopSpeech(); $$("#sheet iframe").forEach(f => f.replaceWith(document.createElement("div"))); $("#sheet").hidden = true; $("#scrim").hidden = true; }
+function closeSheet(silent) { if (recStop) recStop(); if (!silent) stopSpeech(); $$("#sheet iframe").forEach(f => f.replaceWith(document.createElement("div"))); $("#sheet").hidden = true; $("#scrim").hidden = true; }
 document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#sheet").hidden) closeSheet(); });
 
 /* ================= onboarding / gate ================= */
@@ -1618,6 +1895,10 @@ async function boot() {
   if (!S.profile.onboarded) await showOnboarding();
   applyChrome();
   render();
+  try { const d = sessionStorage.getItem("df_deleted"); if (d) { sessionStorage.removeItem("df_deleted"); toast(t(d === "full" ? "del_done_full" : "del_done_data"), 7000); } } catch (e) {}
+  if (S.profile.remind && S.profile.remind.on) applyReminder();
+  // Offline cache for the web page and the Android app (which loads the same page).
+  if (!inClaude && "serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
 }
 boot();
 })();
