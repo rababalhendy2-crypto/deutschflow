@@ -141,6 +141,11 @@ main{padding-block:16px calc(96px + env(safe-area-inset-bottom,0px));padding-lef
 
 /* lessons */
 .phead{display:flex;flex-direction:column;gap:8px}
+.backbtn{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px 0 10px;border-radius:999px;background:var(--surface2);color:inherit;text-decoration:none;font-weight:600;font-size:15px;flex:none}
+.backbtn svg{width:20px;height:20px}
+.app[dir="rtl"] .backbtn{padding:0 10px 0 14px}
+.app[dir="rtl"] .backbtn svg{transform:scaleX(-1)}
+.lhead:has(.backbtn){flex-direction:column;gap:8px}
 .phead:has(.iconbtn){flex-direction:row;align-items:center;flex-wrap:wrap}
 .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
 .fchip{padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:13.5px;white-space:nowrap;font-weight:600;color:var(--muted)}
