@@ -772,7 +772,7 @@ async function fetchYtTranscript(id) {
 }
 function viewAddClip(v) {
   v.innerHTML = `
-  <header class="phead"><a class="iconbtn" href="#lessons">${IC.back}</a><h1 class="h1">${esc(t("add_clip"))}</h1></header>
+  <header class="phead">${backBtn("lessons")}<h1 class="h1">${esc(t("add_clip"))}</h1></header>
   <p class="muted">${esc(t("add_clip_sub"))}</p>
   <section class="card block form">
     <label for="cUrl">${esc(t("clip_url"))}</label><input id="cUrl" class="search" dir="ltr" placeholder="https://www.youtube.com/watch?v=…">
@@ -839,6 +839,7 @@ function route() {
 }
 let viewCleanup = null;
 function render() {
+  syncNav();
   if (recStop) recStop();
   stopSpeech(); flushTime(); closeSheet(true);
   if (viewCleanup) { viewCleanup(); viewCleanup = null; }
@@ -851,6 +852,52 @@ function render() {
   ({ feed: viewFeed, home: viewHome, lessons: viewLessons, lesson: viewLesson, vocab: viewVocab, review: viewReview, stats: viewStats, profile: viewProfile, addclip: viewAddClip, health: viewHealth, htopic: viewHealthTopic, placement: viewPlacement, legal: viewLegal })[r.name](v, r);
 }
 addEventListener("hashchange", render);
+
+/* ================= back navigation =================
+   Every screen and every open sheet is its own browser-history entry, so the phone's Back button
+   (browser or Android app) steps back inside DeutschFlow instead of leaving it. navIdx counts how
+   many of our own entries lie behind the current one; at 0 there is nothing of ours to go back to. */
+let navIdx = 0, navInit = false;
+const PARENT = { lesson: "lessons", htopic: "health", health: "lessons", addclip: "lessons", review: "vocab", placement: "profile", legal: "profile" };
+function syncNav() {
+  const st = history.state;
+  if (st && typeof st.dfi === "number") navIdx = st.dfi;
+  else { navIdx = navInit ? navIdx + 1 : 0; try { history.replaceState({ dfi: navIdx }, "", location.href); } catch (e) {} }
+  navInit = true;
+}
+// Go to another screen, replacing the current entry instead of adding one (used when leaving a sheet or when nothing is behind us).
+function navReplace(h) {
+  if (!$("#sheet").hidden) closeSheet();
+  try { history.replaceState({ dfi: navIdx }, "", "#" + h); } catch (e) { location.replace("#" + h); return; }
+  render();
+}
+// One step back. Returns false when there is nothing left inside the app (the Android app may then close).
+function goBack() {
+  if (!$("#sheet").hidden) { dismissSheet(); return true; }
+  if (navIdx > 0) { history.back(); return true; }
+  const parent = PARENT[route().name];
+  if (parent) { navReplace(parent); return true; }
+  return false;
+}
+addEventListener("popstate", e => {
+  const st = e.state || {}, prev = navIdx;
+  if (typeof st.dfi === "number") navIdx = st.dfi;
+  if (!st.sheet && !$("#sheet").hidden) closeSheet();
+  // An old sheet entry whose sheet is already gone: skip over it so Back never seems to do nothing.
+  else if (st.sheet && $("#sheet").hidden) { if (navIdx < prev) history.back(); else history.forward(); }
+});
+document.addEventListener("click", e => {
+  const a = e.target.closest && e.target.closest("[data-back]");
+  if (!a) return;
+  e.preventDefault(); goBack();
+});
+const backBtn = parent => `<a class="backbtn" href="#${parent}" data-back>${IC.back}<span>${esc(t("back"))}</span></a>`;
+// Android app: the hardware/gesture Back button. Without this listener Android closes the whole app.
+(function nativeBack() {
+  const C = window.Capacitor, A = C && C.isNativePlatform && C.isNativePlatform() && C.Plugins && C.Plugins.App;
+  if (!A || !A.addListener) return;
+  try { A.addListener("backButton", () => { if (!goBack()) { try { A.exitApp(); } catch (e) {} } }); } catch (e) {}
+})();
 
 function applyChrome() {
   const app = $("#app");
@@ -1094,7 +1141,7 @@ function viewHealth(v) {
       <small>${tp.items.length} ${esc(t("h_items"))} · ${tp.items.reduce((a, it) => a + it.x.length, 0)} ${esc(t("h_sentences"))}</small></span>
       ${p.done ? `<span class="chip ok">${p.best}%</span>` : ""}</a>`; };
   v.innerHTML = `
-  <header class="phead"><a class="iconbtn" href="#lessons">${IC.back}</a><h1 class="h1"><span class="lvl" lang="de">C1</span> ${esc(t("h_title"))}</h1>
+  <header class="phead">${backBtn("lessons")}<h1 class="h1"><span class="lvl" lang="de">C1</span> ${esc(t("h_title"))}</h1>
     <p class="muted">${esc(t("h_sub"))}</p></header>
   <div class="chips" role="tablist">${[["videos", t("h_tab_videos")], ["practice", t("h_tab_practice")]].map(([k, lab]) =>
     `<button class="fchip ${healthTab === k ? "on" : ""}" data-t="${k}" role="tab" aria-selected="${healthTab === k}">${esc(lab)}</button>`).join("")}</div>
@@ -1121,7 +1168,7 @@ function openHealthVideo(it, after) {
     <p class="muted small">${esc(t("h_to_clip_sub"))}</p>`);
   $$("[data-say]", sh).forEach(b => b.onclick = () => sayInto(b.dataset.say, null));
   $$("[data-save]", sh).forEach(b => b.onclick = () => { const k = it.keys.find(x => x[0] === b.dataset.save); if (k && saveVocab({ de: k[0], ar: k[1], exDe: "", lesson: "", type: "word" })) { b.disabled = true; b.classList.add("done"); $("span", b).textContent = t("saved"); } });
-  $("#hToClip", sh).onclick = () => { clipPrefill = { yt: it.yt, title: it.title }; closeSheet(); location.hash = "addclip"; };
+  $("#hToClip", sh).onclick = () => { clipPrefill = { yt: it.yt, title: it.title }; navReplace("addclip"); };
   if (after) after();
 }
 const HT = { id: null, tab: "learn", hideAr: false };
@@ -1133,7 +1180,7 @@ function viewHealthTopic(v, r) {
   healthTab = "practice";
   const l = healthLesson(tp);
   v.innerHTML = `
-  <header class="phead"><a class="iconbtn" href="#health">${IC.back}</a><h1 class="h1">${tp.ic} ${esc(tl(tp.t))}</h1><p class="muted">${esc(tl(tp.intro))}</p></header>
+  <header class="phead">${backBtn("health")}<h1 class="h1">${tp.ic} ${esc(tl(tp.t))}</h1><p class="muted">${esc(tl(tp.intro))}</p></header>
   <div class="chips" role="tablist">${[["learn", t("h_learn")], ["quiz", t("ex_title")]].map(([k, lab]) =>
     `<button class="fchip ${HT.tab === k ? "on" : ""}" data-t="${k}" role="tab" aria-selected="${HT.tab === k}">${esc(lab)}</button>`).join("")}</div>
   <div id="hBox"></div>`;
@@ -1205,7 +1252,7 @@ function viewLesson(v, r) {
   const idx = l.custom ? -1 : LESSONS.indexOf(l);
   v.innerHTML = `
   <header class="lhead">
-    <a class="iconbtn" href="#lessons" aria-label="${esc(t("to_lessons"))}">${IC.back}</a>
+    ${backBtn("lessons")}
     <div class="lhead-txt"><span class="eyebrow">${l.custom ? "" : "B2 · " + String(l.n).padStart(2, "0") + " · "}${esc(l.topic[ui() === "de" ? 1 : 0])}</span>
       <h1 class="h1" lang="de" dir="ltr">${esc(l.title)}</h1></div>
   </header>
@@ -1680,13 +1727,13 @@ function viewReview(v) {
   if (!reviewQueue.length) {
     reviewQueue = null;
     const nextDue = Object.values(S.vocab.items).map(it => it.due).sort((a, b) => a - b)[0];
-    v.innerHTML = `<header class="phead"><a class="iconbtn" href="#vocab">${IC.back}</a><h1 class="h1">${esc(t("review_title"))}</h1></header>
+    v.innerHTML = `<header class="phead">${backBtn("vocab")}<h1 class="h1">${esc(t("review_title"))}</h1></header>
       <section class="card center"><p class="big">${esc(Object.keys(S.vocab.items).length ? t("review_done") : t("vocab_empty"))}</p>
       ${nextDue ? `<p class="muted">${esc(t("next_review", fmtDate(nextDue)))}</p>` : ""}<a class="btn primary" href="#home">${esc(t("nav_home"))}</a></section>`;
     return;
   }
   const id = reviewQueue[0], it = S.vocab.items[id];
-  v.innerHTML = `<header class="phead"><a class="iconbtn" href="#vocab">${IC.back}</a><h1 class="h1">${esc(t("review_title"))}</h1><span class="muted">${esc(t("review_left", reviewQueue.length))}</span></header>
+  v.innerHTML = `<header class="phead">${backBtn("vocab")}<h1 class="h1">${esc(t("review_title"))}</h1><span class="muted">${esc(t("review_left", reviewQueue.length))}</span></header>
     <p class="muted">${esc(t("review_sub"))}</p>
     <section class="flash card">
       <p class="fde" lang="de" dir="ltr" id="fDe">${wordsHTML(it.de)}</p>
@@ -1781,7 +1828,7 @@ function viewPlacement(v) {
   const q = PLACE[st.i];
   const opts = shuffle(q.o.map((o, i) => ({ o, i })));
   const oAttr = q.oLang === "ar" ? 'lang="ar" dir="rtl"' : 'lang="de" dir="ltr"';
-  v.innerHTML = `<header class="phead"><h1 class="h1">${esc(t("pl_title"))}</h1><p class="muted">${esc(t("pl_sub", PLACE.length))}</p></header>
+  v.innerHTML = `<header class="phead">${backBtn("profile")}<h1 class="h1">${esc(t("pl_title"))}</h1><p class="muted">${esc(t("pl_sub", PLACE.length))}</p></header>
     <section class="excard"><span class="eyebrow">${esc(t("q_of", st.i + 1, PLACE.length))} · ${esc(t("pl_k_" + q.k))}</span>
     <div class="track"><i style="width:${st.i / PLACE.length * 100}%"></i></div>
     ${q.audio ? `<div class="row wrap"><button class="btn primary" id="plPlay">${IC.speak}<span>${esc(t("listen"))}</span></button><button class="btn sm" id="plSlow">${IC.speak}<span>${esc(t("slow"))}</span></button></div><p class="muted small">${esc(t("pl_listen_hint"))}</p>` : ""}
@@ -1811,11 +1858,11 @@ function viewPlacement(v) {
 // Contact and Impressum details are filled in by the site owner; the sections stay hidden until they are set.
 const OWNER = { contact: "", impressum: "" };
 function viewLegal(v) {
-  v.innerHTML = `<header class="phead"><h1 class="h1">${esc(t("lg_title"))}</h1><p class="muted small">${esc(t("lg_asof"))}</p></header>
+  v.innerHTML = `<header class="phead">${backBtn("profile")}<h1 class="h1">${esc(t("lg_title"))}</h1><p class="muted small">${esc(t("lg_asof"))}</p></header>
     <section class="card block legal">${t("lg_privacy_html")}</section>
     ${OWNER.contact ? `<section class="card block"><h2 class="h2">${esc(t("lg_contact"))}</h2><p dir="ltr">${esc(OWNER.contact)}</p></section>` : ""}
     ${OWNER.impressum ? `<section class="card block"><h2 class="h2">Impressum</h2><p dir="ltr" style="white-space:pre-line">${esc(OWNER.impressum)}</p></section>` : ""}
-    <section class="block"><a class="btn ghost" href="#profile">${esc(t("back"))}</a></section>`;
+    <section class="block"><a class="btn ghost" href="#profile" data-back>${esc(t("back"))}</a></section>`;
 }
 
 /* ----- daily reminder (Android app only) ----- */
@@ -1911,12 +1958,18 @@ function openSheet(html) {
   const sh = $("#sheet");
   sh.innerHTML = `<div class="grab"></div><button class="iconbtn sheet-x" id="sheetX" aria-label="close">${IC.close}</button>${html}`;
   sh.dir = ui() === "de" ? "ltr" : "rtl";
+  const wasOpen = !sh.hidden;
   sh.hidden = false; $("#scrim").hidden = false; sh.scrollTop = 0;
-  $("#sheetX").onclick = () => closeSheet();
+  // Give the sheet its own history entry so Back closes it rather than leaving the screen.
+  if (!wasOpen && !(history.state && history.state.sheet)) { try { history.pushState({ dfi: navIdx + 1, sheet: 1 }, "", location.href); navIdx++; } catch (e) {} }
+  $("#sheetX").onclick = () => dismissSheet();
   return sh;
 }
 function closeSheet(silent) { if (recStop) recStop(); if (!silent) stopSpeech(); $$("#sheet iframe").forEach(f => f.replaceWith(document.createElement("div"))); $("#sheet").hidden = true; $("#scrim").hidden = true; }
-document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#sheet").hidden) closeSheet(); });
+// Closing by the user (X, Escape, tapping outside): step back over the sheet's history entry; popstate then closes it.
+function dismissSheet() { if (history.state && history.state.sheet) history.back(); else closeSheet(); }
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("#sheet").hidden) dismissSheet(); });
+$("#scrim").addEventListener("click", () => { if (!$("#sheet").hidden) dismissSheet(); });
 
 /* ================= onboarding / gate ================= */
 function showGate() {
