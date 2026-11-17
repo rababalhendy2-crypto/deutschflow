@@ -745,13 +745,31 @@ async function captionLines(baseUrl) {
 }
 const pickTrack = tracks => { const de = (tracks || []).filter(x => /^de/.test(x.languageCode || "")); return de.find(x => x.kind !== "asr") || de[0] || null; };
 function findAll(o, key, out = []) { if (o && typeof o === "object") { if (o[key]) out.push(o[key]); Object.values(o).forEach(v => findAll(v, key, out)); } return out; }
-// Three routes, tried in turn: the watch page's tracks, the Android player API's tracks, then the transcript panel.
+// Protobuf {149: {1: videoId, 3: 2}} as base64: the params YouTube's site sends for its transcript panel.
+function transcriptPanelParams(id) {
+  const v = Array.from(new TextEncoder().encode(id)), inner = [0x0a, v.length, ...v, 0x18, 0x02];
+  return btoa(String.fromCharCode(0xaa, 0x09, inner.length, ...inner));
+}
+const clockSec = ts => String(ts || "0").split(":").map(Number).reduce((a, b) => a * 60 + (b || 0), 0);
+// Routes, tried in turn: the transcript panel (get_panel), the watch page's tracks, the Android player API's tracks, the old get_transcript.
 async function fetchYtTranscript(id) {
   let title = "", sawTracks = false;
   let html = "";
   try { html = await nativeGet("https://www.youtube.com/watch?v=" + id + "&hl=de&bpctr=9999999999&has_verified=1"); } catch (e) {}
   const tm = html.match(/<meta name="title" content="([^"]*)"/);
   if (tm) title = unent(tm[1]);
+  // 0. transcript panel as YouTube's own site loads it now (get_panel, "modern transcript view")
+  try {
+    const vm0 = html.match(/"INNERTUBE_CLIENT_VERSION":"([^"]+)"/);
+    const j = await nativePost("https://www.youtube.com/youtubei/v1/get_panel?prettyPrint=false",
+      { context: { client: { clientName: "WEB", clientVersion: vm0 ? vm0[1] : "2.20261116.00.00", hl: "de", gl: "DE" } }, panelId: "PAmodern_transcript_view", params: transcriptPanelParams(id) });
+    const segs = findAll(j, "transcriptSegmentViewModel");
+    const lines = cleanLines(segs.map(sg => ({ t: clockSec(sg.timestamp), de: sg.simpleText || ((sg.snippet && sg.snippet.runs) || []).map(r => r.text).join("") })));
+    if (lines.length) {
+      let tr = null; try { const m = jsonArrayAfter(html, '"captionTracks":'); tr = m && pickTrack(JSON.parse(m)); } catch (e) {}
+      return { title, lines, auto: !tr || tr.kind === "asr" };
+    }
+  } catch (e) {}
   // 1. watch page
   try {
     const m = jsonArrayAfter(html, '"captionTracks":');
