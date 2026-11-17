@@ -129,7 +129,7 @@ const STR = {
     add_clip_sub: "الصق رابط فيديو يوتيوب ونصّ الترجمة الألمانية مع التوقيت. يُعرض الفيديو من يوتيوب نفسه، ولا يُنسخ إلى التطبيق.",
     clip_url: "رابط يوتيوب", clip_title: "عنوان الدرس", clip_text: "النص مع التوقيت",
     clip_help: "في يوتيوب: افتح الوصف ← «إظهار النص» ← انسخ الأسطر مع التوقيت. لإضافة ترجمة عربية اكتبها بعد علامة | في نفس السطر.",
-    clip_id_ok: "رابط صالح", clip_id_bad: "لم نتعرّف على الرابط", clip_lines: "{0} جملة من {1} إلى {2}", clip_lines_bad: "لم نجد أسطراً تبدأ بتوقيت مثل 0:05",
+    clip_id_ok: "رابط صالح", clip_id_bad: "لم نتعرّف على الرابط", clip_lines: "{0} جملة من {1} إلى {2}", clip_lines_bad: "الصق جملتين ألمانيتين على الأقل.", clip_est: "لا يوجد توقيت في النص، فقدّرناه من سرعة الكلام. قد تتقدّم الترجمة أو تتأخر قليلاً عن الفيديو.",
     clip_save: "أنشئ الدرس", clip_fetch: "اسحب النص تلقائياً", clip_fetching: "جارٍ سحب النص من يوتيوب…", clip_fetch_ok: "سُحب النص. راجعه وأضف العربية بعد | إذا أردت.", clip_fetch_auto: "هذا النص من ترجمة يوتيوب التلقائية، قد تكون فيه أخطاء.", clip_fetch_none: "هذا الفيديو ليس له نص ألماني على يوتيوب.", clip_fetch_blocked: "للفيديو نص ألماني لكن يوتيوب منع سحبه الآن. افتح الفيديو في يوتيوب ← الوصف ← «إظهار النص»، انسخه والصقه هنا.", clip_fetch_err: "لم ينجح سحب النص. الصق النص يدوياً.", clip_fetch_app: "في تطبيق الأندرويد يكفي لصق الرابط، والنص يُسحب تلقائياً.", clip_translate: "ترجم إلى العربية (آلياً، مجاناً)", my_clip_src: "مقطعي", clip_translating: "جارٍ الترجمة إلى العربية…", clip_tr_ok: "أُضيفت ترجمة عربية آلية بعد |. راجعها، فقد تكون فيها أخطاء.", clip_tr_err: "لم تنجح الترجمة الآلية الآن. حاول لاحقاً أو اكتب العربية بنفسك.", clip_tr_none: "كل الجمل لها ترجمة عربية.", no_ex: "لا توجد تمارين لهذا المقطع.",
     au_login: "تسجيل الدخول", au_signup: "إنشاء حساب", au_reset: "استعادة كلمة المرور", au_newpw: "كلمة مرور جديدة",
     au_login_btn: "ادخل", au_signup_btn: "أنشئ الحساب", au_reset_btn: "أرسل رابط الاستعادة", au_newpw_btn: "احفظ كلمة المرور",
@@ -208,7 +208,7 @@ const STR = {
     add_clip_sub: "Füge einen YouTube-Link und das deutsche Transkript mit Zeitstempeln ein. Das Video läuft über YouTube und wird nicht kopiert.",
     clip_url: "YouTube-Link", clip_title: "Titel der Lektion", clip_text: "Transkript mit Zeitstempeln",
     clip_help: "Auf YouTube: Beschreibung öffnen → «Transkript anzeigen» → Zeilen mit Zeitstempeln kopieren. Arabische Übersetzung nach einem | in derselben Zeile.",
-    clip_id_ok: "Link erkannt", clip_id_bad: "Link nicht erkannt", clip_lines: "{0} Sätze von {1} bis {2}", clip_lines_bad: "Keine Zeilen mit Zeitstempel wie 0:05 gefunden",
+    clip_id_ok: "Link erkannt", clip_id_bad: "Link nicht erkannt", clip_lines: "{0} Sätze von {1} bis {2}", clip_lines_bad: "Füge mindestens zwei deutsche Sätze ein.", clip_est: "Der Text hat keine Zeitangaben, wir haben sie aus dem Sprechtempo geschätzt. Die Untertitel können etwas vor- oder nachgehen.",
     clip_save: "Lektion erstellen", clip_fetch: "Text automatisch holen", clip_fetching: "Text wird von YouTube geholt…", clip_fetch_ok: "Text geholt. Prüfe ihn und füge nach | Arabisch hinzu, wenn du willst.", clip_fetch_auto: "Dieser Text stammt aus YouTubes automatischen Untertiteln und kann Fehler enthalten.", clip_fetch_none: "Dieses Video hat auf YouTube keinen deutschen Text.", clip_fetch_blocked: "Das Video hat deutschen Text, aber YouTube blockiert den Abruf gerade. Öffne es in YouTube → Beschreibung → „Transkript anzeigen“, kopiere den Text und füge ihn hier ein.", clip_fetch_err: "Text konnte nicht geholt werden. Füge ihn von Hand ein.", clip_fetch_app: "In der Android-App reicht der Link, der Text wird automatisch geholt.", clip_translate: "Ins Arabische übersetzen (maschinell, kostenlos)", my_clip_src: "Mein Clip", clip_translating: "Wird ins Arabische übersetzt…", clip_tr_ok: "Maschinelle arabische Übersetzung nach | eingefügt. Bitte prüfen, sie kann Fehler enthalten.", clip_tr_err: "Die maschinelle Übersetzung hat gerade nicht geklappt. Versuch es später oder schreib das Arabische selbst.", clip_tr_none: "Alle Sätze haben schon eine arabische Übersetzung.", no_ex: "Für diesen Clip gibt es keine Übungen.",
     au_login: "Anmelden", au_signup: "Konto erstellen", au_reset: "Passwort zurücksetzen", au_newpw: "Neues Passwort",
     au_login_btn: "Anmelden", au_signup_btn: "Konto erstellen", au_reset_btn: "Link senden", au_newpw_btn: "Passwort speichern",
@@ -643,20 +643,29 @@ function ytId(url) {
 }
 const TS_RE = /^(?:(\d+):)?(\d{1,2}):(\d{2})(?:[.,]\d+)?\s*(.*)$/;
 const NOISE_RE = /^(\d+\s*(seconds?|minutes?|hours?|sekunden?|minuten?|stunden?)[, ]*)+$|^\d+\s*(Sekunde|Minute)|^[\d\s،,و]*(ثانية|ثوانٍ?|ثوان|دقيقة|دقائق|دقيقتان|ساعة|ساعات)[\d\s،,وثانيةدقيقةدقائقساعات]*$/i;
+// Accepts: "0:05 text", "0:05" then text, YouTube's transcript panel, SRT/VTT ("00:00:05,000 --> …"),
+// or plain text with no times at all (then times are estimated from speaking speed and marked as such).
 function parseTranscript(txt) {
-  const out = []; let pendingT = null;
+  const out = []; let pendingT = null; const plain = [];
   for (const raw of String(txt || "").split(/\r?\n/)) {
-    const ln = raw.trim();
-    if (!ln || NOISE_RE.test(ln)) continue;
+    let ln = raw.trim();
+    if (!ln || NOISE_RE.test(ln) || /^WEBVTT|^NOTE\b|^Kind:|^Language:/i.test(ln) || /^\d+$/.test(ln)) continue;
+    ln = ln.replace(/^((?:\d+:)?\d{1,2}:\d{2}(?:[.,]\d+)?)\s*-->\s*(?:\d+:)?\d{1,2}:\d{2}(?:[.,]\d+)?.*$/, "$1");
     const m = ln.match(TS_RE);
     if (m) {
       const tt = (+(m[1] || 0)) * 3600 + (+m[2]) * 60 + (+m[3]);
       if (m[4]) out.push({ t: tt, raw: m[4] }); else pendingT = tt;
     } else if (pendingT !== null) { out.push({ t: pendingT, raw: ln }); pendingT = null; }
     else if (out.length) out[out.length - 1].raw += " " + ln;
+    else plain.push(ln);
   }
-  return out.map(x => { const [de, ar] = x.raw.split("|").map(p => p.trim()); return { t: x.t, de: de || "", ar: ar || "" }; })
-    .filter(x => x.de && !/^[\[(].*[\])]$/.test(x.de)).sort((a, b) => a.t - b.t).slice(0, 80);
+  const clean = arr => arr.map(x => { const [de, ar] = x.raw.split("|").map(p => p.trim()); return { t: x.t, de: de || "", ar: ar || "", ...(x.est ? { est: true } : {}) }; })
+    .filter(x => x.de && !/^[\[(].*[\])]$/.test(x.de));
+  if (out.length) return clean(out).sort((a, b) => a.t - b.t).slice(0, 150);
+  // No times: one line per sentence, about 2.5 words per second.
+  const sents = plain.join(" ").replace(/\s+/g, " ").split(/(?<=[.!?…])\s+(?=[„"A-ZÄÖÜ0-9])/).map(x => x.trim()).filter(Boolean);
+  let t0 = 0;
+  return clean(sents.map(x => { const r = { t: Math.round(t0), raw: x, est: true }; t0 += Math.max(1.5, x.split("|")[0].split(/\s+/).length / 2.5); return r; })).slice(0, 150);
 }
 function autoQuestions(lines) {
   const Q = [];
@@ -832,7 +841,7 @@ function viewAddClip(v) {
     const okId = !!id, okLines = parsed.length >= 2;
     prev.innerHTML = [
       url.value ? (okId ? "✓ " + esc(t("clip_id_ok")) + " <code>" + esc(id) + "</code>" : "✗ " + esc(t("clip_id_bad"))) : "",
-      text.value ? (okLines ? "✓ " + esc(t("clip_lines", parsed.length, fmtClock(parsed[0].t), fmtClock(parsed[parsed.length - 1].t))) : "✗ " + esc(t("clip_lines_bad"))) : ""
+      text.value ? (okLines ? "✓ " + esc(t("clip_lines", parsed.length, fmtClock(parsed[0].t), fmtClock(parsed[parsed.length - 1].t))) + (parsed[0].est ? "<br>" + esc(t("clip_est")) : "") : "✗ " + esc(t("clip_lines_bad"))) : ""
     ].filter(Boolean).join("<br>");
     btn.disabled = !(okId && okLines && title.value.trim());
   };
