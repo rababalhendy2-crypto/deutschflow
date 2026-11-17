@@ -63,7 +63,7 @@ const DAILY_GOAL_MIN = 15;
 /* ================= i18n ================= */
 const STR = {
   ar: {
-    nav_feed: "مقاطع", feed_key: "تعبير اليوم في هذا المقطع", feed_again: "مرة ثانية", feed_practice: "تدرّب", feed_full: "افتح الدرس كاملاً", feed_ex: "التمارين", feed_end: "شاهدت كل المقاطع! تابع بالدروس الكاملة.", feed_auto: "النص مأخوذ من ترجمة يوتيوب التلقائية وصُحّح يدوياً، قد يختلف قليلاً عن الكلام.", feed_auto_short: "· نص تلقائي", nav_home: "الرئيسية", nav_lessons: "الدروس", nav_vocab: "المفردات", nav_stats: "التقدم", nav_profile: "الحساب",
+    nav_feed: "مقاطع", feed_key: "تعبير اليوم في هذا المقطع", feed_again: "مرة ثانية", feed_practice: "تدرّب", feed_full: "افتح الدرس كاملاً", feed_ex: "التمارين", feed_end: "شاهدت كل المقاطع! تابع بالدروس الكاملة.", feed_auto: "النص مأخوذ من ترجمة يوتيوب التلقائية وصُحّح يدوياً، قد يختلف قليلاً عن الكلام.", feed_auto_short: "· نص تلقائي", feed_mt_short: "· ترجمة آلية", feed_more_coming: "التطبيق يجهّز مشاهد جديدة مع ترجمة آلية. ارجع بعد قليل لتجدها هنا.", feed_new_ready: "مشاهد جديدة جاهزة. افتح «مقاطع» من جديد لتراها.", nav_home: "الرئيسية", nav_lessons: "الدروس", nav_vocab: "المفردات", nav_stats: "التقدم", nav_profile: "الحساب",
     loading: "جارٍ تحميل حسابك…",
     sync_ok: "محفوظ", sync_pending: "جارٍ الحفظ…", sync_retry: "الاتصال ضعيف، سنحاول مجدداً", sync_error: "تعذّر الحفظ", sync_denied: "لا تملك صلاحية الحفظ هنا", sync_quota: "مساحة الحفظ ممتلئة", sync_local: "محفوظ على هذا الجهاز فقط", retry: "أعد المحاولة",
     gate_title: "سجّل الدخول لحفظ تقدمك",
@@ -130,7 +130,7 @@ const STR = {
     clip_url: "رابط يوتيوب", clip_title: "عنوان الدرس", clip_text: "النص مع التوقيت",
     clip_help: "في يوتيوب: افتح الوصف ← «إظهار النص» ← انسخ الأسطر مع التوقيت. لإضافة ترجمة عربية اكتبها بعد علامة | في نفس السطر.",
     clip_id_ok: "رابط صالح", clip_id_bad: "لم نتعرّف على الرابط", clip_lines: "{0} جملة من {1} إلى {2}", clip_lines_bad: "لم نجد أسطراً تبدأ بتوقيت مثل 0:05",
-    clip_save: "أنشئ الدرس", clip_fetch: "اسحب النص تلقائياً", clip_fetching: "جارٍ سحب النص من يوتيوب…", clip_fetch_ok: "سُحب النص. راجعه وأضف العربية بعد | إذا أردت.", clip_fetch_auto: "هذا النص من ترجمة يوتيوب التلقائية، قد تكون فيه أخطاء.", clip_fetch_none: "هذا الفيديو ليس له نص ألماني على يوتيوب.", clip_fetch_blocked: "للفيديو نص ألماني لكن يوتيوب منع سحبه الآن. افتح الفيديو في يوتيوب ← الوصف ← «إظهار النص»، انسخه والصقه هنا.", clip_fetch_err: "لم ينجح سحب النص. الصق النص يدوياً.", clip_fetch_app: "في تطبيق الأندرويد يكفي لصق الرابط، والنص يُسحب تلقائياً.", no_ex: "لا توجد تمارين لهذا المقطع.",
+    clip_save: "أنشئ الدرس", clip_fetch: "اسحب النص تلقائياً", clip_fetching: "جارٍ سحب النص من يوتيوب…", clip_fetch_ok: "سُحب النص. راجعه وأضف العربية بعد | إذا أردت.", clip_fetch_auto: "هذا النص من ترجمة يوتيوب التلقائية، قد تكون فيه أخطاء.", clip_fetch_none: "هذا الفيديو ليس له نص ألماني على يوتيوب.", clip_fetch_blocked: "للفيديو نص ألماني لكن يوتيوب منع سحبه الآن. افتح الفيديو في يوتيوب ← الوصف ← «إظهار النص»، انسخه والصقه هنا.", clip_fetch_err: "لم ينجح سحب النص. الصق النص يدوياً.", clip_fetch_app: "في تطبيق الأندرويد يكفي لصق الرابط، والنص يُسحب تلقائياً.", clip_translate: "ترجم إلى العربية (آلياً، مجاناً)", my_clip_src: "مقطعي", clip_translating: "جارٍ الترجمة إلى العربية…", clip_tr_ok: "أُضيفت ترجمة عربية آلية بعد |. راجعها، فقد تكون فيها أخطاء.", clip_tr_err: "لم تنجح الترجمة الآلية الآن. حاول لاحقاً أو اكتب العربية بنفسك.", clip_tr_none: "كل الجمل لها ترجمة عربية.", no_ex: "لا توجد تمارين لهذا المقطع.",
     au_login: "تسجيل الدخول", au_signup: "إنشاء حساب", au_reset: "استعادة كلمة المرور", au_newpw: "كلمة مرور جديدة",
     au_login_btn: "ادخل", au_signup_btn: "أنشئ الحساب", au_reset_btn: "أرسل رابط الاستعادة", au_newpw_btn: "احفظ كلمة المرور",
     au_email: "البريد الإلكتروني", au_pw: "كلمة المرور", au_newpw_field: "كلمة المرور الجديدة (8 أحرف على الأقل)",
@@ -142,7 +142,7 @@ const STR = {
     saved_toast: "حُفظ في دفتر المفردات", removed_toast: "حُذف من الدفتر", sec: "ث"
   },
   de: {
-    nav_feed: "Clips", feed_key: "Ausdruck in diesem Clip", feed_again: "Nochmal", feed_practice: "Üben", feed_full: "Ganze Lektion öffnen", feed_ex: "Übungen", feed_end: "Alle Clips gesehen! Weiter mit den Lektionen.", feed_auto: "Text aus YouTubes automatischen Untertiteln, von Hand korrigiert – kann leicht abweichen.", feed_auto_short: "· Auto-Text", nav_home: "Start", nav_lessons: "Lektionen", nav_vocab: "Wortschatz", nav_stats: "Fortschritt", nav_profile: "Konto",
+    nav_feed: "Clips", feed_key: "Ausdruck in diesem Clip", feed_again: "Nochmal", feed_practice: "Üben", feed_full: "Ganze Lektion öffnen", feed_ex: "Übungen", feed_end: "Alle Clips gesehen! Weiter mit den Lektionen.", feed_auto: "Text aus YouTubes automatischen Untertiteln, von Hand korrigiert – kann leicht abweichen.", feed_auto_short: "· Auto-Text", feed_mt_short: "· maschinell übersetzt", feed_more_coming: "Die App bereitet neue Szenen mit maschineller Übersetzung vor. Schau gleich noch mal vorbei.", feed_new_ready: "Neue Szenen sind fertig. Öffne „Clips“ noch einmal, um sie zu sehen.", nav_home: "Start", nav_lessons: "Lektionen", nav_vocab: "Wortschatz", nav_stats: "Fortschritt", nav_profile: "Konto",
     loading: "Dein Konto wird geladen …",
     sync_ok: "Gespeichert", sync_pending: "Wird gespeichert …", sync_retry: "Verbindung schwach, neuer Versuch folgt", sync_error: "Speichern fehlgeschlagen", sync_denied: "Keine Speicherberechtigung", sync_quota: "Speicher voll", sync_local: "Nur auf diesem Gerät gespeichert", retry: "Erneut versuchen",
     gate_title: "Melde dich an, um deinen Fortschritt zu speichern",
@@ -209,7 +209,7 @@ const STR = {
     clip_url: "YouTube-Link", clip_title: "Titel der Lektion", clip_text: "Transkript mit Zeitstempeln",
     clip_help: "Auf YouTube: Beschreibung öffnen → «Transkript anzeigen» → Zeilen mit Zeitstempeln kopieren. Arabische Übersetzung nach einem | in derselben Zeile.",
     clip_id_ok: "Link erkannt", clip_id_bad: "Link nicht erkannt", clip_lines: "{0} Sätze von {1} bis {2}", clip_lines_bad: "Keine Zeilen mit Zeitstempel wie 0:05 gefunden",
-    clip_save: "Lektion erstellen", clip_fetch: "Text automatisch holen", clip_fetching: "Text wird von YouTube geholt…", clip_fetch_ok: "Text geholt. Prüfe ihn und füge nach | Arabisch hinzu, wenn du willst.", clip_fetch_auto: "Dieser Text stammt aus YouTubes automatischen Untertiteln und kann Fehler enthalten.", clip_fetch_none: "Dieses Video hat auf YouTube keinen deutschen Text.", clip_fetch_blocked: "Das Video hat deutschen Text, aber YouTube blockiert den Abruf gerade. Öffne es in YouTube → Beschreibung → „Transkript anzeigen“, kopiere den Text und füge ihn hier ein.", clip_fetch_err: "Text konnte nicht geholt werden. Füge ihn von Hand ein.", clip_fetch_app: "In der Android-App reicht der Link, der Text wird automatisch geholt.", no_ex: "Für diesen Clip gibt es keine Übungen.",
+    clip_save: "Lektion erstellen", clip_fetch: "Text automatisch holen", clip_fetching: "Text wird von YouTube geholt…", clip_fetch_ok: "Text geholt. Prüfe ihn und füge nach | Arabisch hinzu, wenn du willst.", clip_fetch_auto: "Dieser Text stammt aus YouTubes automatischen Untertiteln und kann Fehler enthalten.", clip_fetch_none: "Dieses Video hat auf YouTube keinen deutschen Text.", clip_fetch_blocked: "Das Video hat deutschen Text, aber YouTube blockiert den Abruf gerade. Öffne es in YouTube → Beschreibung → „Transkript anzeigen“, kopiere den Text und füge ihn hier ein.", clip_fetch_err: "Text konnte nicht geholt werden. Füge ihn von Hand ein.", clip_fetch_app: "In der Android-App reicht der Link, der Text wird automatisch geholt.", clip_translate: "Ins Arabische übersetzen (maschinell, kostenlos)", my_clip_src: "Mein Clip", clip_translating: "Wird ins Arabische übersetzt…", clip_tr_ok: "Maschinelle arabische Übersetzung nach | eingefügt. Bitte prüfen, sie kann Fehler enthalten.", clip_tr_err: "Die maschinelle Übersetzung hat gerade nicht geklappt. Versuch es später oder schreib das Arabische selbst.", clip_tr_none: "Alle Sätze haben schon eine arabische Übersetzung.", no_ex: "Für diesen Clip gibt es keine Übungen.",
     au_login: "Anmelden", au_signup: "Konto erstellen", au_reset: "Passwort zurücksetzen", au_newpw: "Neues Passwort",
     au_login_btn: "Anmelden", au_signup_btn: "Konto erstellen", au_reset_btn: "Link senden", au_newpw_btn: "Passwort speichern",
     au_email: "E-Mail", au_pw: "Passwort", au_newpw_field: "Neues Passwort (mind. 8 Zeichen)",
@@ -642,7 +642,7 @@ function ytId(url) {
   return m ? m[1] : null;
 }
 const TS_RE = /^(?:(\d+):)?(\d{1,2}):(\d{2})(?:[.,]\d+)?\s*(.*)$/;
-const NOISE_RE = /^(\d+\s*(seconds?|minutes?|hours?|sekunden?|minuten?|stunden?)[, ]*)+$|^\d+\s*(Sekunde|Minute)/i;
+const NOISE_RE = /^(\d+\s*(seconds?|minutes?|hours?|sekunden?|minuten?|stunden?)[, ]*)+$|^\d+\s*(Sekunde|Minute)|^[\d\s،,و]*(ثانية|ثوانٍ?|ثوان|دقيقة|دقائق|دقيقتان|ساعة|ساعات)[\d\s،,وثانيةدقيقةدقائقساعات]*$/i;
 function parseTranscript(txt) {
   const out = []; let pendingT = null;
   for (const raw of String(txt || "").split(/\r?\n/)) {
@@ -679,7 +679,8 @@ function customLesson(c) {
   return {
     id: c.id, n: 0, level: "B2", custom: true,
     topic: ["مقطع أضفته", "Eigener Clip"], title: c.title,
-    sum: ["مقطع يوتيوب أضفته بنفسك. التمارين مولَّدة تلقائياً من النص.", "Ein YouTube-Clip, den du hinzugefügt hast. Die Übungen entstehen automatisch aus dem Text."],
+    sum: c.mt ? ["مقطع يوتيوب أضفته بنفسك. الترجمة العربية آلية، والتمارين مولَّدة تلقائياً من النص.", "Ein YouTube-Clip, den du hinzugefügt hast. Die arabische Übersetzung ist maschinell, die Übungen entstehen automatisch aus dem Text."]
+      : ["مقطع يوتيوب أضفته بنفسك. التمارين مولَّدة تلقائياً من النص.", "Ein YouTube-Clip, den du hinzugefügt hast. Die Übungen entstehen automatisch aus dem Text."],
     sp: { A: ["", "f"] },
     L: c.lines.map(x => ["A", x.de, x.ar || "", "", "", "", [], null]),
     E: [], Q: c.q || [],
@@ -690,6 +691,7 @@ function rebuildLessons() {
   Object.keys(LMAP).forEach(k => { if (!BASE_IDS.has(k)) delete LMAP[k]; });
   CUSTOM.length = 0;
   Object.values(S.custom.items).sort((a, b) => a.added - b.added).forEach(c => { const l = customLesson(c); CUSTOM.push(l); LMAP[l.id] = l; });
+  try { FEED = []; } catch (e) {} // the feed is rebuilt with the new clips on its next visit
 }
 /* In the Android app (Capacitor) native HTTP is not bound by browser CORS, so the app can read YouTube's own caption track. */
 const NATIVE_HTTP = () => window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform() && window.Capacitor.Plugins && window.Capacitor.Plugins.CapacitorHttp;
@@ -770,6 +772,40 @@ async function fetchYtTranscript(id) {
   } catch (e) {}
   return { title, lines: [], reason: sawTracks ? "blocked" : (html ? "none" : "offline") };
 }
+/* Free machine translation German -> Arabic for clips people add themselves (no key, no cost).
+   Google's public translate endpoint first, MyMemory as fallback. The result is marked as machine-made. */
+async function mtGet(url) {
+  if (NATIVE_HTTP()) { const r = await NATIVE_HTTP().get({ url, responseType: "text" }); if (r.status >= 400) throw new Error("HTTP " + r.status); return typeof r.data === "string" ? r.data : JSON.stringify(r.data); }
+  const r = await fetch(url); if (!r.ok) throw new Error("HTTP " + r.status); return r.text();
+}
+async function mtChunkGoogle(lines) {
+  const body = await mtGet("https://translate.googleapis.com/translate_a/single?client=gtx&sl=de&tl=ar&dt=t&q=" + encodeURIComponent(lines.join("\n")));
+  const j = JSON.parse(body);
+  const out = (j[0] || []).map(x => x[0] || "").join("").split("\n").map(x => x.trim());
+  if (out.length !== lines.length) throw new Error("line mismatch");
+  return out;
+}
+async function mtLineMyMemory(de) {
+  const j = JSON.parse(await mtGet("https://api.mymemory.translated.net/get?langpair=de|ar&q=" + encodeURIComponent(de.slice(0, 480))));
+  if (j.quotaFinished) throw new Error("quota");
+  return String((j.responseData && j.responseData.translatedText) || "").trim();
+}
+async function translateLinesAr(des) {
+  const out = new Array(des.length).fill("");
+  for (let i = 0; i < des.length;) {
+    const chunk = []; let len = 0;
+    while (i + chunk.length < des.length && chunk.length < 40 && len + des[i + chunk.length].length < 1500) { len += des[i + chunk.length].length + 1; chunk.push(des[i + chunk.length]); }
+    if (!chunk.length) chunk.push(des[i].slice(0, 1500));
+    let tr = null;
+    try { tr = await mtChunkGoogle(chunk); } catch (e) {
+      tr = [];
+      for (const d of chunk) { try { tr.push(await mtLineMyMemory(d)); } catch (e2) { tr.push(""); } }
+    }
+    tr.forEach((x, k) => { out[i + k] = x.replace(/\|/g, "/"); });
+    i += chunk.length;
+  }
+  return out;
+}
 function viewAddClip(v) {
   v.innerHTML = `
   <header class="phead">${backBtn("lessons")}<h1 class="h1">${esc(t("add_clip"))}</h1></header>
@@ -781,6 +817,7 @@ function viewAddClip(v) {
     <label for="cTitle">${esc(t("clip_title"))}</label><input id="cTitle" class="search" dir="ltr" lang="de">
     <label for="cText">${esc(t("clip_text"))}</label>
     <textarea id="cText" class="search" rows="9" dir="ltr" lang="de" placeholder="0:05&#10;Na, wie war dein Wochenende? | كيف كانت عطلتك؟&#10;0:08&#10;Ziemlich entspannt."></textarea>
+    <button class="btn sm" id="cTr" type="button">${esc(t("clip_translate"))}</button>
     <p class="muted small">${esc(t("clip_help"))}</p>
     <div id="cPrev" class="muted small"></div>
     <button class="btn primary" id="cSave" disabled>${esc(t("clip_save"))}</button>
@@ -812,13 +849,33 @@ function viewAddClip(v) {
       text.value = r.lines.map(x => fmtClock(x.t) + "\n" + x.de).join("\n");
       check();
       prev.innerHTML += "<br>" + esc(t("clip_fetch_ok")) + (r.auto ? "<br>" + esc(t("clip_fetch_auto")) : "");
+      await doTranslate();
     } catch (e) { prev.textContent = t("clip_fetch_err"); }
     fb.disabled = false;
   };
+  let machineAr = false;
+  async function doTranslate() {
+    const lines = parseTranscript(text.value);
+    const todo = lines.filter(x => !x.ar);
+    if (!lines.length) { check(); return; }
+    if (!todo.length) { prev.innerHTML += "<br>" + esc(t("clip_tr_none")); return; }
+    const tb = $("#cTr", v); tb.disabled = true;
+    const note = document.createElement("div"); note.textContent = t("clip_translating"); prev.appendChild(note);
+    try {
+      const ar = await translateLinesAr(todo.map(x => x.de));
+      todo.forEach((x, k) => { x.ar = ar[k]; });
+      if (!ar.some(Boolean)) throw new Error("empty");
+      text.value = lines.map(x => fmtClock(x.t) + "\n" + x.de + (x.ar ? " | " + x.ar : "")).join("\n");
+      machineAr = true; check();
+      prev.innerHTML += "<br>" + esc(t("clip_tr_ok"));
+    } catch (e) { note.textContent = t("clip_tr_err"); }
+    tb.disabled = false;
+  }
+  $("#cTr", v).onclick = doTranslate;
   btn.onclick = () => {
     const id = "c-" + Date.now().toString(36);
     const last = parsed[parsed.length - 1];
-    S.custom.items[id] = { id, yt: ytId(url.value), title: title.value.trim().slice(0, 120), lines: parsed, end: last.t + Math.min(8, Math.max(3, last.de.split(/\s+/).length * 0.45)), q: autoQuestions(parsed), added: Date.now() };
+    S.custom.items[id] = { id, yt: ytId(url.value), title: title.value.trim().slice(0, 120), lines: parsed, end: last.t + Math.min(8, Math.max(3, last.de.split(/\s+/).length * 0.45)), q: autoQuestions(parsed), added: Date.now(), ...(machineAr ? { mt: true } : {}) };
     save("custom"); rebuildLessons();
     location.hash = "lesson-" + id;
   };
@@ -911,6 +968,42 @@ function applyChrome() {
   setSync(syncState);
 }
 
+/* Scenes listed only by YouTube id (window.DF_AUTO). In the Android app the phone reads YouTube's own German captions,
+   translates them to Arabic by machine (free), keeps the result on this device, and the scene joins the feed. */
+const AUTO_KEY = "df_auto_v1";
+function autoCache() { try { return JSON.parse(localStorage.getItem(AUTO_KEY) || "{}"); } catch (e) { return {}; } }
+function autoSave(c) { try { localStorage.setItem(AUTO_KEY, JSON.stringify(c)); } catch (e) {} }
+function autoCards() {
+  const c = autoCache();
+  return (window.DF_AUTO || []).filter(a => c[a.yt] && c[a.yt].lines && c[a.yt].lines.length >= 3).map(a => {
+    const x = c[a.yt];
+    return { id: "a-" + a.yt, yt: a.yt, start: x.lines[0][0], end: x.end, src: a.src, title: a.title, lines: x.lines, keys: [], auto: true, mt: true };
+  });
+}
+const autoPending = () => { const c = autoCache(), now = Date.now(); return (window.DF_AUTO || []).filter(a => !c[a.yt] || (c[a.yt].fail && now - c[a.yt].fail > 3 * 864e5)); };
+let autoBusy = false;
+async function autoFill(max = 6) {
+  if (autoBusy || !NATIVE_HTTP()) return 0;
+  autoBusy = true; let added = 0;
+  try {
+    for (const a of autoPending().slice(0, max)) {
+      const c = autoCache();
+      try {
+        const r = await fetchYtTranscript(a.yt);
+        if (r.reason === "offline") break; // no connection: try again another time
+        const ls = r.lines.filter(x => x.t < (a.len || 900)).slice(0, 150);
+        if (ls.length < 3) { c[a.yt] = { fail: Date.now() }; autoSave(c); continue; }
+        const ar = await translateLinesAr(ls.map(x => x.de));
+        const last = ls[ls.length - 1];
+        c[a.yt] = { lines: ls.map((x, i) => [x.t, x.de, ar[i] || ""]), end: Math.min(a.len || 9999, last.t + 6), asr: !!r.auto, at: Date.now() };
+        autoSave(c); added++;
+      } catch (e) { c[a.yt] = { fail: Date.now() }; autoSave(c); }
+    }
+  } finally { autoBusy = false; }
+  if (added) FEED = [];
+  return added;
+}
+
 /* ================= clip feed (whole scenes, subtitles follow the video) ================= */
 // One card per video lesson, plus stand-alone scenes in window.DF_FEED ({id, yt, start, end, src, lines:[[t, de, ar]], keys:[[de, ar]], auto}).
 let FEED = [];
@@ -919,12 +1012,15 @@ function buildFeed() {
     id: l.id, yt: l.video.yt, start: l.video.start ?? l.video.t[0], end: l.video.end, src: l.src || ["", ""], title: l.title, lesson: l.id,
     lines: l.L.map((x, i) => [l.video.t[i], x[1], x[2]]), keys: (l.E || []).map(([d, a]) => [d, a])
   }));
-  const extra = (window.DF_FEED || []).map(c => ({ ...c, src: c.src || ["", ""], keys: c.keys || [] }));
+  const extra = (window.DF_FEED || []).concat(autoCards()).map(c => ({ ...c, src: c.src || ["", ""], keys: c.keys || [] }));
   const covered = new Set(extra.map(c => c.yt));
   const rest = fromLessons.filter(c => !covered.has(c.yt));
   FEED = [];
   const n = Math.max(rest.length, extra.length);
   for (let i = 0; i < n; i++) { if (extra[i]) FEED.push(extra[i]); if (extra[i + n]) FEED.push(extra[i + n]); if (rest[i]) FEED.push(rest[i]); }
+  // Clips the person added themselves come first, newest on top.
+  FEED.unshift(...CUSTOM.slice().reverse().map(l => ({ id: l.id, yt: l.video.yt, start: l.video.start, end: l.video.end, src: ["", t("my_clip_src")], title: l.title, lesson: l.id,
+    lines: l.L.map((x, i) => [l.video.t[i], x[1], x[2]]), keys: [] })));
 }
 const fmtLen = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
 function viewFeed(v) {
@@ -941,7 +1037,7 @@ function viewFeed(v) {
         <button class="fplay" aria-label="${esc(t("play"))}">${IC.play}</button><div class="fmsg" hidden></div>
         <div class="fbar"><i></i></div></div>
       <div class="finfo">
-        <div class="fhead"><span class="fsrc" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}${it.auto ? ` <i>${esc(t("feed_auto_short"))}</i>` : ""}</span><span class="flen">${fmtLen(it.end - it.start)}</span></div>
+        <div class="fhead"><span class="fsrc" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}${it.mt ? ` <i>${esc(t("feed_mt_short"))}</i>` : it.auto ? ` <i>${esc(t("feed_auto_short"))}</i>` : ""}</span><span class="flen">${fmtLen(it.end - it.start)}</span></div>
         <h2 class="ftitle" lang="de" dir="ltr">${esc(it.title || "")}</h2>
         <button class="fline" data-a="info"><p class="fde" lang="de" dir="ltr">${esc(it.lines[0][1])}</p><p class="far" lang="ar" dir="rtl">${esc(it.lines[0][2] || "")}</p></button>
         ${it.keys.length ? `<div class="fkeys">${it.keys.slice(0, 4).map(([d, a]) => `<button class="fk ${isSaved(d) ? "done" : ""}" data-key="${esc(d)}" title="${esc(a)}"><b lang="de" dir="ltr">${esc(d)}</b><span lang="ar" dir="rtl">${esc(a)}</span></button>`).join("")}</div>` : ""}
@@ -952,9 +1048,10 @@ function viewFeed(v) {
           ${it.lesson ? `<a href="#lesson-${it.lesson}">${IC.book}<span>${esc(t("feed_ex"))}</span></a>` : `<button data-a="info">${IC.mic}<span>${esc(t("feed_practice"))}</span></button>`}
         </div>
       </div></article>`).join("")}
-    <article class="fcard fend"><div class="finfo"><h2 class="h2">${esc(t("feed_end"))}</h2><a class="btn primary big" href="#lessons">${esc(t("nav_lessons"))}</a></div></article>
+    <article class="fcard fend"><div class="finfo"><h2 class="h2">${esc(t("feed_end"))}</h2>${NATIVE_HTTP() && autoPending().length ? `<p class="muted" id="fMore">${esc(t("feed_more_coming"))}</p>` : ""}<a class="btn primary big" href="#lessons">${esc(t("nav_lessons"))}</a></div></article>
   </div>`;
   const feed = $("#feed", v);
+  autoFill().then(n => { const m = $("#fMore", v); if (n && m) m.textContent = t("feed_new_ready"); });
   const fit = () => { feed.style.height = Math.max(320, innerHeight - $(".top").offsetHeight - $("#nav").offsetHeight) + "px"; };
   fit(); addEventListener("resize", fit);
   let cur = -1, yp = null, timer = null, dead = false, rate = 1, li = 0, stopAt = null;

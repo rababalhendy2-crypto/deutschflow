@@ -126,6 +126,22 @@
     [192.6, "Die Erde ist eine Scheibe.", "الأرض مسطّحة."],
     [195.0, "Lia. – Ja, meine Mutter hat mich auch schon mal kleines Wunderkind genannt.", "ليا. – نعم، أمي أيضاً سمّتني مرة «الطفل المعجزة الصغير»."]
   ]
+},
+{
+  id: "c-ladykracher-taxi", yt: "b2UsM2SmVwA", start: 3, end: 80, src: ["MySpass", "Ladykracher"], title: "Das englische Taxi in Köln",
+  keys: [["ein Marketing-Gag", "حيلة دعائية"], ["Hauptsache …", "المهم أن…"], ["Weiß ich jetzt gerade nicht.", "لا أعرف الآن بالضبط."], ["Sie haben uns sehr amüsiert.", "لقد أضحكتِنا كثيراً."]],
+  lines: [
+    [5.0, "Ein echtes englisches Taxi. Dann nehmen wir das doch gleich.", "تاكسي إنجليزي حقيقي. إذاً لنأخذه فوراً."],
+    [8.0, "Dass es so was in Köln überhaupt gibt. Bestimmt ein Marketing-Gag.", "غريب أن يوجد شيء كهذا في كولونيا أصلاً. أكيد حيلة دعائية."],
+    [11.0, "Hauptsache, es bringt uns zum Flughafen.", "المهم أن يوصلنا إلى المطار."],
+    [13.0, "Madam. – Thank you, Sir. – Guten Tag!", "سيدتي. – شكراً يا سيدي. – نهارك سعيد!"],
+    [24.0, "Schönes Taxi haben Sie da. Zum Flughafen, bitte.", "تاكسي جميل عندك. إلى المطار من فضلك."],
+    [28.5, "Die ist ja auch aus England. Das ist ja lustig.", "وهي أيضاً من إنجلترا. هذا مضحك فعلاً."],
+    [33.0, "Okay, zum Flughafen. Ähm … Köln-Bonn.", "حسناً، إلى المطار. امم… كولونيا-بون."],
+    [43.0, "Cologne, Germany. – Weiß ich jetzt gerade auch nicht so.", "كولونيا، ألمانيا. – لا أعرف الآن بالضبط أنا أيضاً."],
+    [68.0, "Ist das „Versteckte Kamera“ hier? Junge Frau, toller Werbegag, nette Idee.", "هل هذه «الكاميرا الخفية»؟ يا آنسة، حيلة دعائية رائعة، فكرة لطيفة."],
+    [73.5, "Sie haben uns sehr amüsiert, aber wir müssen jetzt los.", "لقد أضحكتِنا كثيراً، لكن علينا أن نذهب الآن."]
+  ]
 }
   ]);
 })();
