@@ -63,7 +63,7 @@ const DAILY_GOAL_MIN = 15;
 /* ================= i18n ================= */
 const STR = {
   ar: {
-    nav_feed: "مقاطع", feed_key: "تعبير اليوم في هذا المقطع", feed_again: "مرة ثانية", feed_practice: "تدرّب", feed_full: "افتح الدرس كاملاً", feed_ex: "التمارين", feed_end: "شاهدت كل المقاطع! تابع بالدروس الكاملة.", feed_auto: "النص مأخوذ من ترجمة يوتيوب التلقائية وصُحّح يدوياً، قد يختلف قليلاً عن الكلام.", feed_auto_short: "· نص تلقائي", nav_home: "الرئيسية", nav_lessons: "الدروس", nav_vocab: "المفردات", nav_stats: "التقدم", nav_profile: "الحساب",
+    nav_feed: "مقاطع", feed_key: "تعبير اليوم في هذا المقطع", feed_again: "مرة ثانية", feed_practice: "تدرّب", feed_full: "افتح الدرس كاملاً", feed_ex: "التمارين", feed_end: "شاهدت كل المقاطع! تابع بالدروس الكاملة.", feed_auto: "النص مأخوذ من ترجمة يوتيوب التلقائية وصُحّح يدوياً، قد يختلف قليلاً عن الكلام.", feed_auto_short: "· نص تلقائي", feed_mt_short: "· ترجمة آلية", feed_more_coming: "التطبيق يجهّز مشاهد جديدة مع ترجمة آلية. ارجع بعد قليل لتجدها هنا.", feed_new_ready: "مشاهد جديدة جاهزة. افتح «مقاطع» من جديد لتراها.", nav_home: "الرئيسية", nav_lessons: "الدروس", nav_vocab: "المفردات", nav_stats: "التقدم", nav_profile: "الحساب",
     loading: "جارٍ تحميل حسابك…",
     sync_ok: "محفوظ", sync_pending: "جارٍ الحفظ…", sync_retry: "الاتصال ضعيف، سنحاول مجدداً", sync_error: "تعذّر الحفظ", sync_denied: "لا تملك صلاحية الحفظ هنا", sync_quota: "مساحة الحفظ ممتلئة", sync_local: "محفوظ على هذا الجهاز فقط", retry: "أعد المحاولة",
     gate_title: "سجّل الدخول لحفظ تقدمك",
@@ -142,7 +142,7 @@ const STR = {
     saved_toast: "حُفظ في دفتر المفردات", removed_toast: "حُذف من الدفتر", sec: "ث"
   },
   de: {
-    nav_feed: "Clips", feed_key: "Ausdruck in diesem Clip", feed_again: "Nochmal", feed_practice: "Üben", feed_full: "Ganze Lektion öffnen", feed_ex: "Übungen", feed_end: "Alle Clips gesehen! Weiter mit den Lektionen.", feed_auto: "Text aus YouTubes automatischen Untertiteln, von Hand korrigiert – kann leicht abweichen.", feed_auto_short: "· Auto-Text", nav_home: "Start", nav_lessons: "Lektionen", nav_vocab: "Wortschatz", nav_stats: "Fortschritt", nav_profile: "Konto",
+    nav_feed: "Clips", feed_key: "Ausdruck in diesem Clip", feed_again: "Nochmal", feed_practice: "Üben", feed_full: "Ganze Lektion öffnen", feed_ex: "Übungen", feed_end: "Alle Clips gesehen! Weiter mit den Lektionen.", feed_auto: "Text aus YouTubes automatischen Untertiteln, von Hand korrigiert – kann leicht abweichen.", feed_auto_short: "· Auto-Text", feed_mt_short: "· maschinell übersetzt", feed_more_coming: "Die App bereitet neue Szenen mit maschineller Übersetzung vor. Schau gleich noch mal vorbei.", feed_new_ready: "Neue Szenen sind fertig. Öffne „Clips“ noch einmal, um sie zu sehen.", nav_home: "Start", nav_lessons: "Lektionen", nav_vocab: "Wortschatz", nav_stats: "Fortschritt", nav_profile: "Konto",
     loading: "Dein Konto wird geladen …",
     sync_ok: "Gespeichert", sync_pending: "Wird gespeichert …", sync_retry: "Verbindung schwach, neuer Versuch folgt", sync_error: "Speichern fehlgeschlagen", sync_denied: "Keine Speicherberechtigung", sync_quota: "Speicher voll", sync_local: "Nur auf diesem Gerät gespeichert", retry: "Erneut versuchen",
     gate_title: "Melde dich an, um deinen Fortschritt zu speichern",
@@ -968,6 +968,42 @@ function applyChrome() {
   setSync(syncState);
 }
 
+/* Scenes listed only by YouTube id (window.DF_AUTO). In the Android app the phone reads YouTube's own German captions,
+   translates them to Arabic by machine (free), keeps the result on this device, and the scene joins the feed. */
+const AUTO_KEY = "df_auto_v1";
+function autoCache() { try { return JSON.parse(localStorage.getItem(AUTO_KEY) || "{}"); } catch (e) { return {}; } }
+function autoSave(c) { try { localStorage.setItem(AUTO_KEY, JSON.stringify(c)); } catch (e) {} }
+function autoCards() {
+  const c = autoCache();
+  return (window.DF_AUTO || []).filter(a => c[a.yt] && c[a.yt].lines && c[a.yt].lines.length >= 3).map(a => {
+    const x = c[a.yt];
+    return { id: "a-" + a.yt, yt: a.yt, start: x.lines[0][0], end: x.end, src: a.src, title: a.title, lines: x.lines, keys: [], auto: true, mt: true };
+  });
+}
+const autoPending = () => { const c = autoCache(), now = Date.now(); return (window.DF_AUTO || []).filter(a => !c[a.yt] || (c[a.yt].fail && now - c[a.yt].fail > 3 * 864e5)); };
+let autoBusy = false;
+async function autoFill(max = 6) {
+  if (autoBusy || !NATIVE_HTTP()) return 0;
+  autoBusy = true; let added = 0;
+  try {
+    for (const a of autoPending().slice(0, max)) {
+      const c = autoCache();
+      try {
+        const r = await fetchYtTranscript(a.yt);
+        if (r.reason === "offline") break; // no connection: try again another time
+        const ls = r.lines.filter(x => x.t < (a.len || 900)).slice(0, 150);
+        if (ls.length < 3) { c[a.yt] = { fail: Date.now() }; autoSave(c); continue; }
+        const ar = await translateLinesAr(ls.map(x => x.de));
+        const last = ls[ls.length - 1];
+        c[a.yt] = { lines: ls.map((x, i) => [x.t, x.de, ar[i] || ""]), end: Math.min(a.len || 9999, last.t + 6), asr: !!r.auto, at: Date.now() };
+        autoSave(c); added++;
+      } catch (e) { c[a.yt] = { fail: Date.now() }; autoSave(c); }
+    }
+  } finally { autoBusy = false; }
+  if (added) FEED = [];
+  return added;
+}
+
 /* ================= clip feed (whole scenes, subtitles follow the video) ================= */
 // One card per video lesson, plus stand-alone scenes in window.DF_FEED ({id, yt, start, end, src, lines:[[t, de, ar]], keys:[[de, ar]], auto}).
 let FEED = [];
@@ -976,7 +1012,7 @@ function buildFeed() {
     id: l.id, yt: l.video.yt, start: l.video.start ?? l.video.t[0], end: l.video.end, src: l.src || ["", ""], title: l.title, lesson: l.id,
     lines: l.L.map((x, i) => [l.video.t[i], x[1], x[2]]), keys: (l.E || []).map(([d, a]) => [d, a])
   }));
-  const extra = (window.DF_FEED || []).map(c => ({ ...c, src: c.src || ["", ""], keys: c.keys || [] }));
+  const extra = (window.DF_FEED || []).concat(autoCards()).map(c => ({ ...c, src: c.src || ["", ""], keys: c.keys || [] }));
   const covered = new Set(extra.map(c => c.yt));
   const rest = fromLessons.filter(c => !covered.has(c.yt));
   FEED = [];
@@ -1001,7 +1037,7 @@ function viewFeed(v) {
         <button class="fplay" aria-label="${esc(t("play"))}">${IC.play}</button><div class="fmsg" hidden></div>
         <div class="fbar"><i></i></div></div>
       <div class="finfo">
-        <div class="fhead"><span class="fsrc" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}${it.auto ? ` <i>${esc(t("feed_auto_short"))}</i>` : ""}</span><span class="flen">${fmtLen(it.end - it.start)}</span></div>
+        <div class="fhead"><span class="fsrc" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}${it.mt ? ` <i>${esc(t("feed_mt_short"))}</i>` : it.auto ? ` <i>${esc(t("feed_auto_short"))}</i>` : ""}</span><span class="flen">${fmtLen(it.end - it.start)}</span></div>
         <h2 class="ftitle" lang="de" dir="ltr">${esc(it.title || "")}</h2>
         <button class="fline" data-a="info"><p class="fde" lang="de" dir="ltr">${esc(it.lines[0][1])}</p><p class="far" lang="ar" dir="rtl">${esc(it.lines[0][2] || "")}</p></button>
         ${it.keys.length ? `<div class="fkeys">${it.keys.slice(0, 4).map(([d, a]) => `<button class="fk ${isSaved(d) ? "done" : ""}" data-key="${esc(d)}" title="${esc(a)}"><b lang="de" dir="ltr">${esc(d)}</b><span lang="ar" dir="rtl">${esc(a)}</span></button>`).join("")}</div>` : ""}
@@ -1012,9 +1048,10 @@ function viewFeed(v) {
           ${it.lesson ? `<a href="#lesson-${it.lesson}">${IC.book}<span>${esc(t("feed_ex"))}</span></a>` : `<button data-a="info">${IC.mic}<span>${esc(t("feed_practice"))}</span></button>`}
         </div>
       </div></article>`).join("")}
-    <article class="fcard fend"><div class="finfo"><h2 class="h2">${esc(t("feed_end"))}</h2><a class="btn primary big" href="#lessons">${esc(t("nav_lessons"))}</a></div></article>
+    <article class="fcard fend"><div class="finfo"><h2 class="h2">${esc(t("feed_end"))}</h2>${NATIVE_HTTP() && autoPending().length ? `<p class="muted" id="fMore">${esc(t("feed_more_coming"))}</p>` : ""}<a class="btn primary big" href="#lessons">${esc(t("nav_lessons"))}</a></div></article>
   </div>`;
   const feed = $("#feed", v);
+  autoFill().then(n => { const m = $("#fMore", v); if (n && m) m.textContent = t("feed_new_ready"); });
   const fit = () => { feed.style.height = Math.max(320, innerHeight - $(".top").offsetHeight - $("#nav").offsetHeight) + "px"; };
   fit(); addEventListener("resize", fit);
   let cur = -1, yp = null, timer = null, dead = false, rate = 1, li = 0, stopAt = null;
