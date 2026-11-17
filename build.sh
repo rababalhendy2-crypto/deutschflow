@@ -20,7 +20,7 @@ mkdir -p web
 node -e '
 const fs = require("fs");
 const body = fs.readFileSync("dist/index.html", "utf8");
-const head = `<!doctype html><html lang="ar"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0C6670"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>`;
+const head = `<!doctype html><html lang="ar"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#F2F8F7"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>`;
 fs.copyFileSync("vendor/supabase.js", "web/supabase.js");
 const vendor = "<script src=\"supabase.js\"></script>";
 fs.writeFileSync("web/index.html", head + vendor + body + "</body></html>");

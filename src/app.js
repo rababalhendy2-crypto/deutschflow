@@ -117,7 +117,7 @@ const STR = {
     mistakes: "أكثر الأخطاء تكراراً", mistakes_empty: "لا أخطاء مسجّلة بعد.", wrong_n: "{0} أخطاء من {1}", longest: "أطول سلسلة", last30: "آخر 30 يوماً", no_data: "لا بيانات بعد",
     profile_title: "الحساب والإعدادات", account: "الحساب", acc_cloud: "مسجّل الدخول بحساب Claude. تقدمك محفوظ بشكل خاص.", acc_local: "وضع التجربة: البيانات على هذا الجهاز فقط.",
     logout_note: "تسجيل الدخول والخروج يتمّان من حسابك على claude.ai.",
-    theme: "المظهر", th_system: "حسب الجهاز", th_light: "فاتح", th_dark: "داكن", def_speed: "سرعة التشغيل الافتراضية",
+    theme: "المظهر", th_system: "حسب الجهاز", th_light: "فاتح", th_dark: "داكن", colors: "الألوان", font: "الخط", font_sample: "Guten Morgen! صباح الخير", def_speed: "سرعة التشغيل الافتراضية",
     voice: "الصوت الألماني", voice_none: "لا يوجد صوت ألماني على هذا الجهاز", test_voice: "جرّب الصوت",
     reset_all: "امسح كل تقدمي", reset_confirm: "اضغط مرة أخرى لتأكيد المسح النهائي", reset_done: "تم مسح التقدم",
     about: "عن المحتوى", about_body: "كل الحوارات والتمارين مكتوبة خصيصاً لـ DeutschFlow، والأسماء والمواقف خيالية. الصوت حالياً مولَّد بقارئ الكلام في جهازك، وليس فيديو أو تسجيلاً بشرياً.",
@@ -196,7 +196,7 @@ const STR = {
     mistakes: "Häufigste Fehler", mistakes_empty: "Noch keine Fehler erfasst.", wrong_n: "{0} Fehler von {1}", longest: "Längste Serie", last30: "Letzte 30 Tage", no_data: "Noch keine Daten",
     profile_title: "Konto und Einstellungen", account: "Konto", acc_cloud: "Angemeldet mit deinem Claude-Konto. Dein Fortschritt ist privat gespeichert.", acc_local: "Testmodus: Daten nur auf diesem Gerät.",
     logout_note: "An- und Abmelden erfolgt über dein Konto auf claude.ai.",
-    theme: "Darstellung", th_system: "Wie Gerät", th_light: "Hell", th_dark: "Dunkel", def_speed: "Standardtempo",
+    theme: "Darstellung", th_system: "Wie Gerät", th_light: "Hell", th_dark: "Dunkel", colors: "Farben", font: "Schrift", font_sample: "Guten Morgen! صباح الخير", def_speed: "Standardtempo",
     voice: "Deutsche Stimme", voice_none: "Keine deutsche Stimme auf diesem Gerät", test_voice: "Stimme testen",
     reset_all: "Gesamten Fortschritt löschen", reset_confirm: "Zum endgültigen Löschen erneut tippen", reset_done: "Fortschritt gelöscht",
     about: "Über die Inhalte", about_body: "Alle Dialoge und Übungen wurden eigens für DeutschFlow geschrieben; Namen und Situationen sind erfunden. Die Stimme ist derzeit die Sprachausgabe deines Geräts, kein Video und keine menschliche Aufnahme.",
@@ -226,7 +226,7 @@ const STR = {
 const DOCS = ["profile", "progress", "vocab", "activity", "custom"];
 function defaults() {
   return {
-    profile: { uiLang: "ar", explLang: "ar", goal: "daily", theme: "system", rate: 1, showDe: true, showAr: true, onboarded: false, created: Date.now() },
+    profile: { uiLang: "ar", explLang: "ar", goal: "daily", theme: "system", palette: "lagoon", font: "rubik", rate: 1, showDe: true, showAr: true, onboarded: false, created: Date.now() },
     progress: { lessons: {}, last: null },
     vocab: { items: {} },
     activity: { days: {}, kinds: {}, wrong: {} },
@@ -983,6 +983,58 @@ const backBtn = parent => `<a class="backbtn" href="#${parent}" data-back>${IC.b
   try { A.addListener("backButton", () => { if (!goBack()) { try { A.exitApp(); } catch (e) {} } }); } catch (e) {}
 })();
 
+/* ----- look: colour palettes and fonts the learner picks in the profile ----- */
+// Each palette: [name ar, name de, light tokens, dark tokens, hero gradient]. Tokens override the stylesheet defaults on <html>.
+const TOK = ["bg", "surface", "surface2", "line", "fg", "muted", "primary", "primary-fg", "accent", "accent-soft", "hl", "feed", "glow"];
+const PALETTES = {
+  lagoon: ["بحري", "Lagune",
+    ["#F2F8F7", "#FFFFFF", "#E1F0EE", "#CBE3DF", "#0F2A2C", "#52706F", "#0E8A84", "#FFFFFF", "#E8644E", "#FCE3DD", "#FFC94A", "#0A1C1E", "#0E5F62"],
+    ["#0B1A1B", "#122628", "#193235", "#244447", "#E6F5F3", "#9BB9B6", "#34C3B8", "#03201E", "#FF907B", "#3A221D", "#FFD166", "#081416", "#0E5359"],
+    "linear-gradient(150deg,#0E8A84 0%,#1C6E9C 55%,#3B4FA8 100%)"],
+  rose: ["وردي", "Rosé",
+    ["#FFF5F7", "#FFFFFF", "#FCE6EC", "#F3D2DC", "#2E1420", "#7A5966", "#D23F73", "#FFFFFF", "#6B4EE6", "#ECE7FF", "#FFC94A", "#1C0C14", "#6E1E44"],
+    ["#1B0E14", "#28141E", "#341C28", "#4A2A3A", "#FCEFF4", "#C9A3B4", "#FF6F9E", "#2A0614", "#A993FF", "#2B2148", "#FFD166", "#14090F", "#5E1B3B"],
+    "linear-gradient(150deg,#D23F73 0%,#A63A9E 55%,#6B4EE6 100%)"],
+  forest: ["أخضر", "Wald",
+    ["#F4F7F0", "#FFFFFF", "#E5EEDC", "#D2DFC6", "#1B2616", "#5E6C55", "#2E8B57", "#FFFFFF", "#C77D00", "#FBEFD6", "#FFD23F", "#0F1A0E", "#2D5A2A"],
+    ["#0F150D", "#172015", "#1F2B1C", "#2E3E2A", "#EEF5E9", "#A9BBA0", "#5CCB86", "#06200F", "#F2B33D", "#33270F", "#FFD23F", "#0B1209", "#244A22"],
+    "linear-gradient(150deg,#2E8B57 0%,#4C8C3A 55%,#A07D12 100%)"],
+  night: ["ليلي", "Nacht",
+    ["#F4F5FB", "#FFFFFF", "#E6E8F7", "#D3D7EE", "#171A33", "#5B6080", "#4F5BD5", "#FFFFFF", "#D9711A", "#FDEBD9", "#FFC94A", "#0D0F22", "#2B2F7A"],
+    ["#0E1022", "#161931", "#1E2240", "#2C3157", "#EDEFFF", "#A6ABCF", "#8C95FF", "#0B0E33", "#FFAE5C", "#3A2814", "#FFD166", "#0A0C1C", "#262C70"],
+    "linear-gradient(150deg,#4F5BD5 0%,#3A3FA8 55%,#1F2A6B 100%)"],
+  sunset: ["برتقالي", "Abendrot",
+    ["#FFF6EC", "#FFFFFF", "#FFEAD5", "#F0D8C2", "#24143A", "#6E5A70", "#F2542D", "#FFFFFF", "#7B3FE4", "#EEE3FF", "#FFD23F", "#120A1C", "#3B1E52"],
+    ["#160E22", "#21152F", "#2C1D3E", "#3A2950", "#F7EEFF", "#B9A6C9", "#FF7A55", "#1A0E05", "#B58CFF", "#2F2148", "#FFC233", "#120A1C", "#3B1E52"],
+    "linear-gradient(150deg,#F2542D 0%,#C2338A 55%,#5B2BC4 100%)"]
+};
+// Fonts that cover both Arabic and German: [label, Google Fonts query, German stack, Arabic/body stack].
+const FONTS = {
+  rubik: ["Rubik", "family=Rubik:wght@400;500;600;700;800", '"Rubik",system-ui,sans-serif', '"Rubik","Noto Sans Arabic",Tahoma,sans-serif'],
+  cairo: ["Cairo", "family=Cairo:wght@400;600;700;800", '"Cairo",system-ui,sans-serif', '"Cairo","Noto Sans Arabic",Tahoma,sans-serif'],
+  plex: ["IBM Plex", "family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700", '"IBM Plex Sans",system-ui,sans-serif', '"IBM Plex Sans Arabic","Noto Sans Arabic",Tahoma,sans-serif']
+};
+const LOOK_KEY = "df_look_v1";
+const darkMQ = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
+function applyLook(look) {
+  look = look || {};
+  const pal = PALETTES[look.palette] || PALETTES.lagoon, font = FONTS[look.font] || FONTS.rubik;
+  const dark = look.theme === "dark" || (look.theme !== "light" && !!darkMQ && darkMQ.matches);
+  const root = document.documentElement, vals = dark ? pal[3] : pal[2];
+  TOK.forEach((k, i) => root.style.setProperty("--" + k, vals[i]));
+  root.style.setProperty("--grad", pal[4]);
+  root.style.setProperty("--f-de", font[2]); root.style.setProperty("--f-body", font[3]); root.style.setProperty("--f-ar", font[3]);
+  root.style.colorScheme = dark ? "dark" : "light";
+  const href = "https://fonts.googleapis.com/css2?" + font[1] + "&display=swap";
+  let ln = document.getElementById("dfFont");
+  if (!ln) { ln = document.createElement("link"); ln.id = "dfFont"; ln.rel = "stylesheet"; document.head.appendChild(ln); }
+  if (ln.getAttribute("href") !== href) ln.setAttribute("href", href);
+  const mt = document.querySelector('meta[name="theme-color"]'); if (mt) mt.setAttribute("content", vals[0]);
+  try { localStorage.setItem(LOOK_KEY, JSON.stringify({ palette: look.palette, font: look.font, theme: look.theme })); } catch (e) {}
+}
+(function earlyLook() { let l = null; try { l = JSON.parse(localStorage.getItem(LOOK_KEY) || "null"); } catch (e) {} applyLook(l); })();
+if (darkMQ && darkMQ.addEventListener) darkMQ.addEventListener("change", () => applyLook(S.profile));
+
 function applyChrome() {
   const app = $("#app");
   app.dir = ui() === "de" ? "ltr" : "rtl"; app.lang = ui();
@@ -990,6 +1042,7 @@ function applyChrome() {
   const th = S.profile.theme;
   if (th === "light" || th === "dark") document.documentElement.dataset.dfTheme = th;
   else delete document.documentElement.dataset.dfTheme;
+  applyLook(S.profile);
   $("#nav").innerHTML = [["feed", IC.play, "nav_feed"], ["home", IC.home, "nav_home"], ["lessons", IC.book, "nav_lessons"], ["vocab", IC.cards, "nav_vocab"], ["stats", IC.chart, "nav_stats"], ["profile", IC.user, "nav_profile"]]
     .map(([r, ic, k]) => `<a href="#${r}" data-r="${r}">${ic}<span>${esc(t(k))}</span></a>`).join("");
   setSync(syncState);
@@ -2034,6 +2087,9 @@ async function viewProfile(v) {
     <label>${esc(t("expl_lang"))}${sel("sExpl", P.explLang, [["ar", t("lang_ar")], ["de", t("lang_de")]])}</label>
     <label>${esc(t("goal"))}${sel("sGoal", P.goal, [["daily", t("g_daily")], ["work", t("g_work")], ["exam", t("g_exam")]])}</label>
     <label>${esc(t("theme"))}${sel("sTheme", P.theme, [["system", t("th_system")], ["light", t("th_light")], ["dark", t("th_dark")]])}</label>
+    <div class="lookpick"><span>${esc(t("colors"))}</span><div class="swatches" role="radiogroup">${Object.entries(PALETTES).map(([k, p]) => `<button type="button" role="radio" aria-checked="${(P.palette || "lagoon") === k}" class="swatch ${(P.palette || "lagoon") === k ? "on" : ""}" data-pal="${k}" style="--s1:${p[2][6]};--s2:${p[2][8]};--s3:${p[2][10]}"><i></i><span>${esc(ui() === "de" ? p[1] : p[0])}</span></button>`).join("")}</div></div>
+    <label>${esc(t("font"))}${sel("sFont", P.font || "rubik", Object.entries(FONTS).map(([k, f]) => [k, f[0]]))}</label>
+    <p class="fontsample" dir="auto">${esc(t("font_sample"))}</p>
     <label>${esc(t("def_speed"))}${sel("sRate", P.rate, [[0.6, "0.6×"], [0.8, "0.8×"], [1, "1×"], [1.2, "1.2×"]])}</label>
   </section>
   <section class="card block"><h2 class="h2">${esc(t("voice"))}</h2>
@@ -2051,6 +2107,11 @@ async function viewProfile(v) {
   bind("#sExpl", "explLang");
   bind("#sGoal", "goal");
   bind("#sTheme", "theme", false, applyChrome);
+  bind("#sFont", "font", false, applyChrome);
+  $$("[data-pal]", v).forEach(b => b.onclick = () => {
+    P.palette = b.dataset.pal; save("profile"); applyChrome();
+    $$("[data-pal]", v).forEach(x => { const on = x === b; x.classList.toggle("on", on); x.setAttribute("aria-checked", on); });
+  });
   bind("#sRate", "rate", true);
   if ($("#sLogout", v)) $("#sLogout", v).onclick = async () => { await flush(); try { await sb.auth.signOut(); } catch (e) {} location.hash = "home"; location.reload(); };
   if ($("#sLogin", v)) $("#sLogin", v).onclick = () => { location.hash = "home"; location.reload(); };
