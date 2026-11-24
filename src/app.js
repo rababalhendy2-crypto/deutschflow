@@ -97,7 +97,7 @@ const STR = {
     hidden_de: "النص مخفي، استمع وحاول أن تفهم",
     no_voice: "لم نجد صوتاً ألمانياً على جهازك، فقد يكون النطق غير دقيق. أضف صوتاً ألمانياً من إعدادات الجهاز (تحويل النص إلى كلام).",
     no_tts: "متصفحك لا يدعم قراءة النص بصوت. جرّب Chrome أو Safari.",
-    voice_native: "صوت ألماني من محرك النطق في جهازك (Android).", rec_hint_live: "استمع للجملة، ثم اضغط «ابدأ التسجيل»، تكلّم، واضغط «أوقف». بعدها قارن تسجيلك بالنموذج.", rec_start: "ابدأ التسجيل", rec_stop: "أوقف التسجيل", rec_again: "سجّل من جديد", rec_file: "أو اختر ملفاً صوتياً", rec_both: "النموذج ثم تسجيلك", rec_denied: "لم يُسمح باستخدام الميكروفون. فعّله من إعدادات الجهاز أو المتصفح.", k_dict: "إملاء سمعي", k_trans: "ترجمة", k_who: "من قال ذلك؟", k_reg: "درجة الرسمية", dict_hint: "استمع واكتب الجملة الألمانية كما تسمعها. الأحرف الكبيرة وعلامات الترقيم لا تُحتسب.", dict_ph: "اكتب ما تسمعه…", dict_typos: "صحيح، مع أخطاء إملائية بسيطة (المعلَّمة باللون الأصفر).", trans_hint: "اختر الجملة الألمانية التي تعني:", reg_hint: "ما درجة الرسمية في هذه الجملة؟", pl_title: "اختبار تحديد المستوى", pl_sub: "{0} سؤالاً: استماع، مواقف حقيقية، فهم التعابير، وقراءة. نحو 6 دقائق، شغّل الصوت.", pl_listen_hint: "الجملة مسموعة فقط ولا تظهر مكتوبة. يمكنك إعادة الاستماع.", pl_k_listen: "استماع", pl_k_situation: "موقف حقيقي", pl_k_meaning: "المعنى في السياق", pl_k_read: "قراءة", pl_start: "ابدأ الاختبار", pl_again: "أعد الاختبار", pl_go: "ابدأ من هنا", pl_done_line: "نتيجتك: {0} من {1} · {2}", pl_lv_B2s: "بداية B2", pl_lv_B2: "B2", pl_lv_C1: "قريب من C1", pl_rec_B2s: "ابدأ من الدرس الأول وخذ وقتك مع كل حوار. التمارين والمراجعة ستثبّت الأساس.", pl_rec_B2: "مستواك مناسب لدروس B2. اختر الدروس حسب هدفك وتابع المشاهد الحقيقية.", pl_rec_C1: "أنت جاهز لمحتوى C1. جرّب قسم «الصحة والنفس» وأكمل دروس B2 للمراجعة السريعة.", pl_note: "هذا اختبار قصير للتوجيه فقط، وليس شهادة رسمية.", lg_title: "الخصوصية وحماية البيانات", lg_asof: "آخر تحديث: 3 نوفمبر 2026", lg_contact: "التواصل", back: "رجوع", lg_privacy_html: "<h2 class=\"h2\">ما الذي نحفظه؟</h2><ul><li>بريدك الإلكتروني وكلمة المرور (مشفّرة) لتسجيل الدخول.</li><li>تقدّمك: الدروس، نتائج التمارين، المفردات المحفوظة، وقت التعلّم والإعدادات.</li></ul><h2 class=\"h2\">أين تُحفظ؟</h2><p>في قاعدة بيانات Supabase داخل الاتحاد الأوروبي (فرانكفورت). لا يستطيع أي مستخدم آخر رؤية بياناتك. في وضع «بدون حساب» تبقى البيانات على جهازك فقط.</p><h2 class=\"h2\">ما الذي لا نحفظه؟</h2><ul><li>تسجيلاتك الصوتية تبقى على جهازك ولا تُرفع إلى أي خادم.</li><li>لا إعلانات ولا أدوات تتبّع أو تحليلات.</li><li>النطق يتم بمحرك الكلام في جهازك.</li></ul><h2 class=\"h2\">الفيديوهات</h2><p>المقاطع معروضة من YouTube عبر المشغّل الرسمي. عند تشغيلها قد تجمع Google بيانات حسب سياستها الخاصة.</p><h2 class=\"h2\">حقوقك</h2><p>يمكنك حذف كل بياناتك في أي وقت من صفحة «حسابي» بزر «احذف حسابي وبياناتي».</p>", rm_title: "تذكير يومي", rm_on: "ذكّرني بالتعلّم كل يوم", rm_time: "الوقت", rm_body: "حان وقت 10 دقائق ألمانية 🇩🇪 مشهد واحد يكفي اليوم.", rm_set: "تم ضبط التذكير.", rm_denied: "الإشعارات غير مسموح بها. فعّلها من إعدادات التطبيق.", rm_fail: "تعذّر ضبط التذكير.", del_account: "احذف حسابي وبياناتي", del_local: "احذف بياناتي من هذا الجهاز", del_confirm: "متأكد؟ اضغط مجدداً للحذف النهائي", del_note: "يحذف التقدّم والمفردات والإعدادات نهائياً ولا يمكن التراجع.", del_fail: "تعذّر الحذف. تحقق من الاتصال وحاول مجدداً.", del_done_full: "تم حذف حسابك وكل بياناتك.", del_done_data: "تم حذف كل بياناتك وتسجيل خروجك.",
+    voice_native: "صوت ألماني من محرك النطق في جهازك (Android).", rec_hint_live: "استمع للجملة، ثم اضغط «ابدأ التسجيل»، تكلّم، واضغط «أوقف». بعدها قارن تسجيلك بالنموذج.", rec_start: "ابدأ التسجيل", rec_stop: "أوقف التسجيل", rec_again: "سجّل من جديد", rec_file: "أو اختر ملفاً صوتياً", rec_both: "النموذج ثم تسجيلك", rec_denied: "لم يُسمح باستخدام الميكروفون. فعّله من إعدادات الجهاز أو المتصفح.", k_dict: "إملاء سمعي", k_trans: "ترجمة", k_who: "من قال ذلك؟", k_reg: "درجة الرسمية", dict_hint: "استمع واكتب الجملة الألمانية كما تسمعها. الأحرف الكبيرة وعلامات الترقيم لا تُحتسب.", dict_ph: "اكتب ما تسمعه…", dict_typos: "صحيح، مع أخطاء إملائية بسيطة (المعلَّمة باللون الأصفر).", trans_hint: "اختر الجملة الألمانية التي تعني:", reg_hint: "ما درجة الرسمية في هذه الجملة؟", pl_title: "اختبار تحديد المستوى", pl_sub: "{0} سؤالاً: استماع، مواقف حقيقية، فهم التعابير، وقراءة. نحو 6 دقائق، شغّل الصوت.", pl_listen_hint: "الجملة مسموعة فقط ولا تظهر مكتوبة. يمكنك إعادة الاستماع.", pl_k_listen: "استماع", pl_k_situation: "موقف حقيقي", pl_k_meaning: "المعنى في السياق", pl_k_read: "قراءة", pl_start: "ابدأ الاختبار", pl_again: "أعد الاختبار", pl_go: "ابدأ من هنا", pl_done_line: "نتيجتك: {0} من {1} · {2}", pl_lv_B2s: "بداية B2", pl_lv_B2: "B2", pl_lv_C1: "قريب من C1", pl_rec_B2s: "ابدأ من الدرس الأول وخذ وقتك مع كل حوار. التمارين والمراجعة ستثبّت الأساس.", pl_rec_B2: "مستواك مناسب لدروس B2. اختر الدروس حسب هدفك وتابع المشاهد الحقيقية.", pl_rec_C1: "أنت جاهز لمحتوى C1. جرّب قسم «الصحة والنفس» وأكمل دروس B2 للمراجعة السريعة.", pl_note: "هذا اختبار قصير للتوجيه فقط، وليس شهادة رسمية.", lg_title: "الخصوصية وحماية البيانات", lg_asof: "آخر تحديث: 3 نوفمبر 2026", lg_contact: "التواصل", back: "رجوع", lg_privacy_html: "<h2 class=\"h2\">ما الذي نحفظه؟</h2><ul><li>بريدك الإلكتروني وكلمة المرور (مشفّرة) لتسجيل الدخول.</li><li>تقدّمك: الدروس، نتائج التمارين، المفردات المحفوظة، وقت التعلّم والإعدادات.</li></ul><h2 class=\"h2\">أين تُحفظ؟</h2><p>في قاعدة بيانات Supabase داخل الاتحاد الأوروبي (فرانكفورت). لا يستطيع أي مستخدم آخر رؤية بياناتك. في وضع «بدون حساب» تبقى البيانات على جهازك فقط.</p><h2 class=\"h2\">ما الذي لا نحفظه؟</h2><ul><li>تسجيلاتك الصوتية تبقى على جهازك ولا تُرفع إلى أي خادم.</li><li>لا إعلانات ولا أدوات تتبّع أو تحليلات.</li><li>النطق يتم بمحرك الكلام في جهازك. عند الضغط على كلمة لها تسجيل حقيقي يُشغَّل الملف من Wikimedia Commons، فيرى خادمهم عنوان IP الخاص بك فقط.</li></ul><h2 class=\"h2\">الفيديوهات</h2><p>المقاطع معروضة من YouTube عبر المشغّل الرسمي. عند تشغيلها قد تجمع Google بيانات حسب سياستها الخاصة.</p><h2 class=\"h2\">حقوقك</h2><p>يمكنك حذف كل بياناتك في أي وقت من صفحة «حسابي» بزر «احذف حسابي وبياناتي».</p>", rm_title: "تذكير يومي", rm_on: "ذكّرني بالتعلّم كل يوم", rm_time: "الوقت", rm_body: "حان وقت 10 دقائق ألمانية 🇩🇪 مشهد واحد يكفي اليوم.", rm_set: "تم ضبط التذكير.", rm_denied: "الإشعارات غير مسموح بها. فعّلها من إعدادات التطبيق.", rm_fail: "تعذّر ضبط التذكير.", del_account: "احذف حسابي وبياناتي", del_local: "احذف بياناتي من هذا الجهاز", del_confirm: "متأكد؟ اضغط مجدداً للحذف النهائي", del_note: "يحذف التقدّم والمفردات والإعدادات نهائياً ولا يمكن التراجع.", del_fail: "تعذّر الحذف. تحقق من الاتصال وحاول مجدداً.", del_done_full: "تم حذف حسابك وكل بياناتك.", del_done_data: "تم حذف كل بياناتك وتسجيل خروجك.",
     register: "درجة الرسمية", reg_f: "رسمي", reg_n: "محايد", reg_i: "غير رسمي",
     meaning: "المعنى في السياق", vocab_h: "مفردات مهمة", example: "مثال إضافي", listen: "استمع", slow: "ببطء",
     save: "احفظ", saved: "محفوظ ✓", save_sentence: "احفظ الجملة",
@@ -176,7 +176,7 @@ const STR = {
     hidden_de: "Text ausgeblendet – hör genau hin",
     no_voice: "Keine deutsche Stimme gefunden, die Aussprache kann ungenau sein. Füge in den Geräteeinstellungen (Text-in-Sprache) eine deutsche Stimme hinzu.",
     no_tts: "Dein Browser unterstützt keine Sprachausgabe. Versuche Chrome oder Safari.",
-    voice_native: "Deutsche Stimme aus der Sprachausgabe deines Geräts (Android).", rec_hint_live: "Hör dir den Satz an, tippe auf „Aufnahme starten“, sprich und tippe auf „Stopp“. Dann vergleiche mit dem Vorbild.", rec_start: "Aufnahme starten", rec_stop: "Aufnahme stoppen", rec_again: "Neu aufnehmen", rec_file: "oder Audiodatei wählen", rec_both: "Vorbild, dann du", rec_denied: "Kein Zugriff auf das Mikrofon. Bitte in den Einstellungen erlauben.", k_dict: "Hördiktat", k_trans: "Übersetzung", k_who: "Wer sagt das?", k_reg: "Register", dict_hint: "Hör zu und schreib den Satz auf. Groß-/Kleinschreibung und Satzzeichen zählen nicht.", dict_ph: "Schreib, was du hörst …", dict_typos: "Richtig, mit kleinen Tippfehlern (gelb markiert).", trans_hint: "Welcher deutsche Satz bedeutet:", reg_hint: "Wie formell ist dieser Satz?", pl_title: "Einstufungstest", pl_sub: "{0} Fragen: Hören, echte Situationen, Bedeutung im Kontext und Lesen. Ca. 6 Minuten, Ton an.", pl_listen_hint: "Der Satz ist nur zu hören, nicht zu lesen. Du kannst ihn wiederholen.", pl_k_listen: "Hören", pl_k_situation: "Situation", pl_k_meaning: "Bedeutung im Kontext", pl_k_read: "Lesen", pl_start: "Test starten", pl_again: "Test wiederholen", pl_go: "Hier starten", pl_done_line: "Ergebnis: {0} von {1} · {2}", pl_lv_B2s: "Beginnendes B2", pl_lv_B2: "B2", pl_lv_C1: "Nah an C1", pl_rec_B2s: "Starte mit Lektion 1 und nimm dir Zeit für jeden Dialog. Übungen und Wiederholung festigen die Basis.", pl_rec_B2: "Die B2-Lektionen passen zu dir. Wähle nach deinem Ziel und schau die echten Szenen.", pl_rec_C1: "Du bist bereit für C1. Probier den Bereich „Gesundheit & Psyche“ und nutze B2 zur Wiederholung.", pl_note: "Kurzer Orientierungstest, kein offizielles Zertifikat.", lg_title: "Datenschutz", lg_asof: "Stand: 3. November 2026", lg_contact: "Kontakt", back: "Zurück", lg_privacy_html: "<h2 class=\"h2\">Was speichern wir?</h2><ul><li>E-Mail und Passwort (verschlüsselt) für die Anmeldung.</li><li>Deinen Fortschritt: Lektionen, Übungsergebnisse, gespeicherte Wörter, Lernzeit und Einstellungen.</li></ul><h2 class=\"h2\">Wo?</h2><p>In einer Supabase-Datenbank in der EU (Frankfurt). Andere Nutzer können deine Daten nicht sehen. Ohne Konto bleiben die Daten nur auf deinem Gerät.</p><h2 class=\"h2\">Was speichern wir nicht?</h2><ul><li>Sprachaufnahmen bleiben auf deinem Gerät und werden nicht hochgeladen.</li><li>Keine Werbung, kein Tracking, keine Analyse-Tools.</li><li>Die Aussprache kommt aus der Sprachausgabe deines Geräts.</li></ul><h2 class=\"h2\">Videos</h2><p>Die Clips werden über den offiziellen YouTube-Player eingebettet. Beim Abspielen kann Google Daten nach eigener Richtlinie verarbeiten.</p><h2 class=\"h2\">Deine Rechte</h2><p>Du kannst alle Daten jederzeit unter „Profil“ mit „Konto und Daten löschen“ entfernen.</p>", rm_title: "Tägliche Erinnerung", rm_on: "Jeden Tag ans Lernen erinnern", rm_time: "Uhrzeit", rm_body: "Zeit für 10 Minuten Deutsch 🇩🇪 Eine Szene reicht heute.", rm_set: "Erinnerung gestellt.", rm_denied: "Benachrichtigungen sind nicht erlaubt. Bitte in den App-Einstellungen aktivieren.", rm_fail: "Erinnerung konnte nicht gestellt werden.", del_account: "Konto und Daten löschen", del_local: "Daten auf diesem Gerät löschen", del_confirm: "Sicher? Nochmal tippen zum endgültigen Löschen", del_note: "Löscht Fortschritt, Wörter und Einstellungen endgültig.", del_fail: "Löschen fehlgeschlagen. Bitte Verbindung prüfen.", del_done_full: "Dein Konto und alle Daten wurden gelöscht.", del_done_data: "Alle Daten wurden gelöscht und du bist abgemeldet.",
+    voice_native: "Deutsche Stimme aus der Sprachausgabe deines Geräts (Android).", rec_hint_live: "Hör dir den Satz an, tippe auf „Aufnahme starten“, sprich und tippe auf „Stopp“. Dann vergleiche mit dem Vorbild.", rec_start: "Aufnahme starten", rec_stop: "Aufnahme stoppen", rec_again: "Neu aufnehmen", rec_file: "oder Audiodatei wählen", rec_both: "Vorbild, dann du", rec_denied: "Kein Zugriff auf das Mikrofon. Bitte in den Einstellungen erlauben.", k_dict: "Hördiktat", k_trans: "Übersetzung", k_who: "Wer sagt das?", k_reg: "Register", dict_hint: "Hör zu und schreib den Satz auf. Groß-/Kleinschreibung und Satzzeichen zählen nicht.", dict_ph: "Schreib, was du hörst …", dict_typos: "Richtig, mit kleinen Tippfehlern (gelb markiert).", trans_hint: "Welcher deutsche Satz bedeutet:", reg_hint: "Wie formell ist dieser Satz?", pl_title: "Einstufungstest", pl_sub: "{0} Fragen: Hören, echte Situationen, Bedeutung im Kontext und Lesen. Ca. 6 Minuten, Ton an.", pl_listen_hint: "Der Satz ist nur zu hören, nicht zu lesen. Du kannst ihn wiederholen.", pl_k_listen: "Hören", pl_k_situation: "Situation", pl_k_meaning: "Bedeutung im Kontext", pl_k_read: "Lesen", pl_start: "Test starten", pl_again: "Test wiederholen", pl_go: "Hier starten", pl_done_line: "Ergebnis: {0} von {1} · {2}", pl_lv_B2s: "Beginnendes B2", pl_lv_B2: "B2", pl_lv_C1: "Nah an C1", pl_rec_B2s: "Starte mit Lektion 1 und nimm dir Zeit für jeden Dialog. Übungen und Wiederholung festigen die Basis.", pl_rec_B2: "Die B2-Lektionen passen zu dir. Wähle nach deinem Ziel und schau die echten Szenen.", pl_rec_C1: "Du bist bereit für C1. Probier den Bereich „Gesundheit & Psyche“ und nutze B2 zur Wiederholung.", pl_note: "Kurzer Orientierungstest, kein offizielles Zertifikat.", lg_title: "Datenschutz", lg_asof: "Stand: 3. November 2026", lg_contact: "Kontakt", back: "Zurück", lg_privacy_html: "<h2 class=\"h2\">Was speichern wir?</h2><ul><li>E-Mail und Passwort (verschlüsselt) für die Anmeldung.</li><li>Deinen Fortschritt: Lektionen, Übungsergebnisse, gespeicherte Wörter, Lernzeit und Einstellungen.</li></ul><h2 class=\"h2\">Wo?</h2><p>In einer Supabase-Datenbank in der EU (Frankfurt). Andere Nutzer können deine Daten nicht sehen. Ohne Konto bleiben die Daten nur auf deinem Gerät.</p><h2 class=\"h2\">Was speichern wir nicht?</h2><ul><li>Sprachaufnahmen bleiben auf deinem Gerät und werden nicht hochgeladen.</li><li>Keine Werbung, kein Tracking, keine Analyse-Tools.</li><li>Die Aussprache kommt aus der Sprachausgabe deines Geräts. Hat ein Wort eine echte Aufnahme, wird die Datei von Wikimedia Commons abgespielt; deren Server sieht dabei nur deine IP-Adresse.</li></ul><h2 class=\"h2\">Videos</h2><p>Die Clips werden über den offiziellen YouTube-Player eingebettet. Beim Abspielen kann Google Daten nach eigener Richtlinie verarbeiten.</p><h2 class=\"h2\">Deine Rechte</h2><p>Du kannst alle Daten jederzeit unter „Profil“ mit „Konto und Daten löschen“ entfernen.</p>", rm_title: "Tägliche Erinnerung", rm_on: "Jeden Tag ans Lernen erinnern", rm_time: "Uhrzeit", rm_body: "Zeit für 10 Minuten Deutsch 🇩🇪 Eine Szene reicht heute.", rm_set: "Erinnerung gestellt.", rm_denied: "Benachrichtigungen sind nicht erlaubt. Bitte in den App-Einstellungen aktivieren.", rm_fail: "Erinnerung konnte nicht gestellt werden.", del_account: "Konto und Daten löschen", del_local: "Daten auf diesem Gerät löschen", del_confirm: "Sicher? Nochmal tippen zum endgültigen Löschen", del_note: "Löscht Fortschritt, Wörter und Einstellungen endgültig.", del_fail: "Löschen fehlgeschlagen. Bitte Verbindung prüfen.", del_done_full: "Dein Konto und alle Daten wurden gelöscht.", del_done_data: "Alle Daten wurden gelöscht und du bist abgemeldet.",
     register: "Register", reg_f: "formell", reg_n: "neutral", reg_i: "informell",
     meaning: "Bedeutung im Kontext", vocab_h: "Wichtige Wörter", example: "Weiteres Beispiel", listen: "Anhören", slow: "Langsam",
     save: "Speichern", saved: "Gespeichert ✓", save_sentence: "Satz speichern",
@@ -223,6 +223,31 @@ const STR = {
 };
 
 /* ================= state ================= */
+/* Strings for long-press word meanings and word practice. */
+Object.assign(STR.ar, {
+  wt_n: "اسم", wt_v: "فعل", wt_a: "صفة", wt_d: "ظرف / حال", wt_i: "تعبير قصير", wt_p: "اسم علم", wt_f: "أداة / ضمير / حرف",
+  wc_plural: "الجمع:", wc_plonly: "يُستعمل بصيغة الجمع", wc_save: "احفظ الكلمة", wc_rec: "نطق حقيقي بصوت إنسان من", wc_tts: "النطق بصوت الجهاز الألماني (لا يوجد تسجيل حقيقي لهذه الكلمة).",
+  wc_none: "هذه الكلمة ليست في قاموس التطبيق بعد، لذلك لا نعرض معنى مخمَّناً.", wc_ext: "ابحث في قاموس Langenscheidt",
+  wc_sep: "«{0}» هنا جزء من فعل منفصل، وبقيته في آخر الجملة:",
+  lp_hint: "اضغط مطوّلاً على أي كلمة لترى معناها وتحفظها.", word_colors: "تلوين الأفعال والصفات والظروف في النصوص",
+  wtr_title: "تدريب الكلمات", wtr_open: "تدريب الكلمات المحفوظة", wtr_empty: "لم تحفظ أي كلمة بعد.", wtr_sound: "صوت صح/خطأ",
+  wtr_q: "سؤال {0} من {1}", wtr_retry: "جرّب خياراً آخر، وستعود هذه الكلمة في آخر التدريب.", wtr_typo: "صحيح مع خطأ إملائي بسيط. الكتابة الصحيحة: {0}", wtr_said: "الكلمة هي: {0}",
+  wtr_match_some: "أحسنت، أكملت المطابقة (مع بعض الأخطاء).", wtr_result: "{0} من {1} صحيحة من أول محاولة", wtr_again_words: "كلمات تحتاج مراجعة", wtr_more: "تدريب جديد",
+  wq_hear: "استمع: ماذا تعني هذه الكلمة؟", wq_mean: "ما معنى هذه الكلمة؟", wq_de: "اختر الكلمة الألمانية التي تعني:", wq_art: "ما أداة التعريف الصحيحة؟", wq_gap: "أكمل الجملة الأصلية بالكلمة الصحيحة:", wq_type: "استمع واكتب الكلمة بالألمانية:", wq_match: "طابق كل كلمة ألمانية بمعناها:",
+  k_w_hear: "استماع ومعنى", k_w_mean: "معنى الكلمة", k_w_de: "من العربية إلى الألمانية", k_w_type: "اكتب ما تسمعه", k_w_art: "der / die / das", k_w_gap: "الكلمة في سياقها", k_w_match: "مطابقة"
+});
+Object.assign(STR.de, {
+  wt_n: "Nomen", wt_v: "Verb", wt_a: "Adjektiv", wt_d: "Adverb", wt_i: "Ausruf", wt_p: "Name", wt_f: "Funktionswort",
+  wc_plural: "Plural:", wc_plonly: "nur im Plural", wc_save: "Wort speichern", wc_rec: "Echte Aussprache (menschliche Stimme) von", wc_tts: "Aussprache mit der deutschen Stimme deines Geräts (keine echte Aufnahme vorhanden).",
+  wc_none: "Dieses Wort ist noch nicht im Wörterbuch der App. Wir zeigen keine geratene Bedeutung.", wc_ext: "Bei Langenscheidt nachschlagen",
+  wc_sep: "„{0}“ gehört hier zu einem trennbaren Verb, der Rest steht am Satzende:",
+  lp_hint: "Lange auf ein Wort drücken: Bedeutung sehen und speichern.", word_colors: "Verben, Adjektive und Adverbien farbig markieren",
+  wtr_title: "Wörter üben", wtr_open: "Gespeicherte Wörter üben", wtr_empty: "Du hast noch keine Wörter gespeichert.", wtr_sound: "Töne für richtig/falsch",
+  wtr_q: "Frage {0} von {1}", wtr_retry: "Versuch eine andere Antwort. Das Wort kommt am Ende noch einmal.", wtr_typo: "Richtig, mit kleinem Tippfehler. Richtig geschrieben: {0}", wtr_said: "Das Wort ist: {0}",
+  wtr_match_some: "Geschafft (mit ein paar Fehlern).", wtr_result: "{0} von {1} beim ersten Versuch richtig", wtr_again_words: "Diese Wörter noch einmal üben", wtr_more: "Neue Runde",
+  wq_hear: "Hör zu: Was bedeutet das Wort?", wq_mean: "Was bedeutet dieses Wort?", wq_de: "Welches deutsche Wort bedeutet:", wq_art: "Welcher Artikel ist richtig?", wq_gap: "Ergänze den Originalsatz:", wq_type: "Hör zu und schreib das Wort:", wq_match: "Ordne jedes Wort seiner Bedeutung zu:",
+  k_w_hear: "Hören & Bedeutung", k_w_mean: "Wortbedeutung", k_w_de: "Arabisch → Deutsch", k_w_type: "Hören & schreiben", k_w_art: "der / die / das", k_w_gap: "Wort im Kontext", k_w_match: "Zuordnen"
+});
 const DOCS = ["profile", "progress", "vocab", "activity", "custom"];
 function defaults() {
   return {
@@ -258,11 +283,37 @@ function merge(base, extra) {
   }
   return base;
 }
+/* ================= word glossary (long-press meanings, word-type colours) ================= */
+const GL = window.DF_GLOSS || { L: {}, F: {} };
+/* Very frequent helpers stay uncoloured so the colour marks the words worth learning. */
+const COLOR_SKIP = new Set("sein haben werden können müssen sollen wollen dürfen mögen möchten ja auch so nicht noch da dann schon mal doch denn nur hier jetzt immer sehr gern gerne also eben halt ganz gar wie wo wann warum wieso mehr dort heute bitte los okay ne nee wieder".split(" "));
+const glossCache = new Map();
+const cleanWord = w => String(w || "").replace(/^[^\p{L}\d]+|[^\p{L}\d]+$/gu, "").replace(/['’]s$/, "");
+function glossKeys(word) {
+  const c = cleanWord(word);
+  if (glossCache.has(c)) return glossCache.get(c);
+  const out = [];
+  const add = k => { if (k && GL.L[k] && !out.includes(k)) out.push(k); };
+  const tryForm = f => { add(GL.F[f]); add(Object.prototype.hasOwnProperty.call(GL.L, f) ? f : null); if (GL.L["§" + f]) add("§" + f); };
+  if (c) {
+    tryForm(c);
+    if (!out.length) tryForm(c.toLowerCase());
+    if (!out.length) tryForm(c.charAt(0).toUpperCase() + c.slice(1).toLowerCase());
+  }
+  glossCache.set(c, out);
+  return out;
+}
+function wordType(word) {
+  const k = glossKeys(word)[0]; if (!k) return "";
+  const p = GL.L[k][0];
+  if (!"vad".includes(p) || COLOR_SKIP.has(k)) return "";
+  return p;
+}
 function wordsHTML(text) {
   let out = "", pos = 0;
-  text.split(/(\s+)/).forEach(part => {
+  String(text).split(/(\s+)/).forEach(part => {
     if (/^\s+$/.test(part)) out += part;
-    else if (part) out += `<span class="w" data-s="${pos}">${esc(part)}</span>`;
+    else if (part) { const p = wordType(part); out += `<span class="w${p ? " w" + p : ""}" data-s="${pos}">${esc(part)}</span>`; }
     pos += part.length;
   });
   return out;
@@ -463,9 +514,11 @@ const MALE = /markus|conrad|stefan|yannick|hans|\bmale|killian|florian|bernd|chr
 function loadVoices() {
   if (!synth) return;
   deVoices = synth.getVoices().filter(v => /^de([-_]|$)/i.test(v.lang))
-    .sort((a, b) => (/de[-_]DE/i.test(b.lang) - /de[-_]DE/i.test(a.lang)) || (b.localService - a.localService));
+    .sort((a, b) => voiceScore(b) - voiceScore(a));
 }
 if (synth) { loadVoices(); synth.onvoiceschanged = loadVoices; }
+/* Prefer the natural-sounding (neural / online / premium) German voices a device offers over the older robotic ones. */
+function voiceScore(v) { return (/natural|neural|online|premium|enhanced|wavenet|studio/i.test(v.name) ? 8 : 0) + (/google/i.test(v.name) ? 4 : 0) + (/de[-_]DE/i.test(v.lang) ? 2 : 0) + (/compact|espeak/i.test(v.name) ? -6 : 0); }
 function voiceFor(g) {
   if (!deVoices.length) return null;
   const re = g === "f" ? FEMALE : MALE;
@@ -479,7 +532,7 @@ async function nativeVoiceFor(g) {
   const T = NTTS();
   if (!nativeVoices) {
     nativeVoices = [];
-    try { const r = await T.getSupportedVoices(); nativeVoices = (r.voices || []).map((v, i) => ({ ...v, i })).filter(v => /^de([-_]|$)/i.test(v.lang || "")); } catch (e) {}
+    try { const r = await T.getSupportedVoices(); nativeVoices = (r.voices || []).map((v, i) => ({ ...v, i })).filter(v => /^de([-_]|$)/i.test(v.lang || "")).sort((a, b) => /network/i.test((b.name || "") + (b.voiceURI || "")) - /network/i.test((a.name || "") + (a.voiceURI || ""))); } catch (e) {}
   }
   if (!nativeVoices.length) return undefined;
   const re = g === "f" ? FEMALE : MALE;
@@ -530,10 +583,11 @@ function sayInto(text, container, opts = {}) { stopSpeech(); return speak(text, 
 /* ================= vocab + SRS ================= */
 function vocabId(de) { return hashId(de.trim().toLowerCase()); }
 function isSaved(de) { return !!S.vocab.items[vocabId(de)]; }
-function saveVocab({ de, ar, exDe, lesson, type }) {
+function saveVocab({ de, ar, exDe, lesson, type, pos, gram, rec, form }) {
   const id = vocabId(de);
   if (S.vocab.items[id]) return false;
   S.vocab.items[id] = { de, ar, ex: exDe || "", lesson, type, added: Date.now(), due: Date.now(), ivl: 0, ease: 2.5, reps: 0, lapses: 0 };
+  if (pos) Object.assign(S.vocab.items[id], { pos, gram: gram || "", rec: rec || "", form: form || "" });
   save("vocab"); toast(t("saved_toast"));
   return true;
 }
@@ -919,7 +973,7 @@ function route() {
   const h = decodeURIComponent((location.hash || "#feed").slice(1));
   if (h.startsWith("lesson-")) return { name: "lesson", id: h.slice(7) };
   if (h.startsWith("health-")) return { name: "htopic", id: h.slice(7) };
-  return { name: ["feed", "home", "lessons", "vocab", "review", "stats", "profile", "addclip", "health", "placement", "legal"].includes(h) ? h : "feed" };
+  return { name: ["feed", "home", "lessons", "vocab", "review", "stats", "profile", "addclip", "health", "placement", "legal", "wordtrain"].includes(h) ? h : "feed" };
 }
 let viewCleanup = null;
 function render() {
@@ -929,11 +983,11 @@ function render() {
   if (viewCleanup) { viewCleanup(); viewCleanup = null; }
   if (dialogCleanup) { dialogCleanup(); dialogCleanup = null; }
   const r = route();
-  const nav = ["lesson", "addclip", "health", "htopic"].includes(r.name) ? "lessons" : r.name === "review" ? "vocab" : ["placement", "legal"].includes(r.name) ? "profile" : r.name;
+  const nav = ["lesson", "addclip", "health", "htopic"].includes(r.name) ? "lessons" : ["review", "wordtrain"].includes(r.name) ? "vocab" : ["placement", "legal"].includes(r.name) ? "profile" : r.name;
   $$(".nav a").forEach(a => a.classList.toggle("on", a.dataset.r === nav));
   const v = $("#view");
   v.scrollTop = 0; window.scrollTo(0, 0);
-  ({ feed: viewFeed, home: viewHome, lessons: viewLessons, lesson: viewLesson, vocab: viewVocab, review: viewReview, stats: viewStats, profile: viewProfile, addclip: viewAddClip, health: viewHealth, htopic: viewHealthTopic, placement: viewPlacement, legal: viewLegal })[r.name](v, r);
+  ({ feed: viewFeed, home: viewHome, lessons: viewLessons, lesson: viewLesson, vocab: viewVocab, review: viewReview, stats: viewStats, profile: viewProfile, addclip: viewAddClip, health: viewHealth, htopic: viewHealthTopic, placement: viewPlacement, legal: viewLegal, wordtrain: viewWordTrain })[r.name](v, r);
 }
 addEventListener("hashchange", render);
 
@@ -942,7 +996,7 @@ addEventListener("hashchange", render);
    (browser or Android app) steps back inside DeutschFlow instead of leaving it. navIdx counts how
    many of our own entries lie behind the current one; at 0 there is nothing of ours to go back to. */
 let navIdx = 0, navInit = false;
-const PARENT = { lesson: "lessons", htopic: "health", health: "lessons", addclip: "lessons", review: "vocab", placement: "profile", legal: "profile" };
+const PARENT = { lesson: "lessons", htopic: "health", health: "lessons", addclip: "lessons", review: "vocab", wordtrain: "vocab", placement: "profile", legal: "profile" };
 function syncNav() {
   const st = history.state;
   if (st && typeof st.dfi === "number") navIdx = st.dfi;
@@ -1023,6 +1077,7 @@ function applyLook(look) {
   const root = document.documentElement, vals = dark ? pal[3] : pal[2];
   TOK.forEach((k, i) => root.style.setProperty("--" + k, vals[i]));
   root.style.setProperty("--grad", pal[4]);
+  [["wv", "#1D5FD6", "#86B6FF"], ["wa", "#B04E06", "#FFB46B"], ["wd", "#8A2BB8", "#D9A2FF"]].forEach(([k, l, d]) => root.style.setProperty("--" + k, dark ? d : l));
   root.style.setProperty("--f-de", font[2]); root.style.setProperty("--f-body", font[3]); root.style.setProperty("--f-ar", font[3]);
   root.style.colorScheme = dark ? "dark" : "light";
   const href = "https://fonts.googleapis.com/css2?" + font[1] + "&display=swap";
@@ -1038,6 +1093,7 @@ if (darkMQ && darkMQ.addEventListener) darkMQ.addEventListener("change", () => a
 function applyChrome() {
   const app = $("#app");
   app.dir = ui() === "de" ? "ltr" : "rtl"; app.lang = ui();
+  document.body.classList.toggle("no-wcolors", S.profile.wordColors === false);
   document.documentElement.lang = ui();
   const th = S.profile.theme;
   if (th === "light" || th === "dark") document.documentElement.dataset.dfTheme = th;
@@ -1119,7 +1175,7 @@ function viewFeed(v) {
       <div class="finfo">
         <div class="fhead"><span class="fsrc" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}${it.mt ? ` <i>${esc(t("feed_mt_short"))}</i>` : it.auto ? ` <i>${esc(t("feed_auto_short"))}</i>` : ""}</span><span class="flen">${fmtLen(it.end - it.start)}</span></div>
         <h2 class="ftitle" lang="de" dir="ltr">${esc(it.title || "")}</h2>
-        <button class="fline" data-a="info"><p class="fde" lang="de" dir="ltr">${esc(it.lines[0][1])}</p><p class="far" lang="ar" dir="rtl">${esc(it.lines[0][2] || "")}</p></button>
+        <button class="fline" data-a="info"><p class="fde" lang="de" dir="ltr">${wordsHTML(it.lines[0][1])}</p><p class="far" lang="ar" dir="rtl">${esc(it.lines[0][2] || "")}</p></button>
         ${it.keys.length ? `<div class="fkeys">${it.keys.slice(0, 4).map(([d, a]) => `<button class="fk ${isSaved(d) ? "done" : ""}" data-key="${esc(d)}" title="${esc(a)}"><b lang="de" dir="ltr">${esc(d)}</b><span lang="ar" dir="rtl">${esc(a)}</span></button>`).join("")}</div>` : ""}
         <div class="fact">
           <button data-a="rep">${IC.repeat}<span>${esc(t("repeat"))}</span></button>
@@ -1137,7 +1193,7 @@ function viewFeed(v) {
   let cur = -1, yp = null, timer = null, dead = false, rate = 1, li = 0, stopAt = null;
   const card = i => $(`.fcard[data-i="${i}"]`, feed);
   const stopPlayer = () => { clearInterval(timer); timer = null; try { yp && yp.destroy(); } catch (e) {} yp = null; $$(".fcard.playing", feed).forEach(c => c.classList.remove("playing")); };
-  const showLine = (c, it, j) => { li = j; const x = it.lines[j]; $(".fde", c).textContent = x[1]; $(".far", c).textContent = x[2] || ""; };
+  const showLine = (c, it, j) => { li = j; const x = it.lines[j]; $(".fde", c).innerHTML = wordsHTML(x[1]); $(".far", c).textContent = x[2] || ""; };
   const lineEnd = (it, j) => it.lines[j + 1] ? it.lines[j + 1][0] : it.end;
   // Scrolling only focuses a card (cheap: a still image). The YouTube player loads when the card is tapped.
   const focus = i => {
@@ -1200,7 +1256,7 @@ function viewFeed(v) {
       if (yp && yp.pauseVideo) yp.pauseVideo();
       const l = it.lesson && LMAP[it.lesson];
       if (l) openLineSheet(l, li);
-      else { const x = it.lines[li]; const sh = openSheet(`<div class="eyebrow" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}</div><p class="big-de" lang="de" dir="ltr">${esc(x[1])}</p><p class="big-ar" lang="ar" dir="rtl">${esc(x[2] || "")}</p>${it.auto ? `<p class="muted small">${esc(t("feed_auto"))}</p>` : ""}${saveBtn(x[1], t("save_sentence"))}${recorderHTML()}`);
+      else { const x = it.lines[li]; const sh = openSheet(`<div class="eyebrow" lang="de" dir="ltr">${esc(it.src.filter(Boolean).join(" · "))}</div><p class="big-de" lang="de" dir="ltr">${wordsHTML(x[1])}</p><p class="big-ar" lang="ar" dir="rtl">${esc(x[2] || "")}</p>${it.auto ? `<p class="muted small">${esc(t("feed_auto"))}</p>` : ""}${saveBtn(x[1], t("save_sentence"))}${recorderHTML()}`);
         $$("[data-save]", sh).forEach(b => b.onclick = () => { if (saveVocab({ de: x[1], ar: x[2] || "", exDe: "", lesson: "", type: "sentence" })) { b.disabled = true; b.classList.add("done"); } }); bindRecorder(sh, x[1]); }
     }
   });
@@ -1481,7 +1537,7 @@ function renderDialog(l, box) {
     </div>
     <p class="demo">${v ? `${esc(t("video_source"))} <a href="https://www.youtube.com/watch?v=${encodeURIComponent(v.yt)}&t=${Math.floor(v.start || 0)}s" target="_blank" rel="noopener">YouTube</a>${l.src ? ` · <span lang="de" dir="ltr">${esc(l.src[0])} – ${esc(l.src[1])}</span>` : ""}` : esc(l._videoFailed ? t("video_fallback") : t("demo_audio"))}</p>
   </section>
-  <p class="muted hint">${esc(t("tap_line"))}</p>
+  <p class="muted hint">${esc(t("tap_line"))}</p>${wordLegend()}
   <ol class="transcript ${P.showDe ? "" : "hide-de"} ${P.showAr ? "" : "hide-ar"}" id="tr">
     ${l.L.map((x, i) => `<li><button class="tline" data-i="${i}">
       ${l.sp[x[0]][0] ? `<span class="tspk" lang="de" dir="ltr">${esc(l.sp[x[0]][0])}</span>` : v ? `<span class="tspk" dir="ltr">${fmtClock(v.t[i])}</span>` : ""}
@@ -1866,6 +1922,7 @@ function viewVocab(v) {
   v.innerHTML = `
   <header class="phead"><h1 class="h1">${esc(t("vocab_title"))}</h1>
     <a class="btn ${due ? "primary" : "ghost"}" href="#review">${IC.cards}<span>${esc(due ? t("review_now") + " (" + due + ")" : t("nothing_due"))}</span></a></header>
+  <a class="card wtrain-cta" href="#wordtrain"><b>${esc(t("wtr_open"))}</b><span class="muted small">${esc(t("lp_hint"))}</span></a>
   ${items.length ? `
   <div class="chips">${[["all", t("all") + " " + items.length], ["new", t("st_new") + " " + counts.new], ["learning", t("st_learning") + " " + counts.learning], ["mastered", t("st_mastered") + " " + counts.mastered]]
     .map(([k, lab]) => `<button class="fchip ${vFilter === k ? "on" : ""}" data-f="${k}">${esc(lab)}</button>`).join("")}</div>
@@ -1894,6 +1951,329 @@ function viewVocab(v) {
   $$(".fchip", v).forEach(b => b.onclick = () => { vFilter = b.dataset.f; viewVocab(v); });
   $("#vSearch", v).oninput = e => { vQuery = e.target.value; draw(); };
   draw();
+}
+
+/* ================= long-press word card ================= */
+const TYPE_KEY = { n: "wt_n", v: "wt_v", a: "wt_a", d: "wt_d", i: "wt_i", p: "wt_p", f: "wt_f" };
+const PARTICLES = new Set("ab an auf aus bei ein fest fort her hin los mit nach vor weg weiter zu zurück zusammen um durch über unter raus rein runter rüber dazu frei krank statt teil vorbei wieder heim entgegen".split(" "));
+const recSrc = path => "https://upload.wikimedia.org/wikipedia/commons/transcoded/" + path.split("/").map(encodeURIComponent).join("/") + "/" + encodeURIComponent(path.split("/").pop()) + ".mp3";
+const recPage = path => "https://commons.wikimedia.org/wiki/File:" + encodeURIComponent(path.split("/").pop());
+let wordAudio = null;
+/* A real recording (Wiktionary speakers on Wikimedia Commons) when the glossary has one; otherwise the device's German voice. */
+function playWord(text, rec, rate) {
+  stopSpeech();
+  if (wordAudio) { try { wordAudio.pause(); } catch (e) {} wordAudio = null; }
+  if (!rec) return speak(text, { rate: rate || S.profile.rate });
+  return new Promise(res => {
+    let done = false; const fin = r => { if (!done) { done = true; res(r); } };
+    const fallback = () => { if (done) return; wordAudio = null; speak(text, { rate: rate || S.profile.rate }).then(() => fin(false)); };
+    const a = new Audio(recSrc(rec)); wordAudio = a;
+    if (rate && rate < 1) { a.playbackRate = Math.max(0.6, rate); a.preservesPitch = true; }
+    a.onended = () => fin(true); a.onerror = fallback;
+    const guard = setTimeout(() => { if (a.readyState < 2) { try { a.pause(); } catch (e) {} fallback(); } }, 6000);
+    a.onplaying = () => clearTimeout(guard);
+    a.play().catch(fallback);
+  });
+}
+function glossView(k) {
+  const e = GL.L[k], p = e[0], lemma = k.replace(/^§/, "");
+  let head = lemma, gram = "";
+  if (p === "n") {
+    const [art, pl] = (e[1] || "").split(";");
+    if (art && !/Pl\./.test(art)) head = art + " " + lemma;
+    if (/Pl\./.test(art || "")) gram = t("wc_plonly");
+    else if (pl) gram = t("wc_plural") + " " + pl;
+  } else if (p === "v" && e[1]) gram = "Perfekt: " + e[1];
+  return { k, p, lemma, head, gram, ar: e[2], rec: e[3] || "" };
+}
+function sepVerb(toks, idx, lemma) {
+  for (let j = idx + 1; j < toks.length; j++) {
+    const raw = toks[j], c = cleanWord(raw).toLowerCase();
+    const end = /[.,!?;:…–]["“”»]?$/.test(raw) || j === toks.length - 1;
+    if (end && PARTICLES.has(c) && GL.L[c + lemma] && GL.L[c + lemma][0] === "v") return c + lemma;
+    if (end) break;
+  }
+  return null;
+}
+let wcEls = null;
+function closeWordCard() { if (!wcEls) return; wcEls.card.hidden = true; wcEls.scrim.hidden = true; if (wordAudio) { try { wordAudio.pause(); } catch (e) {} } }
+function openWordCard(span) {
+  if (!wcEls) {
+    const scrim = document.createElement("div"); scrim.className = "wscrim"; scrim.hidden = true;
+    const card = document.createElement("div"); card.className = "wcard"; card.hidden = true; card.setAttribute("role", "dialog");
+    document.body.append(scrim, card);
+    scrim.onclick = closeWordCard;
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeWordCard(); });
+    addEventListener("hashchange", closeWordCard);
+    wcEls = { scrim, card };
+  }
+  const host = span.parentElement, spans = $$(".w", host), idx = spans.indexOf(span);
+  const sentence = spans.map(s => s.textContent).join(" ");
+  const word = cleanWord(span.textContent);
+  const r = route(), lesson = r.name === "lesson" ? r.id : "";
+  let keys = glossKeys(span.textContent).slice(0, 2);
+  const firstV = keys.find(k => GL.L[k][0] === "v");
+  const sep = firstV ? sepVerb(spans.map(s => s.textContent), idx, firstV.replace(/^§/, "")) : null;
+  const views = (sep ? [sep] : []).concat(keys).map(glossView);
+  const card = wcEls.card;
+  card.dir = ui() === "de" ? "ltr" : "rtl";
+  card.innerHTML = `<button class="iconbtn sheet-x" data-wc="x" aria-label="close">${IC.close}</button>
+    <p class="wc-word" lang="de" dir="ltr">${esc(word)}</p>
+    ${views.length ? views.map((g, i) => `<section class="wc-entry">
+      ${sep && i === 0 ? `<p class="wc-note">${esc(t("wc_sep", word))}</p>` : ""}
+      <div class="wc-head"><b lang="de" dir="ltr">${esc(g.head)}</b><span class="wtag wt-${g.p}">${esc(t(TYPE_KEY[g.p]))}</span></div>
+      ${g.gram ? `<p class="wc-gram" lang="de" dir="ltr">${esc(g.gram)}</p>` : ""}
+      <p class="wc-ar" lang="ar" dir="rtl">${esc(g.ar)}</p>
+      <div class="row wrap">
+        <button class="btn sm" data-wc="say" data-i="${i}">${IC.speak}<span>${esc(t("listen"))}</span></button>
+        ${g.p !== "p" ? saveWordBtn(g.head, i) : ""}
+      </div>
+      <p class="muted small">${g.rec ? `${esc(t("wc_rec"))} <a href="${recPage(g.rec)}" target="_blank" rel="noopener">Wikimedia Commons</a> (CC BY-SA)` : esc(t("wc_tts"))}</p>
+    </section>`).join("") : `<p>${esc(t("wc_none"))}</p>
+      <div class="row wrap"><button class="btn sm" data-wc="say0">${IC.speak}<span>${esc(t("listen"))}</span></button>
+      <a class="btn sm ghost" href="https://de.langenscheidt.com/deutsch-arabisch/${encodeURIComponent(word.toLowerCase())}" target="_blank" rel="noopener">${esc(t("wc_ext"))}</a></div>`}`;
+  wcEls.scrim.hidden = false; card.hidden = false;
+  card.onclick = e => {
+    const b = e.target.closest("[data-wc]"); if (!b) return;
+    const a = b.dataset.wc;
+    if (a === "x") return closeWordCard();
+    if (a === "say0") return playWord(word, "");
+    const g = views[+b.dataset.i];
+    if (a === "say") playWord(g.p === "n" ? g.head : g.lemma, g.rec);
+    else if (a === "save") {
+      if (saveVocab({ de: g.head, ar: g.ar, exDe: sentence, lesson, type: "word", pos: g.p, gram: g.gram, rec: g.rec, form: word })) { b.disabled = true; b.classList.add("done"); $("span", b).textContent = t("saved"); }
+    }
+  };
+  if (views[0] && views[0].p !== "p" && views[0].p !== "f") playWord(views[0].p === "n" ? views[0].head : views[0].lemma, views[0].rec);
+}
+function saveWordBtn(de, i) { const s = isSaved(de); return `<button class="btn sm ${s ? "done" : "primary"}" data-wc="save" data-i="${i}" ${s ? "disabled" : ""}>${IC.bookmark}<span>${esc(s ? t("saved") : t("wc_save"))}</span></button>`; }
+/* Long-press (about half a second) on any word. Moving the finger cancels it, so scrolling and tapping a line work as before. */
+(function longPress() {
+  let tm = null, sx = 0, sy = 0, target = null, armed = false, swallowUntil = 0;
+  const cancel = () => { clearTimeout(tm); tm = null; if (target) target.classList.remove("pressing"); target = null; };
+  document.addEventListener("pointerdown", e => {
+    if (e.button > 0 || !e.target.closest) return;
+    const w = e.target.closest(".w"); if (!w || w.closest(".wcard")) return;
+    cancel(); target = w; sx = e.clientX; sy = e.clientY; w.classList.add("pressing");
+    tm = setTimeout(() => {
+      tm = null; const el = target; cancel(); if (!el || !el.isConnected) return;
+      armed = true; try { navigator.vibrate && navigator.vibrate(12); } catch (x) {}
+      openWordCard(el);
+    }, 480);
+  }, { passive: true });
+  document.addEventListener("pointermove", e => { if (tm && (Math.abs(e.clientX - sx) > 10 || Math.abs(e.clientY - sy) > 10)) cancel(); }, { passive: true });
+  document.addEventListener("pointerup", () => { if (tm) cancel(); if (armed) { armed = false; swallowUntil = Date.now() + 450; } }, { passive: true });
+  document.addEventListener("pointercancel", () => { if (tm) cancel(); if (armed) { armed = false; swallowUntil = Date.now() + 450; } }, { passive: true });
+  document.addEventListener("scroll", () => { if (tm) cancel(); }, { capture: true, passive: true });
+  window.addEventListener("click", e => { if (Date.now() < swallowUntil) { swallowUntil = 0; e.preventDefault(); e.stopPropagation(); } }, true);
+  document.addEventListener("contextmenu", e => { if (e.target.closest && e.target.closest(".w")) e.preventDefault(); });
+})();
+function wordLegend() {
+  return `<p class="wlegend"><span>${esc(t("lp_hint"))}</span> <span class="wtag wt-v">${esc(t("wt_v"))}</span><span class="wtag wt-a">${esc(t("wt_a"))}</span><span class="wtag wt-d">${esc(t("wt_d"))}</span></p>`;
+}
+
+/* ================= word practice ================= */
+let actx = null;
+/* Short tones made in the browser (no sound files): a rising chime for right, a soft low double tone for wrong. */
+function tone(ok) {
+  if (S.profile.sfx === false) return;
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === "suspended") actx.resume();
+    const now = actx.currentTime;
+    const notes = ok ? [[659.3, 0, .16], [880, .1, .16], [1318.5, .2, .28]] : [[233, 0, .2], [185, .17, .32]];
+    notes.forEach(([f, at, len]) => {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = ok ? "sine" : "triangle"; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, now + at);
+      g.gain.exponentialRampToValueAtTime(ok ? 0.22 : 0.3, now + at + 0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + at + len);
+      o.connect(g).connect(actx.destination); o.start(now + at); o.stop(now + at + len + 0.05);
+    });
+  } catch (e) {}
+}
+const WT_KINDS = ["w_hear", "w_mean", "w_de", "w_type", "w_art", "w_gap", "w_match"];
+const wNorm = s => dictNorm(String(s)).replace(/\s+/g, " ").trim();
+const bareDe = it => it.pos === "n" ? it.de.replace(/^(der|die|das|der\/die)\s+/, "") : it.de;
+function wordItems() { return Object.entries(S.vocab.items).filter(([, it]) => it.type !== "sentence" && it.ar && it.de.split(/\s+/).length <= 4); }
+function glossPool(pos) {
+  const out = []; for (const [k, e] of Object.entries(GL.L)) if (e[0] === pos && !k.startsWith("§")) out.push(glossView(k)); return out;
+}
+function distractors(item, n, field) {
+  const val = it => field === "de" ? it.de : it.ar;
+  const own = shuffle(wordItems().map(([, it]) => it).filter(it => it !== item && val(it) && val(it) !== val(item)));
+  const same = own.filter(it => item.pos && it.pos === item.pos).map(val);
+  let pool = same;
+  if (pool.length < n && item.pos) pool = pool.concat(shuffle(glossPool(item.pos)).slice(0, 40).map(x => field === "de" ? x.head : x.ar));
+  if (pool.length < n) pool = pool.concat(own.map(val));
+  return [...new Set(pool)].filter(x => x && x !== val(item)).slice(0, n);
+}
+function wordGapOf(it) {
+  const f = it.form || bareDe(it);
+  if (!it.ex || !f || it.ex === it.de) return null;
+  const re = new RegExp("(^|[^\\p{L}])(" + f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")(?=[^\\p{L}]|$)", "u");
+  const m = it.ex.match(re); if (!m) return null;
+  return { before: it.ex.slice(0, m.index + m[1].length), word: m[2], after: it.ex.slice(m.index + m[1].length + m[2].length) };
+}
+function buildWordRound() {
+  const items = wordItems();
+  const now = Date.now();
+  const sorted = items.slice().sort((a, b) => ((a[1].due || 0) > now) - ((b[1].due || 0) > now) || (a[1].reps || 0) - (b[1].reps || 0) || Math.random() - .5);
+  const pick = sorted.slice(0, 8);
+  const qs = []; let rot = Math.floor(Math.random() * 4);
+  pick.forEach(([id, it]) => {
+    const ok = ["w_hear", "w_mean", "w_de"];
+    if (it.de.split(/\s+/).length <= 2) ok.push("w_type");
+    if (it.pos === "n" && /^(der|die|das) /.test(it.de)) ok.push("w_art");
+    if (wordGapOf(it)) ok.push("w_gap");
+    const k = ok[rot++ % ok.length];
+    qs.push({ k, id });
+  });
+  if (items.length >= 4) qs.splice(Math.min(3, qs.length), 0, { k: "w_match", ids: shuffle(items).slice(0, 4).map(([id]) => id) });
+  return qs;
+}
+let WR = null;
+function viewWordTrain(v) {
+  const items = wordItems();
+  if (!items.length) {
+    v.innerHTML = `<header class="phead">${backBtn("vocab")}<h1 class="h1">${esc(t("wtr_title"))}</h1></header>
+      <section class="card center"><p class="big">${esc(t("wtr_empty"))}</p><p class="muted">${esc(t("lp_hint"))}</p><a class="btn primary" href="#lessons">${esc(t("nav_lessons"))}</a></section>`;
+    return;
+  }
+  if (!WR || WR.done) WR = { qs: buildWordRound(), i: 0, right: 0, total: 0, wrong: [], tries: 0 };
+  drawWordQ(v);
+}
+function wordHeader(extra = "") {
+  return `<header class="phead">${backBtn("vocab")}<h1 class="h1">${esc(t("wtr_title"))}</h1>
+    <button class="iconbtn" id="wSfx" aria-label="${esc(t("wtr_sound"))}" title="${esc(t("wtr_sound"))}">${S.profile.sfx === false ? "🔇" : "🔔"}</button>${extra}</header>`;
+}
+function drawWordQ(v) {
+  const st = WR;
+  if (st.i >= st.qs.length) return drawWordResult(v);
+  const q = st.qs[st.i]; st.tries = 0;
+  const it = q.id ? S.vocab.items[q.id] : null;
+  if (q.id && !it) { st.i++; return drawWordQ(v); }
+  const say = () => playWord(it.pos === "n" ? it.de : bareDe(it), it.rec, 0.9);
+  const prog = `<div class="wprog"><i style="width:${Math.round(st.i / st.qs.length * 100)}%"></i></div><p class="muted small">${esc(t("wtr_q", st.i + 1, st.qs.length))} · ${esc(t("k_" + q.k))}</p>`;
+  let body = "";
+  let answer = null, options = null;
+  if (q.k === "w_hear" || q.k === "w_mean") {
+    options = shuffle([it.ar].concat(distractors(it, 3, "ar"))); answer = it.ar;
+    body = `<p class="wq">${esc(t(q.k === "w_hear" ? "wq_hear" : "wq_mean"))}</p>
+      ${q.k === "w_mean" ? `<p class="wbig" lang="de" dir="ltr">${esc(it.de)}</p>` : ""}
+      <button class="btn" id="wSay">${IC.speak}<span>${esc(t("listen"))}</span></button>
+      <div class="wopts">${options.map((o, j) => `<button class="opt" data-o="${j}" lang="ar" dir="rtl">${esc(o)}</button>`).join("")}</div>`;
+  } else if (q.k === "w_de") {
+    options = shuffle([it.de].concat(distractors(it, 3, "de"))); answer = it.de;
+    body = `<p class="wq">${esc(t("wq_de"))}</p><p class="wbig" lang="ar" dir="rtl">${esc(it.ar)}</p>
+      <div class="wopts">${options.map((o, j) => `<button class="opt" data-o="${j}" lang="de" dir="ltr">${esc(o)}</button>`).join("")}</div>`;
+  } else if (q.k === "w_art") {
+    options = ["der", "die", "das"]; answer = it.de.split(" ")[0];
+    body = `<p class="wq">${esc(t("wq_art"))}</p><p class="wbig" lang="de" dir="ltr">… ${esc(bareDe(it))}</p>
+      <button class="btn" id="wSay">${IC.speak}<span>${esc(t("listen"))}</span></button>
+      <div class="wopts row3">${options.map((o, j) => `<button class="opt" data-o="${j}" lang="de" dir="ltr">${o}</button>`).join("")}</div>`;
+  } else if (q.k === "w_gap") {
+    const gp = wordGapOf(it);
+    const others = distractors(it, 6, "de").map(d => d.replace(/^(der|die|das) /, "")).filter(d => d.split(" ").length === 1);
+    options = shuffle([gp.word].concat([...new Set(others)].slice(0, 3))); answer = gp.word;
+    body = `<p class="wq">${esc(t("wq_gap"))}</p><p class="wgap" lang="de" dir="ltr">${esc(gp.before)}<span class="blank">_____</span>${esc(gp.after)}</p>
+      <div class="wopts">${options.map((o, j) => `<button class="opt" data-o="${j}" lang="de" dir="ltr">${esc(o)}</button>`).join("")}</div>`;
+  } else if (q.k === "w_type") {
+    answer = bareDe(it);
+    body = `<p class="wq">${esc(t("wq_type"))}</p><button class="btn" id="wSay">${IC.speak}<span>${esc(t("listen"))}</span></button>
+      <p class="muted small" lang="ar" dir="rtl">${esc(it.ar)}</p>
+      <form id="wForm" class="wtype"><input id="wIn" lang="de" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${esc(t("dict_ph"))}"><button class="btn primary">${esc(t("check"))}</button></form>`;
+  } else if (q.k === "w_match") {
+    const its = q.ids.map(id => [id, S.vocab.items[id]]).filter(([, x]) => x);
+    if (its.length < 2) { st.i++; return drawWordQ(v); }
+    q.left = shuffle(its); q.right = shuffle(its); q.done = {};
+    body = `<p class="wq">${esc(t("wq_match"))}</p><div class="wmatch"><div>${q.left.map(([id, x]) => `<button class="opt" data-l="${id}" lang="de" dir="ltr">${esc(x.de)}</button>`).join("")}</div>
+      <div>${q.right.map(([id, x]) => `<button class="opt" data-r="${id}" lang="ar" dir="rtl">${esc(x.ar)}</button>`).join("")}</div></div>`;
+  }
+  v.innerHTML = wordHeader() + prog + `<section class="card wcardq">${body}<div class="fb" id="wFb" hidden></div>
+    <div class="row wrap wnav"><button class="btn primary" id="wNext" hidden>${esc(t("next_q"))}</button></div></section>`;
+  $("#wSfx", v).onclick = e => { S.profile.sfx = S.profile.sfx === false; save("profile"); e.currentTarget.textContent = S.profile.sfx === false ? "🔇" : "🔔"; };
+  if ($("#wSay", v)) $("#wSay", v).onclick = say;
+  if (q.k === "w_hear" || q.k === "w_type") say();
+  const fb = $("#wFb", v), next = $("#wNext", v);
+  const requeue = k => { st.again = st.again || {}; if (!st.again[q.id]) { st.again[q.id] = 1; st.qs.push({ k, id: q.id }); } };
+  next.onclick = () => { st.i++; drawWordQ(v); };
+  const record = (ok, item, id) => {
+    if (st.tries++ > 0) return;
+    st.total++; if (ok) st.right++; else if (id && !st.wrong.includes(id)) st.wrong.push(id);
+    const d = today(); d.ex++; if (ok) d.ok++;
+    const kk = S.activity.kinds[q.k] || (S.activity.kinds[q.k] = { n: 0, wrong: 0 });
+    kk.n++; if (!ok) kk.wrong++;
+    if (item && (item.due || 0) <= Date.now()) { rateItem(item, ok ? 2 : 0); save("vocab"); }
+    flushTime(); save("activity");
+  };
+  const explain = (ok, extra, hide) => {
+    tone(ok);
+    fb.hidden = false; fb.className = "fb " + (ok ? "good" : "bad");
+    fb.innerHTML = `<b>${esc(ok ? t("correct") : t("wrong"))}</b>${extra || ""}${hide ? "" : `
+      <p><b lang="de" dir="ltr">${esc(it.de)}</b> = <span lang="ar" dir="rtl">${esc(it.ar)}</span>${it.gram ? ` <small class="muted" lang="de" dir="ltr">(${esc(it.gram)})</small>` : ""}</p>
+      ${it.ex && it.ex !== it.de ? `<p class="muted small" lang="de" dir="ltr">${esc(it.ex)}</p>` : ""}`}`;
+  };
+  if (options) {
+    $$(".opt[data-o]", v).forEach(b => b.onclick = () => {
+      const ok = options[+b.dataset.o] === answer;
+      record(ok, it, q.id);
+      if (ok) {
+        b.classList.add("right"); $$(".opt[data-o]", v).forEach(x => x.disabled = true);
+        explain(true); next.hidden = false; if (q.k !== "w_hear") say();
+      } else {
+        b.classList.add("wrongpick"); b.disabled = true;
+        explain(false, `<p>${esc(t("wtr_retry"))}</p>`, true);
+        requeue(q.k === "w_gap" ? "w_mean" : q.k);
+        next.hidden = false;
+      }
+    });
+  }
+  if (q.k === "w_type") {
+    const inp = $("#wIn", v); setTimeout(() => inp.focus(), 50);
+    $("#wForm", v).onsubmit = e => {
+      e.preventDefault();
+      const typed = inp.value.trim(); if (!typed) return;
+      const a = wNorm(answer), b = wNorm(typed.replace(/^(der|die|das)\s+/i, ""));
+      const d = lev(a, b), ok = d === 0 || (d === 1 && a.length > 4);
+      record(ok, it, q.id);
+      explain(ok, ok && d ? `<p>${esc(t("wtr_typo", answer))}</p>` : ok ? "" : `<p>${esc(t("wtr_said", answer))}</p>`);
+      if (ok) { inp.disabled = true; $("#wForm button", v).disabled = true; next.hidden = false; say(); }
+      else { next.hidden = false; requeue("w_hear"); }
+    };
+  }
+  if (q.k === "w_match") {
+    let selL = null, selR = null, miss = false;
+    const tryPair = () => {
+      if (!selL || !selR) return;
+      const L = $(`[data-l="${CSS.escape(selL)}"]`, v), R = $(`[data-r="${CSS.escape(selR)}"]`, v);
+      if (selL === selR) {
+        tone(true); L.classList.add("right"); R.classList.add("right"); L.disabled = R.disabled = true; q.done[selL] = 1;
+        const x = S.vocab.items[selL]; playWord(x.pos === "n" ? x.de : bareDe(x), x.rec, 0.9);
+        if (Object.keys(q.done).length === q.left.length) {
+          st.tries = 0; record(!miss, null, null);
+          fb.hidden = false; fb.className = "fb " + (miss ? "mixed" : "good"); fb.innerHTML = `<b>${esc(miss ? t("wtr_match_some") : t("correct"))}</b>`;
+          next.hidden = false;
+        }
+      } else {
+        tone(false); miss = true; [L, R].forEach(x => { x.classList.add("wrongpick"); setTimeout(() => x.classList.remove("wrongpick"), 600); });
+      }
+      $$(".opt.sel", v).forEach(x => x.classList.remove("sel")); selL = selR = null;
+    };
+    $$("[data-l]", v).forEach(b => b.onclick = () => { $$("[data-l]", v).forEach(x => x.classList.remove("sel")); b.classList.add("sel"); selL = b.dataset.l; const x = S.vocab.items[selL]; playWord(x.pos === "n" ? x.de : bareDe(x), x.rec, 0.9); tryPair(); });
+    $$("[data-r]", v).forEach(b => b.onclick = () => { $$("[data-r]", v).forEach(x => x.classList.remove("sel")); b.classList.add("sel"); selR = b.dataset.r; tryPair(); });
+  }
+}
+function drawWordResult(v) {
+  const st = WR; st.done = true;
+  const pct = st.total ? Math.round(st.right / st.total * 100) : 0;
+  tone(pct >= 60);
+  v.innerHTML = wordHeader() + `<section class="card center result"><p class="big">${esc(t("wtr_result", st.right, st.total))}</p>
+    <div class="ring" style="--p:${pct}"><b>${pct}%</b></div>
+    ${st.wrong.length ? `<h3 class="h3">${esc(t("wtr_again_words"))}</h3><ul class="vlist">${st.wrong.map(id => S.vocab.items[id]).filter(Boolean).map(it => `<li><span><b lang="de" dir="ltr">${esc(it.de)}</b><small lang="ar" dir="rtl">${esc(it.ar)}</small></span></li>`).join("")}</ul>` : ""}
+    <div class="row wrap center"><button class="btn primary" id="wAgain">${esc(t("wtr_more"))}</button><a class="btn ghost" href="#vocab">${esc(t("nav_vocab"))}</a></div></section>`;
+  $("#wSfx", v).onclick = e => { S.profile.sfx = S.profile.sfx === false; save("profile"); e.currentTarget.textContent = S.profile.sfx === false ? "🔇" : "🔔"; };
+  $("#wAgain", v).onclick = () => { WR = null; viewWordTrain(v); };
 }
 
 /* ----- review (SRS) ----- */
@@ -2090,6 +2470,7 @@ async function viewProfile(v) {
     <div class="lookpick"><span>${esc(t("colors"))}</span><div class="swatches" role="radiogroup">${Object.entries(PALETTES).map(([k, p]) => `<button type="button" role="radio" aria-checked="${(P.palette || "lagoon") === k}" class="swatch ${(P.palette || "lagoon") === k ? "on" : ""}" data-pal="${k}" style="--s1:${p[2][6]};--s2:${p[2][8]};--s3:${p[2][10]}"><i></i><span>${esc(ui() === "de" ? p[1] : p[0])}</span></button>`).join("")}</div></div>
     <label>${esc(t("font"))}${sel("sFont", P.font || "rubik", Object.entries(FONTS).map(([k, f]) => [k, f[0]]))}</label>
     <p class="fontsample" dir="auto">${esc(t("font_sample"))}</p>
+    <label class="row"><input type="checkbox" id="sWCol" ${P.wordColors !== false ? "checked" : ""}> ${esc(t("word_colors"))}</label>
     <label>${esc(t("def_speed"))}${sel("sRate", P.rate, [[0.6, "0.6×"], [0.8, "0.8×"], [1, "1×"], [1.2, "1.2×"]])}</label>
   </section>
   <section class="card block"><h2 class="h2">${esc(t("voice"))}</h2>
@@ -2113,6 +2494,7 @@ async function viewProfile(v) {
     $$("[data-pal]", v).forEach(x => { const on = x === b; x.classList.toggle("on", on); x.setAttribute("aria-checked", on); });
   });
   bind("#sRate", "rate", true);
+  $("#sWCol", v).onchange = e => { P.wordColors = e.target.checked; save("profile"); applyChrome(); };
   if ($("#sLogout", v)) $("#sLogout", v).onclick = async () => { await flush(); try { await sb.auth.signOut(); } catch (e) {} location.hash = "home"; location.reload(); };
   if ($("#sLogin", v)) $("#sLogin", v).onclick = () => { location.hash = "home"; location.reload(); };
   $("#sVoice", v).onclick = () => sayInto("Da muss ich noch einmal eine Nacht drüber schlafen.", null);
