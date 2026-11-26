@@ -1,0 +1,104 @@
+name: Android release (Google Play)
+# Builds the signed Android App Bundle (.aab) that is uploaded to Google Play.
+#
+# Signing: Google Play App Signing keeps the real app key at Google. This workflow only needs an "upload key".
+# The owner sets ONE repository secret, ANDROID_KEY_PASSWORD (a long password only they know).
+# On the first run the workflow creates the upload key, encrypts it with that password (AES-256, PBKDF2)
+# and keeps the encrypted file as an asset of the release "upload-key". Without the password the file is useless.
+# Later runs download and decrypt it, so every bundle is signed with the same key.
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: android-release
+  cancel-in-progress: false
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android-app
+    env:
+      PW: ${{ secrets.ANDROID_KEY_PASSWORD }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the signing password is set
+        run: |
+          if [ -z "$PW" ]; then
+            echo "::error::Missing secret ANDROID_KEY_PASSWORD. Add it here: https://github.com/${GITHUB_REPOSITORY}/settings/secrets/actions/new"
+            exit 1
+          fi
+          if [ ${#PW} -lt 20 ]; then echo "::error::ANDROID_KEY_PASSWORD must be at least 20 characters."; exit 1; fi
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Get the upload key (create it on the first run)
+        run: |
+          if gh release download upload-key -p upload-key.p12.enc -D . --clobber 2>/dev/null; then
+            openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -pass env:PW -in upload-key.p12.enc -out upload-key.p12 \
+              || { echo "::error::Could not open the upload key: ANDROID_KEY_PASSWORD is not the password it was created with."; exit 1; }
+          else
+            echo "No upload key yet: creating one."
+            keytool -genkeypair -keystore upload-key.p12 -storetype PKCS12 -alias upload -keyalg RSA -keysize 4096 \
+              -validity 10000 -dname "CN=DeutschFlow" -storepass "$PW" -keypass "$PW"
+            openssl enc -aes-256-cbc -pbkdf2 -iter 600000 -salt -pass env:PW -in upload-key.p12 -out upload-key.p12.enc
+            gh release create upload-key upload-key.p12.enc --prerelease --title "DeutschFlow upload key (encrypted)" \
+              --notes "Encrypted Google Play upload key. Only the owner's ANDROID_KEY_PASSWORD opens it. Do not delete this release: if the key is lost, the upload key must be reset in Google Play Console."
+          fi
+          keytool -list -v -keystore upload-key.p12 -storepass "$PW" -alias upload | grep -E "SHA1:|SHA256:"
+      - run: npm install
+      - run: npx cap add android
+      - name: Add permissions (microphone, notifications) and TTS query
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          sed -i 's#</manifest>#    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <queries><intent><action android:name="android.intent.action.TTS_SERVICE" /></intent></queries>\n</manifest>#' "$M"
+      - run: npx cap sync android
+      - name: Release signing and version number
+        run: |
+          cat >> android/app/build.gradle <<'GRADLE'
+
+          android {
+              signingConfigs {
+                  release {
+                      storeFile file("${rootDir}/../upload-key.p12")
+                      storeType "pkcs12"
+                      storePassword System.getenv("PW")
+                      keyAlias "upload"
+                      keyPassword System.getenv("PW")
+                  }
+              }
+              defaultConfig {
+                  // Separate number range from the test APK; Google Play needs every upload to be higher than the last.
+                  versionCode Integer.parseInt(System.getenv("GITHUB_RUN_NUMBER") ?: "1") + 1000
+                  versionName "1.1." + (System.getenv("GITHUB_RUN_NUMBER") ?: "0")
+              }
+              buildTypes { release { signingConfig signingConfigs.release; minifyEnabled false } }
+          }
+          GRADLE
+          grep -n "targetSdkVersion\|compileSdkVersion" android/variables.gradle
+      - name: Build the App Bundle
+        run: cd android && ./gradlew bundleRelease --no-daemon
+      - name: Check the bundle is signed with the upload key
+        run: |
+          want=$(keytool -list -v -keystore upload-key.p12 -storepass "$PW" -alias upload | grep -m1 "SHA256:" | awk '{print $2}')
+          got=$(keytool -printcert -jarfile android/app/build/outputs/bundle/release/app-release.aab | grep -m1 "SHA256:" | awk '{print $2}')
+          echo "want $want"; echo "got  $got"
+          test -n "$want" && test "$want" = "$got"
+      - name: Remove the decrypted key from the runner
+        if: always()
+        run: rm -f upload-key.p12
+      - run: cp android/app/build/outputs/bundle/release/app-release.aab DeutschFlow.aab
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DeutschFlow-aab
+          path: android-app/DeutschFlow.aab
+      - name: Publish the bundle for download
+        run: |
+          gh release view aab-latest >/dev/null 2>&1 || gh release create aab-latest --prerelease --title "DeutschFlow for Google Play (latest bundle)" --notes "Signed Android App Bundle. Upload this .aab file in Google Play Console."
+          gh release upload aab-latest DeutschFlow.aab --clobber
