@@ -123,7 +123,7 @@ const STR = {
     about: "عن المحتوى", about_body: "كل الحوارات والتمارين مكتوبة خصيصاً لـ DeutschFlow، والأسماء والمواقف خيالية. الصوت حالياً مولَّد بقارئ الكلام في جهازك، وليس فيديو أو تسجيلاً بشرياً.",
     days: ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"],
     video_loading: "جارٍ تحميل المقطع من يوتيوب…", video_source: "المقطع معروض من", video_badge: "فيديو",
-    video_gone: "المقطع غير متاح", video_blocked: "تعذّر تحميل مشغّل يوتيوب هنا", video_gone_sub: "ربما حُذف المقطع أو منع صاحبه عرضه خارج يوتيوب، أو أن هذه الصفحة لا تسمح بتشغيل يوتيوب.",
+    video_gone: "المقطع غير متاح", video_blocked: "تعذّر تحميل مشغّل يوتيوب هنا", video_gone_sub: "ربما حُذف المقطع أو منع صاحبه عرضه خارج يوتيوب، أو أنه غير متاح في بلدك (قنوات مثل ARD تعرض بعض مقاطعها في ألمانيا والنمسا وسويسرا فقط).", video_skip: "هذا المقطع غير متاح في بلدك. ننتقل إلى المقطع التالي…",
     video_use_audio: "استمع للحوار بالصوت بدلاً من ذلك", video_fallback: "الفيديو غير متاح، والصوت الآن مولَّد بقارئ الكلام في جهازك",
     add_clip: "أضف مقطعاً", my_clips: "مقاطعي من يوتيوب", my_clips_empty: "أضف أي مقطع ألماني من يوتيوب مع نصه، فيتحوّل إلى درس فيه ترجمة متزامنة وتمارين.",
     add_clip_sub: "الصق رابط فيديو يوتيوب ونصّ الترجمة الألمانية مع التوقيت. يُعرض الفيديو من يوتيوب نفسه، ولا يُنسخ إلى التطبيق.",
@@ -202,7 +202,7 @@ const STR = {
     about: "Über die Inhalte", about_body: "Alle Dialoge und Übungen wurden eigens für DeutschFlow geschrieben; Namen und Situationen sind erfunden. Die Stimme ist derzeit die Sprachausgabe deines Geräts, kein Video und keine menschliche Aufnahme.",
     days: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
     video_loading: "Clip wird von YouTube geladen …", video_source: "Clip abgespielt über", video_badge: "Video",
-    video_gone: "Clip nicht verfügbar", video_blocked: "YouTube-Player kann hier nicht geladen werden", video_gone_sub: "Vielleicht wurde der Clip gelöscht, das Einbetten verboten oder diese Seite erlaubt kein YouTube.",
+    video_gone: "Clip nicht verfügbar", video_blocked: "YouTube-Player kann hier nicht geladen werden", video_gone_sub: "Vielleicht wurde der Clip gelöscht, das Einbetten verboten oder er ist in deinem Land gesperrt (z. B. zeigt die ARD manche Clips nur in DE/AT/CH).", video_skip: "Dieser Clip ist in deinem Land nicht verfügbar. Weiter zum nächsten …",
     video_use_audio: "Dialog stattdessen als Audio hören", video_fallback: "Video nicht verfügbar – jetzt mit der Sprachausgabe deines Geräts",
     add_clip: "Clip hinzufügen", my_clips: "Meine YouTube-Clips", my_clips_empty: "Füge einen deutschen YouTube-Clip mit Transkript hinzu – daraus wird eine Lektion mit synchronen Untertiteln und Übungen.",
     add_clip_sub: "Füge einen YouTube-Link und das deutsche Transkript mit Zeitstempeln ein. Das Video läuft über YouTube und wird nicht kopiert.",
@@ -1104,6 +1104,13 @@ function applyChrome() {
   setSync(syncState);
 }
 
+/* Clips YouTube refused to play on this device (removed, embedding off, or blocked in this country, e.g. many ARD clips
+   outside DE/AT/CH). They are left out of the feed and of caption fetching here; tried again after 7 days. */
+const UNPLAY_KEY = "df_unplayable_v1";
+function unplayMap() { try { return JSON.parse(localStorage.getItem(UNPLAY_KEY) || "{}"); } catch (e) { return {}; } }
+const isUnplayable = yt => { const t0 = unplayMap()[yt]; return !!t0 && Date.now() - t0 < 7 * 864e5; };
+function markUnplayable(yt) { const m = unplayMap(); m[yt] = Date.now(); try { localStorage.setItem(UNPLAY_KEY, JSON.stringify(m)); } catch (e) {} }
+
 /* Scenes listed only by YouTube id (window.DF_AUTO). In the Android app the phone reads YouTube's own German captions,
    translates them to Arabic by machine (free), keeps the result on this device, and the scene joins the feed. */
 const AUTO_KEY = "df_auto_v1";
@@ -1116,7 +1123,7 @@ function autoCards() {
     return { id: "a-" + a.yt, yt: a.yt, start: x.lines[0][0], end: x.end, src: a.src, title: a.title, lines: x.lines, keys: [], auto: true, mt: true };
   });
 }
-const autoPending = () => { const c = autoCache(), now = Date.now(); return (window.DF_AUTO || []).filter(a => !c[a.yt] || (c[a.yt].fail && now - c[a.yt].fail > 3 * 864e5)); };
+const autoPending = () => { const c = autoCache(), now = Date.now(); return (window.DF_AUTO || []).filter(a => !isUnplayable(a.yt) && (!c[a.yt] || (c[a.yt].fail && now - c[a.yt].fail > 3 * 864e5))); };
 let autoBusy = false;
 async function autoFill(max = 6) {
   if (autoBusy || !NATIVE_HTTP()) return 0;
@@ -1153,6 +1160,8 @@ function buildFeed() {
   const rest = fromLessons.filter(c => !covered.has(c.yt));
   FEED = [];
   const n = Math.max(rest.length, extra.length);
+  const ok = c => !isUnplayable(c.yt);
+  extra.splice(0, extra.length, ...extra.filter(ok)); rest.splice(0, rest.length, ...rest.filter(ok));
   for (let i = 0; i < n; i++) { if (extra[i]) FEED.push(extra[i]); if (extra[i + n]) FEED.push(extra[i + n]); if (rest[i]) FEED.push(rest[i]); }
   // Clips the person added themselves come first, newest on top.
   FEED.unshift(...CUSTOM.slice().reverse().map(l => ({ id: l.id, yt: l.video.yt, start: l.video.start, end: l.video.end, src: ["", t("my_clip_src")], title: l.title, lesson: l.id,
@@ -1217,7 +1226,13 @@ function viewFeed(v) {
         playerVars: { start: Math.floor(it.start), end: Math.ceil(it.end), autoplay: 1, controls: 0, rel: 0, playsinline: 1, modestbranding: 1, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, hl: ui() },
         events: {
           onStateChange: e => { if (e.data === 1) { c.classList.add("playing"); lastInput = Date.now(); } else if (e.data === 2 || e.data === 0) c.classList.remove("playing"); },
-          onError: e => { c.classList.remove("playing"); const m = $(".fmsg", c); m.hidden = false; m.innerHTML = `<b>${esc(t([100, 101, 150].includes(e.data) ? "video_gone" : "video_blocked"))}</b>`; }
+          onError: e => {
+            c.classList.remove("playing"); const m = $(".fmsg", c); m.hidden = false;
+            if (![100, 101, 150].includes(e.data)) { m.innerHTML = `<b>${esc(t("video_blocked"))}</b>`; return; }
+            // Not playable here: remember it, and move on to the next scene instead of leaving a dead card.
+            markUnplayable(it.yt); m.innerHTML = `<b>${esc(t("video_skip"))}</b>`; c.classList.add("fgone");
+            setTimeout(() => { if (dead || cur !== i) return; const nx = card(i + 1) || $(".fend", feed); if (nx) feed.scrollTo({ top: nx.offsetTop, behavior: "smooth" }); }, 1800);
+          }
         } });
       timer = setInterval(() => {
         try {
@@ -1622,6 +1637,7 @@ function videoEngine(l, v, { player, show, setPlaying, listened, rate }) {
   const fail = code => {
     const p = LP(l.id); p.videoError = code; p.videoErrorAt = Date.now(); save("progress");
     const unavailable = [100, 101, 150].includes(code);
+    if (unavailable) markUnplayable(v.yt);
     msg.hidden = false;
     msg.innerHTML = `<b>${esc(t(unavailable ? "video_gone" : "video_blocked"))}</b><span>${esc(t("video_gone_sub"))}</span>
       <a class="btn sm" href="https://www.youtube.com/watch?v=${encodeURIComponent(v.yt)}&t=${Math.floor(v.start || 0)}s" target="_blank" rel="noopener">YouTube</a>
