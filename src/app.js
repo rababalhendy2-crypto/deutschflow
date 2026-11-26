@@ -57,7 +57,7 @@ function augmentLesson(l) {
 LESSONS.forEach(augmentLesson);
 const BASE_IDS = new Set(LESSONS.map(l => l.id));
 const CUSTOM = [];
-const GOAL_LESSONS = { daily: [1, 8, 11, 12, 15, 16, 17, 22, 26, 29, 30], work: [2, 3, 4, 9, 10, 14, 18, 19, 21, 23, 27, 28], exam: [5, 6, 7, 8, 13, 14, 19, 20, 24, 25, 28] };
+const GOAL_LESSONS = { daily: [1, 8, 11, 12, 15, 16, 17, 22, 26, 29, 30, 33], work: [2, 3, 4, 9, 10, 14, 18, 19, 21, 23, 27, 28, 31], exam: [5, 6, 7, 8, 13, 14, 19, 20, 24, 25, 28, 32] };
 const DAILY_GOAL_MIN = 15;
 
 /* ================= i18n ================= */
@@ -97,7 +97,7 @@ const STR = {
     hidden_de: "النص مخفي، استمع وحاول أن تفهم",
     no_voice: "لم نجد صوتاً ألمانياً على جهازك، فقد يكون النطق غير دقيق. أضف صوتاً ألمانياً من إعدادات الجهاز (تحويل النص إلى كلام).",
     no_tts: "متصفحك لا يدعم قراءة النص بصوت. جرّب Chrome أو Safari.",
-    voice_native: "صوت ألماني من محرك النطق في جهازك (Android).", rec_hint_live: "استمع للجملة، ثم اضغط «ابدأ التسجيل»، تكلّم، واضغط «أوقف». بعدها قارن تسجيلك بالنموذج.", rec_start: "ابدأ التسجيل", rec_stop: "أوقف التسجيل", rec_again: "سجّل من جديد", rec_file: "أو اختر ملفاً صوتياً", rec_both: "النموذج ثم تسجيلك", rec_denied: "لم يُسمح باستخدام الميكروفون. فعّله من إعدادات الجهاز أو المتصفح.", k_dict: "إملاء سمعي", k_trans: "ترجمة", k_who: "من قال ذلك؟", k_reg: "درجة الرسمية", dict_hint: "استمع واكتب الجملة الألمانية كما تسمعها. الأحرف الكبيرة وعلامات الترقيم لا تُحتسب.", dict_ph: "اكتب ما تسمعه…", dict_typos: "صحيح، مع أخطاء إملائية بسيطة (المعلَّمة باللون الأصفر).", trans_hint: "اختر الجملة الألمانية التي تعني:", reg_hint: "ما درجة الرسمية في هذه الجملة؟", pl_title: "اختبار تحديد المستوى", pl_sub: "{0} سؤالاً: استماع، مواقف حقيقية، فهم التعابير، وقراءة. نحو 6 دقائق، شغّل الصوت.", pl_listen_hint: "الجملة مسموعة فقط ولا تظهر مكتوبة. يمكنك إعادة الاستماع.", pl_k_listen: "استماع", pl_k_situation: "موقف حقيقي", pl_k_meaning: "المعنى في السياق", pl_k_read: "قراءة", pl_start: "ابدأ الاختبار", pl_again: "أعد الاختبار", pl_go: "ابدأ من هنا", pl_done_line: "نتيجتك: {0} من {1} · {2}", pl_lv_B2s: "بداية B2", pl_lv_B2: "B2", pl_lv_C1: "قريب من C1", pl_rec_B2s: "ابدأ من الدرس الأول وخذ وقتك مع كل حوار. التمارين والمراجعة ستثبّت الأساس.", pl_rec_B2: "مستواك مناسب لدروس B2. اختر الدروس حسب هدفك وتابع المشاهد الحقيقية.", pl_rec_C1: "أنت جاهز لمحتوى C1. جرّب قسم «الصحة والنفس» وأكمل دروس B2 للمراجعة السريعة.", pl_note: "هذا اختبار قصير للتوجيه فقط، وليس شهادة رسمية.", lg_title: "الخصوصية وحماية البيانات", lg_asof: "آخر تحديث: 3 نوفمبر 2026", lg_contact: "التواصل", back: "رجوع", lg_privacy_html: "<h2 class=\"h2\">ما الذي نحفظه؟</h2><ul><li>بريدك الإلكتروني وكلمة المرور (مشفّرة) لتسجيل الدخول.</li><li>تقدّمك: الدروس، نتائج التمارين، المفردات المحفوظة، وقت التعلّم والإعدادات.</li></ul><h2 class=\"h2\">أين تُحفظ؟</h2><p>في قاعدة بيانات Supabase داخل الاتحاد الأوروبي (فرانكفورت). لا يستطيع أي مستخدم آخر رؤية بياناتك. في وضع «بدون حساب» تبقى البيانات على جهازك فقط.</p><h2 class=\"h2\">ما الذي لا نحفظه؟</h2><ul><li>تسجيلاتك الصوتية تبقى على جهازك ولا تُرفع إلى أي خادم.</li><li>لا إعلانات ولا أدوات تتبّع أو تحليلات.</li><li>النطق يتم بمحرك الكلام في جهازك. عند الضغط على كلمة لها تسجيل حقيقي يُشغَّل الملف من Wikimedia Commons، فيرى خادمهم عنوان IP الخاص بك فقط.</li></ul><h2 class=\"h2\">الفيديوهات</h2><p>المقاطع معروضة من YouTube عبر المشغّل الرسمي. عند تشغيلها قد تجمع Google بيانات حسب سياستها الخاصة.</p><h2 class=\"h2\">حقوقك</h2><p>يمكنك حذف كل بياناتك في أي وقت من صفحة «حسابي» بزر «احذف حسابي وبياناتي».</p>", rm_title: "تذكير يومي", rm_on: "ذكّرني بالتعلّم كل يوم", rm_time: "الوقت", rm_body: "حان وقت 10 دقائق ألمانية 🇩🇪 مشهد واحد يكفي اليوم.", rm_set: "تم ضبط التذكير.", rm_denied: "الإشعارات غير مسموح بها. فعّلها من إعدادات التطبيق.", rm_fail: "تعذّر ضبط التذكير.", del_account: "احذف حسابي وبياناتي", del_local: "احذف بياناتي من هذا الجهاز", del_confirm: "متأكد؟ اضغط مجدداً للحذف النهائي", del_note: "يحذف التقدّم والمفردات والإعدادات نهائياً ولا يمكن التراجع.", del_fail: "تعذّر الحذف. تحقق من الاتصال وحاول مجدداً.", del_done_full: "تم حذف حسابك وكل بياناتك.", del_done_data: "تم حذف كل بياناتك وتسجيل خروجك.",
+    voice_native: "صوت ألماني من محرك النطق في جهازك (Android).", rec_hint_live: "استمع للجملة، ثم اضغط «ابدأ التسجيل»، تكلّم، واضغط «أوقف». بعدها قارن تسجيلك بالنموذج.", rec_start: "ابدأ التسجيل", rec_stop: "أوقف التسجيل", rec_again: "سجّل من جديد", rec_file: "أو اختر ملفاً صوتياً", rec_both: "النموذج ثم تسجيلك", rec_denied: "لم يُسمح باستخدام الميكروفون. فعّله من إعدادات الجهاز أو المتصفح.", k_dict: "إملاء سمعي", k_trans: "ترجمة", k_who: "من قال ذلك؟", k_reg: "درجة الرسمية", dict_hint: "استمع واكتب الجملة الألمانية كما تسمعها. الأحرف الكبيرة وعلامات الترقيم لا تُحتسب.", dict_ph: "اكتب ما تسمعه…", dict_typos: "صحيح، مع أخطاء إملائية بسيطة (المعلَّمة باللون الأصفر).", trans_hint: "اختر الجملة الألمانية التي تعني:", reg_hint: "ما درجة الرسمية في هذه الجملة؟", pl_title: "اختبار تحديد المستوى", pl_sub: "{0} سؤالاً: استماع، مواقف حقيقية، فهم التعابير، وقراءة. نحو 6 دقائق، شغّل الصوت.", pl_listen_hint: "الجملة مسموعة فقط ولا تظهر مكتوبة. يمكنك إعادة الاستماع.", pl_k_listen: "استماع", pl_k_situation: "موقف حقيقي", pl_k_meaning: "المعنى في السياق", pl_k_read: "قراءة", pl_start: "ابدأ الاختبار", pl_again: "أعد الاختبار", pl_go: "ابدأ من هنا", pl_done_line: "نتيجتك: {0} من {1} · {2}", pl_lv_B2s: "بداية B2", pl_lv_B2: "B2", pl_lv_C1: "قريب من C1", pl_rec_B2s: "ابدأ من الدرس الأول وخذ وقتك مع كل حوار. التمارين والمراجعة ستثبّت الأساس.", pl_rec_B2: "مستواك مناسب لدروس B2. اختر الدروس حسب هدفك وتابع المشاهد الحقيقية.", pl_rec_C1: "أنت جاهز لمحتوى C1. جرّب قسم «الصحة والنفس» وأكمل دروس B2 للمراجعة السريعة.", pl_note: "هذا اختبار قصير للتوجيه فقط، وليس شهادة رسمية.", lg_title: "الخصوصية وحماية البيانات", lg_asof: "آخر تحديث: 26 نوفمبر 2026", lg_contact: "التواصل", back: "رجوع", lg_privacy_html: "<h2 class=\"h2\">ما الذي نحفظه؟</h2><ul><li>بريدك الإلكتروني وكلمة المرور (مشفّرة) لتسجيل الدخول.</li><li>تقدّمك: الدروس، نتائج التمارين، المفردات المحفوظة، وقت التعلّم والإعدادات.</li></ul><h2 class=\"h2\">أين تُحفظ؟</h2><p>في قاعدة بيانات Supabase داخل الاتحاد الأوروبي (فرانكفورت). لا يستطيع أي مستخدم آخر رؤية بياناتك. في وضع «بدون حساب» تبقى البيانات على جهازك فقط.</p><h2 class=\"h2\">ما الذي لا نحفظه؟</h2><ul><li>تسجيلاتك الصوتية تبقى على جهازك ولا تُرفع إلى أي خادم.</li><li>لا إعلانات ولا أدوات تتبّع أو تحليلات.</li><li>النطق يتم بمحرك الكلام في جهازك. عند الضغط على كلمة لها تسجيل حقيقي يُشغَّل الملف من Wikimedia Commons، فيرى خادمهم عنوان IP الخاص بك فقط.</li></ul><h2 class=\"h2\">الفيديوهات</h2><p>المقاطع معروضة من YouTube عبر المشغّل الرسمي. عند تشغيلها قد تجمع Google بيانات حسب سياستها الخاصة.</p><h2 class=\"h2\" id=\"delete\">حقوقك وحذف الحساب</h2><p>يمكنك حذف حسابك وكل بياناتك نهائياً في أي وقت: افتح التطبيق أو الموقع، سجّل الدخول، ثم «حسابي» ← «احذف حسابي وبياناتي». يُحذف الحساب والتقدّم والمفردات والإعدادات فوراً من الخادم ولا نحتفظ بنسخة. إذا لم تعد تستطيع الدخول، راسلنا من بريدك المسجّل على العنوان المذكور في «التواصل» وسنحذف الحساب خلال 30 يوماً.</p>", rm_title: "تذكير يومي", rm_on: "ذكّرني بالتعلّم كل يوم", rm_time: "الوقت", rm_body: "حان وقت 10 دقائق ألمانية 🇩🇪 مشهد واحد يكفي اليوم.", rm_set: "تم ضبط التذكير.", rm_denied: "الإشعارات غير مسموح بها. فعّلها من إعدادات التطبيق.", rm_fail: "تعذّر ضبط التذكير.", del_account: "احذف حسابي وبياناتي", del_local: "احذف بياناتي من هذا الجهاز", del_confirm: "متأكد؟ اضغط مجدداً للحذف النهائي", del_note: "يحذف التقدّم والمفردات والإعدادات نهائياً ولا يمكن التراجع.", del_fail: "تعذّر الحذف. تحقق من الاتصال وحاول مجدداً.", del_done_full: "تم حذف حسابك وكل بياناتك.", del_done_data: "تم حذف كل بياناتك وتسجيل خروجك.",
     register: "درجة الرسمية", reg_f: "رسمي", reg_n: "محايد", reg_i: "غير رسمي",
     meaning: "المعنى في السياق", vocab_h: "مفردات مهمة", example: "مثال إضافي", listen: "استمع", slow: "ببطء",
     save: "احفظ", saved: "محفوظ ✓", save_sentence: "احفظ الجملة",
@@ -123,7 +123,7 @@ const STR = {
     about: "عن المحتوى", about_body: "كل الحوارات والتمارين مكتوبة خصيصاً لـ DeutschFlow، والأسماء والمواقف خيالية. الصوت حالياً مولَّد بقارئ الكلام في جهازك، وليس فيديو أو تسجيلاً بشرياً.",
     days: ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"],
     video_loading: "جارٍ تحميل المقطع من يوتيوب…", video_source: "المقطع معروض من", video_badge: "فيديو",
-    video_gone: "المقطع غير متاح", video_blocked: "تعذّر تحميل مشغّل يوتيوب هنا", video_gone_sub: "ربما حُذف المقطع أو منع صاحبه عرضه خارج يوتيوب، أو أن هذه الصفحة لا تسمح بتشغيل يوتيوب.",
+    video_gone: "المقطع غير متاح", video_blocked: "تعذّر تحميل مشغّل يوتيوب هنا", video_gone_sub: "ربما حُذف المقطع أو منع صاحبه عرضه خارج يوتيوب، أو أنه غير متاح في بلدك (قنوات مثل ARD تعرض بعض مقاطعها في ألمانيا والنمسا وسويسرا فقط).", video_skip: "هذا المقطع غير متاح في بلدك. ننتقل إلى المقطع التالي…", video_alt: "افتح درساً بديلاً يعمل في بلدك",
     video_use_audio: "استمع للحوار بالصوت بدلاً من ذلك", video_fallback: "الفيديو غير متاح، والصوت الآن مولَّد بقارئ الكلام في جهازك",
     add_clip: "أضف مقطعاً", my_clips: "مقاطعي من يوتيوب", my_clips_empty: "أضف أي مقطع ألماني من يوتيوب مع نصه، فيتحوّل إلى درس فيه ترجمة متزامنة وتمارين.",
     add_clip_sub: "الصق رابط فيديو يوتيوب ونصّ الترجمة الألمانية مع التوقيت. يُعرض الفيديو من يوتيوب نفسه، ولا يُنسخ إلى التطبيق.",
@@ -137,7 +137,7 @@ const STR = {
     au_have: "عندي حساب", au_new: "ليس لديك حساب؟ أنشئ واحداً", au_forgot: "نسيت كلمة المرور؟",
     au_bad_login: "البريد أو كلمة المرور غير صحيحة.", au_not_confirmed: "أكّد بريدك أولاً من الرسالة التي أرسلناها لك.", au_exists: "هذا البريد مسجّل. سجّل الدخول أو استعد كلمة المرور.",
     au_weak: "كلمة المرور يجب أن تكون 8 أحرف على الأقل.", au_rate: "محاولات كثيرة. انتظر قليلاً ثم حاول مجدداً.", au_offline: "لا يوجد اتصال بالإنترنت. تحقق من الشبكة وحاول مجدداً.", au_mail_bad: "اكتب بريداً إلكترونياً صحيحاً.",
-    au_check_mail: "أرسلنا لك رسالة تأكيد. افتح الرابط فيها ثم سجّل الدخول.", au_reset_sent: "إذا كان البريد مسجّلاً، وصلتك رسالة فيها رابط لتعيين كلمة مرور جديدة.", au_pw_changed: "تم تغيير كلمة المرور",
+    au_check_mail: "أرسلنا لك رسالة تأكيد. افتح الرابط فيها ثم سجّل الدخول.", au_reset_sent: "إذا كان البريد مسجّلاً، وصلتك رسالة فيها رابط لتعيين كلمة مرور جديدة.", mfa_title: "التحقق بخطوتين", mfa_sub: "عند كل تسجيل دخول نطلب رمزاً من 6 أرقام من تطبيق مصادقة على هاتفك (مثل Google Authenticator أو Microsoft Authenticator).", mfa_on: "مفعّل على هذا الحساب.", mfa_enable: "فعّل التحقق بخطوتين", mfa_disable: "أوقف التحقق بخطوتين", mfa_disable_confirm: "متأكد؟ اضغط مجدداً للإيقاف", mfa_scan: "امسح هذا الرمز بتطبيق المصادقة، ثم اكتب الرمز المكوّن من 6 أرقام.", mfa_secret: "أو أدخل هذا المفتاح يدوياً في التطبيق:", mfa_code: "رمز التحقق (6 أرقام)", mfa_verify: "تأكيد", mfa_bad: "الرمز غير صحيح أو انتهت صلاحيته. اكتب الرمز الحالي من التطبيق.", mfa_done: "تم تفعيل التحقق بخطوتين.", mfa_off: "تم إيقاف التحقق بخطوتين.", mfa_login: "افتح تطبيق المصادقة واكتب الرمز الحالي لـ DeutschFlow.", mfa_cancel: "إلغاء", mfa_err: "تعذّر تنفيذ العملية. تحقق من الاتصال وحاول مجدداً.", idle_out: "انتهت جلستك لأنك لم تستخدم التطبيق منذ أكثر من 30 يوماً. سجّل الدخول من جديد.", au_pw_changed: "تم تغيير كلمة المرور",
     au_logout: "تسجيل الخروج", acc_supa: "تقدمك ومفرداتك محفوظة في حسابك، ولا يستطيع أي مستخدم آخر رؤيتها.",
     saved_toast: "حُفظ في دفتر المفردات", removed_toast: "حُذف من الدفتر", sec: "ث"
   },
@@ -176,7 +176,7 @@ const STR = {
     hidden_de: "Text ausgeblendet – hör genau hin",
     no_voice: "Keine deutsche Stimme gefunden, die Aussprache kann ungenau sein. Füge in den Geräteeinstellungen (Text-in-Sprache) eine deutsche Stimme hinzu.",
     no_tts: "Dein Browser unterstützt keine Sprachausgabe. Versuche Chrome oder Safari.",
-    voice_native: "Deutsche Stimme aus der Sprachausgabe deines Geräts (Android).", rec_hint_live: "Hör dir den Satz an, tippe auf „Aufnahme starten“, sprich und tippe auf „Stopp“. Dann vergleiche mit dem Vorbild.", rec_start: "Aufnahme starten", rec_stop: "Aufnahme stoppen", rec_again: "Neu aufnehmen", rec_file: "oder Audiodatei wählen", rec_both: "Vorbild, dann du", rec_denied: "Kein Zugriff auf das Mikrofon. Bitte in den Einstellungen erlauben.", k_dict: "Hördiktat", k_trans: "Übersetzung", k_who: "Wer sagt das?", k_reg: "Register", dict_hint: "Hör zu und schreib den Satz auf. Groß-/Kleinschreibung und Satzzeichen zählen nicht.", dict_ph: "Schreib, was du hörst …", dict_typos: "Richtig, mit kleinen Tippfehlern (gelb markiert).", trans_hint: "Welcher deutsche Satz bedeutet:", reg_hint: "Wie formell ist dieser Satz?", pl_title: "Einstufungstest", pl_sub: "{0} Fragen: Hören, echte Situationen, Bedeutung im Kontext und Lesen. Ca. 6 Minuten, Ton an.", pl_listen_hint: "Der Satz ist nur zu hören, nicht zu lesen. Du kannst ihn wiederholen.", pl_k_listen: "Hören", pl_k_situation: "Situation", pl_k_meaning: "Bedeutung im Kontext", pl_k_read: "Lesen", pl_start: "Test starten", pl_again: "Test wiederholen", pl_go: "Hier starten", pl_done_line: "Ergebnis: {0} von {1} · {2}", pl_lv_B2s: "Beginnendes B2", pl_lv_B2: "B2", pl_lv_C1: "Nah an C1", pl_rec_B2s: "Starte mit Lektion 1 und nimm dir Zeit für jeden Dialog. Übungen und Wiederholung festigen die Basis.", pl_rec_B2: "Die B2-Lektionen passen zu dir. Wähle nach deinem Ziel und schau die echten Szenen.", pl_rec_C1: "Du bist bereit für C1. Probier den Bereich „Gesundheit & Psyche“ und nutze B2 zur Wiederholung.", pl_note: "Kurzer Orientierungstest, kein offizielles Zertifikat.", lg_title: "Datenschutz", lg_asof: "Stand: 3. November 2026", lg_contact: "Kontakt", back: "Zurück", lg_privacy_html: "<h2 class=\"h2\">Was speichern wir?</h2><ul><li>E-Mail und Passwort (verschlüsselt) für die Anmeldung.</li><li>Deinen Fortschritt: Lektionen, Übungsergebnisse, gespeicherte Wörter, Lernzeit und Einstellungen.</li></ul><h2 class=\"h2\">Wo?</h2><p>In einer Supabase-Datenbank in der EU (Frankfurt). Andere Nutzer können deine Daten nicht sehen. Ohne Konto bleiben die Daten nur auf deinem Gerät.</p><h2 class=\"h2\">Was speichern wir nicht?</h2><ul><li>Sprachaufnahmen bleiben auf deinem Gerät und werden nicht hochgeladen.</li><li>Keine Werbung, kein Tracking, keine Analyse-Tools.</li><li>Die Aussprache kommt aus der Sprachausgabe deines Geräts. Hat ein Wort eine echte Aufnahme, wird die Datei von Wikimedia Commons abgespielt; deren Server sieht dabei nur deine IP-Adresse.</li></ul><h2 class=\"h2\">Videos</h2><p>Die Clips werden über den offiziellen YouTube-Player eingebettet. Beim Abspielen kann Google Daten nach eigener Richtlinie verarbeiten.</p><h2 class=\"h2\">Deine Rechte</h2><p>Du kannst alle Daten jederzeit unter „Profil“ mit „Konto und Daten löschen“ entfernen.</p>", rm_title: "Tägliche Erinnerung", rm_on: "Jeden Tag ans Lernen erinnern", rm_time: "Uhrzeit", rm_body: "Zeit für 10 Minuten Deutsch 🇩🇪 Eine Szene reicht heute.", rm_set: "Erinnerung gestellt.", rm_denied: "Benachrichtigungen sind nicht erlaubt. Bitte in den App-Einstellungen aktivieren.", rm_fail: "Erinnerung konnte nicht gestellt werden.", del_account: "Konto und Daten löschen", del_local: "Daten auf diesem Gerät löschen", del_confirm: "Sicher? Nochmal tippen zum endgültigen Löschen", del_note: "Löscht Fortschritt, Wörter und Einstellungen endgültig.", del_fail: "Löschen fehlgeschlagen. Bitte Verbindung prüfen.", del_done_full: "Dein Konto und alle Daten wurden gelöscht.", del_done_data: "Alle Daten wurden gelöscht und du bist abgemeldet.",
+    voice_native: "Deutsche Stimme aus der Sprachausgabe deines Geräts (Android).", rec_hint_live: "Hör dir den Satz an, tippe auf „Aufnahme starten“, sprich und tippe auf „Stopp“. Dann vergleiche mit dem Vorbild.", rec_start: "Aufnahme starten", rec_stop: "Aufnahme stoppen", rec_again: "Neu aufnehmen", rec_file: "oder Audiodatei wählen", rec_both: "Vorbild, dann du", rec_denied: "Kein Zugriff auf das Mikrofon. Bitte in den Einstellungen erlauben.", k_dict: "Hördiktat", k_trans: "Übersetzung", k_who: "Wer sagt das?", k_reg: "Register", dict_hint: "Hör zu und schreib den Satz auf. Groß-/Kleinschreibung und Satzzeichen zählen nicht.", dict_ph: "Schreib, was du hörst …", dict_typos: "Richtig, mit kleinen Tippfehlern (gelb markiert).", trans_hint: "Welcher deutsche Satz bedeutet:", reg_hint: "Wie formell ist dieser Satz?", pl_title: "Einstufungstest", pl_sub: "{0} Fragen: Hören, echte Situationen, Bedeutung im Kontext und Lesen. Ca. 6 Minuten, Ton an.", pl_listen_hint: "Der Satz ist nur zu hören, nicht zu lesen. Du kannst ihn wiederholen.", pl_k_listen: "Hören", pl_k_situation: "Situation", pl_k_meaning: "Bedeutung im Kontext", pl_k_read: "Lesen", pl_start: "Test starten", pl_again: "Test wiederholen", pl_go: "Hier starten", pl_done_line: "Ergebnis: {0} von {1} · {2}", pl_lv_B2s: "Beginnendes B2", pl_lv_B2: "B2", pl_lv_C1: "Nah an C1", pl_rec_B2s: "Starte mit Lektion 1 und nimm dir Zeit für jeden Dialog. Übungen und Wiederholung festigen die Basis.", pl_rec_B2: "Die B2-Lektionen passen zu dir. Wähle nach deinem Ziel und schau die echten Szenen.", pl_rec_C1: "Du bist bereit für C1. Probier den Bereich „Gesundheit & Psyche“ und nutze B2 zur Wiederholung.", pl_note: "Kurzer Orientierungstest, kein offizielles Zertifikat.", lg_title: "Datenschutz", lg_asof: "Stand: 26. November 2026", lg_contact: "Kontakt", back: "Zurück", lg_privacy_html: "<h2 class=\"h2\">Was speichern wir?</h2><ul><li>E-Mail und Passwort (verschlüsselt) für die Anmeldung.</li><li>Deinen Fortschritt: Lektionen, Übungsergebnisse, gespeicherte Wörter, Lernzeit und Einstellungen.</li></ul><h2 class=\"h2\">Wo?</h2><p>In einer Supabase-Datenbank in der EU (Frankfurt). Andere Nutzer können deine Daten nicht sehen. Ohne Konto bleiben die Daten nur auf deinem Gerät.</p><h2 class=\"h2\">Was speichern wir nicht?</h2><ul><li>Sprachaufnahmen bleiben auf deinem Gerät und werden nicht hochgeladen.</li><li>Keine Werbung, kein Tracking, keine Analyse-Tools.</li><li>Die Aussprache kommt aus der Sprachausgabe deines Geräts. Hat ein Wort eine echte Aufnahme, wird die Datei von Wikimedia Commons abgespielt; deren Server sieht dabei nur deine IP-Adresse.</li></ul><h2 class=\"h2\">Videos</h2><p>Die Clips werden über den offiziellen YouTube-Player eingebettet. Beim Abspielen kann Google Daten nach eigener Richtlinie verarbeiten.</p><h2 class=\"h2\" id=\"delete\">Deine Rechte und Konto löschen</h2><p>Du kannst dein Konto und alle Daten jederzeit endgültig löschen: App oder Website öffnen, anmelden, dann „Profil“ → „Konto und Daten löschen“. Konto, Fortschritt, Vokabeln und Einstellungen werden sofort vom Server entfernt, es bleibt keine Kopie. Wenn du dich nicht mehr anmelden kannst, schreib uns von deiner registrierten E-Mail-Adresse an die Adresse unter „Kontakt“; wir löschen das Konto innerhalb von 30 Tagen.</p>", rm_title: "Tägliche Erinnerung", rm_on: "Jeden Tag ans Lernen erinnern", rm_time: "Uhrzeit", rm_body: "Zeit für 10 Minuten Deutsch 🇩🇪 Eine Szene reicht heute.", rm_set: "Erinnerung gestellt.", rm_denied: "Benachrichtigungen sind nicht erlaubt. Bitte in den App-Einstellungen aktivieren.", rm_fail: "Erinnerung konnte nicht gestellt werden.", del_account: "Konto und Daten löschen", del_local: "Daten auf diesem Gerät löschen", del_confirm: "Sicher? Nochmal tippen zum endgültigen Löschen", del_note: "Löscht Fortschritt, Wörter und Einstellungen endgültig.", del_fail: "Löschen fehlgeschlagen. Bitte Verbindung prüfen.", del_done_full: "Dein Konto und alle Daten wurden gelöscht.", del_done_data: "Alle Daten wurden gelöscht und du bist abgemeldet.",
     register: "Register", reg_f: "formell", reg_n: "neutral", reg_i: "informell",
     meaning: "Bedeutung im Kontext", vocab_h: "Wichtige Wörter", example: "Weiteres Beispiel", listen: "Anhören", slow: "Langsam",
     save: "Speichern", saved: "Gespeichert ✓", save_sentence: "Satz speichern",
@@ -202,7 +202,7 @@ const STR = {
     about: "Über die Inhalte", about_body: "Alle Dialoge und Übungen wurden eigens für DeutschFlow geschrieben; Namen und Situationen sind erfunden. Die Stimme ist derzeit die Sprachausgabe deines Geräts, kein Video und keine menschliche Aufnahme.",
     days: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
     video_loading: "Clip wird von YouTube geladen …", video_source: "Clip abgespielt über", video_badge: "Video",
-    video_gone: "Clip nicht verfügbar", video_blocked: "YouTube-Player kann hier nicht geladen werden", video_gone_sub: "Vielleicht wurde der Clip gelöscht, das Einbetten verboten oder diese Seite erlaubt kein YouTube.",
+    video_gone: "Clip nicht verfügbar", video_blocked: "YouTube-Player kann hier nicht geladen werden", video_gone_sub: "Vielleicht wurde der Clip gelöscht, das Einbetten verboten oder er ist in deinem Land gesperrt (z. B. zeigt die ARD manche Clips nur in DE/AT/CH).", video_skip: "Dieser Clip ist in deinem Land nicht verfügbar. Weiter zum nächsten …", video_alt: "Ersatzlektion öffnen, die bei dir läuft",
     video_use_audio: "Dialog stattdessen als Audio hören", video_fallback: "Video nicht verfügbar – jetzt mit der Sprachausgabe deines Geräts",
     add_clip: "Clip hinzufügen", my_clips: "Meine YouTube-Clips", my_clips_empty: "Füge einen deutschen YouTube-Clip mit Transkript hinzu – daraus wird eine Lektion mit synchronen Untertiteln und Übungen.",
     add_clip_sub: "Füge einen YouTube-Link und das deutsche Transkript mit Zeitstempeln ein. Das Video läuft über YouTube und wird nicht kopiert.",
@@ -216,7 +216,7 @@ const STR = {
     au_have: "Ich habe ein Konto", au_new: "Noch kein Konto? Jetzt erstellen", au_forgot: "Passwort vergessen?",
     au_bad_login: "E-Mail oder Passwort ist falsch.", au_not_confirmed: "Bitte bestätige zuerst deine E-Mail über den Link, den wir dir geschickt haben.", au_exists: "Diese E-Mail ist schon registriert. Melde dich an oder setze das Passwort zurück.",
     au_weak: "Das Passwort braucht mindestens 8 Zeichen.", au_rate: "Zu viele Versuche. Bitte kurz warten.", au_offline: "Keine Internetverbindung. Bitte Netzwerk prüfen.", au_mail_bad: "Bitte eine gültige E-Mail eingeben.",
-    au_check_mail: "Wir haben dir eine Bestätigungs-E-Mail geschickt. Öffne den Link und melde dich dann an.", au_reset_sent: "Falls die E-Mail registriert ist, hast du einen Link für ein neues Passwort bekommen.", au_pw_changed: "Passwort geändert",
+    au_check_mail: "Wir haben dir eine Bestätigungs-E-Mail geschickt. Öffne den Link und melde dich dann an.", au_reset_sent: "Falls die E-Mail registriert ist, hast du einen Link für ein neues Passwort bekommen.", mfa_title: "Zwei-Faktor-Anmeldung", mfa_sub: "Bei jeder Anmeldung fragen wir zusätzlich einen 6-stelligen Code aus einer Authenticator-App ab (z. B. Google oder Microsoft Authenticator).", mfa_on: "Für dieses Konto aktiv.", mfa_enable: "Zwei-Faktor-Anmeldung aktivieren", mfa_disable: "Zwei-Faktor-Anmeldung ausschalten", mfa_disable_confirm: "Sicher? Nochmal tippen zum Ausschalten", mfa_scan: "Scanne den Code mit deiner Authenticator-App und gib dann den 6-stelligen Code ein.", mfa_secret: "Oder gib diesen Schlüssel von Hand ein:", mfa_code: "Bestätigungscode (6 Ziffern)", mfa_verify: "Bestätigen", mfa_bad: "Der Code ist falsch oder abgelaufen. Gib den aktuellen Code aus der App ein.", mfa_done: "Zwei-Faktor-Anmeldung ist aktiv.", mfa_off: "Zwei-Faktor-Anmeldung ist ausgeschaltet.", mfa_login: "Öffne deine Authenticator-App und gib den aktuellen Code für DeutschFlow ein.", mfa_cancel: "Abbrechen", mfa_err: "Das hat nicht geklappt. Bitte Verbindung prüfen und erneut versuchen.", idle_out: "Du warst über 30 Tage nicht aktiv und wurdest abgemeldet. Bitte melde dich neu an.", au_pw_changed: "Passwort geändert",
     au_logout: "Abmelden", acc_supa: "Fortschritt und Wortschatz sind in deinem Konto gespeichert – niemand sonst kann sie sehen.",
     saved_toast: "Im Wortschatz gespeichert", removed_toast: "Aus dem Wortschatz entfernt", sec: "Sek."
   }
@@ -389,9 +389,97 @@ function authMsg(e) {
   if (/fetch|network/i.test(m)) return t("au_offline");
   return m || t("sync_error");
 }
-function showAuth() {
+/* Two-step sign-in (TOTP). Supabase Auth checks the codes; the app only asks for them. */
+async function mfaNeeded(c) {
+  try { const { data } = await c.auth.mfa.getAuthenticatorAssuranceLevel(); return !!(data && data.nextLevel === "aal2" && data.currentLevel !== "aal2"); }
+  catch (e) { return false; }
+}
+function showMfaChallenge(c) {
   return new Promise(res => {
-    let mode = recovering ? "newpw" : "login";
+    const draw = (note, isErr) => {
+      applyChrome();
+      $("#view").innerHTML = `<section class="gate card"><span class="lvl" lang="de">B2 → C1</span><h1 class="h1">${esc(t("mfa_title"))}</h1>
+        <p class="muted">${esc(t("mfa_login"))}</p>
+        <form id="mfForm" class="form" novalidate><label for="mfCode">${esc(t("mfa_code"))}</label>
+          <input class="search" id="mfCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" dir="ltr" required>
+          <button class="btn primary big" id="mfGo" type="submit">${esc(t("mfa_verify"))}</button></form>
+        <p id="mfNote" class="${isErr ? "au-err" : "muted"}" role="status">${esc(note || "")}</p>
+        <button class="btn ghost" id="mfCancel">${esc(t("mfa_cancel"))}</button></section>`;
+      $("#mfCode").focus();
+      $("#mfCancel").onclick = async () => { try { await c.auth.signOut({ scope: "local" }); } catch (e) {} res(false); };
+      $("#mfForm").onsubmit = async e => {
+        e.preventDefault();
+        const code = $("#mfCode").value.replace(/\s/g, "");
+        if (!/^\d{6}$/.test(code)) return draw(t("mfa_bad"), true);
+        $("#mfGo").disabled = true;
+        try {
+          const { data: f, error: fe } = await c.auth.mfa.listFactors(); if (fe) throw fe;
+          const factor = ((f && f.totp) || []).find(x => x.status === "verified");
+          if (!factor) return res(true);
+          const { error } = await c.auth.mfa.challengeAndVerify({ factorId: factor.id, code }); if (error) throw error;
+          res(true);
+        } catch (err) { draw(/fetch|network/i.test(String(err && err.message)) ? t("au_offline") : /rate|too many/i.test(String(err && err.message)) ? t("au_rate") : t("mfa_bad"), true); }
+      };
+    };
+    draw();
+  });
+}
+async function renderMfa(box) {
+  const c = supaClient(); if (!box || !c) return;
+  let factors = [];
+  try { const { data, error } = await c.auth.mfa.listFactors(); if (error) throw error; factors = (data && data.all) || []; }
+  catch (e) { box.innerHTML = `<h2 class="h2">${esc(t("mfa_title"))}</h2><p class="muted">${esc(t("mfa_err"))}</p>`; return; }
+  const verified = factors.find(x => x.factor_type === "totp" && x.status === "verified");
+  if (verified) {
+    box.innerHTML = `<h2 class="h2">${esc(t("mfa_title"))}</h2><p>✓ ${esc(t("mfa_on"))}</p><button class="btn sm danger" id="mfOff">${esc(t("mfa_disable"))}</button>`;
+    let armed = false;
+    $("#mfOff", box).onclick = async e => {
+      if (!armed) { armed = true; e.target.textContent = t("mfa_disable_confirm"); return; }
+      e.target.disabled = true;
+      try { const { error } = await c.auth.mfa.unenroll({ factorId: verified.id }); if (error) throw error; toast(t("mfa_off")); }
+      catch (err) { toast(t("mfa_err"), 5000); }
+      renderMfa(box);
+    };
+    return;
+  }
+  box.innerHTML = `<h2 class="h2">${esc(t("mfa_title"))}</h2><p class="muted">${esc(t("mfa_sub"))}</p><button class="btn sm" id="mfOn">${esc(t("mfa_enable"))}</button>`;
+  $("#mfOn", box).onclick = async e => {
+    e.target.disabled = true;
+    let enrolled = null;
+    try {
+      // Drop half-finished set-ups first, so the new QR code is the only pending one.
+      for (const f of factors.filter(x => x.status !== "verified")) { try { await c.auth.mfa.unenroll({ factorId: f.id }); } catch (er) {} }
+      const { data, error } = await c.auth.mfa.enroll({ factorType: "totp", friendlyName: "DeutschFlow " + new Date().toISOString().slice(0, 16) }); if (error) throw error;
+      enrolled = data;
+    } catch (err) { toast(t("mfa_err"), 5000); e.target.disabled = false; return; }
+    box.innerHTML = `<h2 class="h2">${esc(t("mfa_title"))}</h2><p>${esc(t("mfa_scan"))}</p>
+      <img id="mfQr" alt="QR" width="200" height="200" style="background:#fff;padding:8px;border-radius:12px">
+      <p class="muted small">${esc(t("mfa_secret"))}</p><p dir="ltr"><code id="mfSecret"></code></p>
+      <form id="mfForm" class="form" novalidate><label for="mfCode">${esc(t("mfa_code"))}</label>
+        <input class="search" id="mfCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" dir="ltr" required>
+        <div class="row wrap"><button class="btn primary" id="mfGo" type="submit">${esc(t("mfa_verify"))}</button><button class="btn ghost" id="mfCancel" type="button">${esc(t("mfa_cancel"))}</button></div></form>
+      <p id="mfNote" class="au-err" role="status"></p>`;
+    const qr = String((enrolled.totp && enrolled.totp.qr_code) || "");
+    if (/^data:image\/svg\+xml[;,]/.test(qr)) $("#mfQr", box).src = qr; else $("#mfQr", box).hidden = true;
+    $("#mfSecret", box).textContent = (enrolled.totp && enrolled.totp.secret) || "";
+    $("#mfCancel", box).onclick = async () => { try { await c.auth.mfa.unenroll({ factorId: enrolled.id }); } catch (er) {} renderMfa(box); };
+    $("#mfForm", box).onsubmit = async ev => {
+      ev.preventDefault();
+      const code = $("#mfCode", box).value.replace(/\s/g, ""), note = $("#mfNote", box);
+      if (!/^\d{6}$/.test(code)) { note.textContent = t("mfa_bad"); return; }
+      $("#mfGo", box).disabled = true;
+      try { const { error } = await c.auth.mfa.challengeAndVerify({ factorId: enrolled.id, code }); if (error) throw error; toast(t("mfa_done")); renderMfa(box); }
+      catch (err) { $("#mfGo", box).disabled = false; note.textContent = /fetch|network/i.test(String(err && err.message)) ? t("au_offline") : t("mfa_bad"); }
+    };
+  };
+}
+/* Sessions end on their own: a device that has not opened the app for 30 days is signed out. */
+const IDLE_MAX = 30 * 864e5;
+const touchActive = () => { try { localStorage.setItem("df_last_active", String(Date.now())); } catch (e) {} };
+const idleTooLong = () => { try { const v = +localStorage.getItem("df_last_active"); return v > 0 && Date.now() - v > IDLE_MAX; } catch (e) { return false; } };
+function showAuth(firstNote) {
+  return new Promise(res => {
+    let mode = recovering ? "newpw" : "login", pending = firstNote || "";
     const draw = (note, isErr) => {
       applyChrome();
       const title = { login: "au_login", signup: "au_signup", reset: "au_reset", newpw: "au_newpw" }[mode];
@@ -417,6 +505,8 @@ function showAuth() {
           if ((mode === "signup" || mode === "newpw") && pw.length < 8) throw { message: t("au_weak") };
           if (mode === "login") {
             const { data, error } = await c.auth.signInWithPassword({ email: mail, password: pw }); if (error) throw error;
+            if (await mfaNeeded(c) && !(await showMfaChallenge(c))) { mode = "login"; return draw(); }
+            touchActive();
             Object.assign(backend, { mode: "supa", uid: data.user.id, email: data.user.email }); return res();
           }
           if (mode === "signup") {
@@ -429,13 +519,14 @@ function showAuth() {
             mode = "login"; return draw(t("au_reset_sent"));
           }
           if (mode === "newpw") {
+            if (await mfaNeeded(c) && !(await showMfaChallenge(c))) { recovering = false; mode = "login"; return draw(); }
             const { data, error } = await c.auth.updateUser({ password: pw }); if (error) throw error;
             recovering = false; Object.assign(backend, { mode: "supa", uid: data.user.id, email: data.user.email }); toast(t("au_pw_changed")); return res();
           }
         } catch (err) { go.disabled = false; draw(authMsg(err), true); }
       };
     };
-    draw();
+    draw(pending); pending = "";
   });
 }
 
@@ -674,7 +765,7 @@ function lessonCard(l) {
     ${coverHTML(l)}
     <span class="lbody"><span class="ltopic">${esc(l.topic[ui() === "de" ? 1 : 0])}</span>
       <span class="ltitle" lang="de" dir="ltr">${esc(l.title)}</span>
-      <span class="lmeta">${statusChip(l)}${l.video ? `<span class="chip vid">${esc(t("video_badge"))}</span>` : ""}${p.videoError ? `<span class="chip bad">${esc(t("video_gone"))}</span>` : ""}<span class="muted">${l.L.length} · ${l.Q.length} ${ui() === "de" ? "Übungen" : "تمارين"}</span></span></span>
+      <span class="lmeta">${statusChip(l)}${l.video ? `<span class="chip vid">${esc(t("video_badge"))}</span>` : ""}${p.videoError ? `<span class="chip bad">${esc(t("video_gone"))}</span>` : ""}${p.videoError && l.alt ? `<span class="chip vid">→ ${esc((LMAP[l.alt] || {}).title || "")}</span>` : ""}<span class="muted">${l.L.length} · ${l.Q.length} ${ui() === "de" ? "Übungen" : "تمارين"}</span></span></span>
     ${p.done ? `<span class="lbar"><i style="width:${p.best}%"></i></span>` : ""}
   </a>`;
 }
@@ -1104,6 +1195,13 @@ function applyChrome() {
   setSync(syncState);
 }
 
+/* Clips YouTube refused to play on this device (removed, embedding off, or blocked in this country, e.g. many ARD clips
+   outside DE/AT/CH). They are left out of the feed and of caption fetching here; tried again after 7 days. */
+const UNPLAY_KEY = "df_unplayable_v1";
+function unplayMap() { try { return JSON.parse(localStorage.getItem(UNPLAY_KEY) || "{}"); } catch (e) { return {}; } }
+const isUnplayable = yt => { const t0 = unplayMap()[yt]; return !!t0 && Date.now() - t0 < 7 * 864e5; };
+function markUnplayable(yt) { const m = unplayMap(); m[yt] = Date.now(); try { localStorage.setItem(UNPLAY_KEY, JSON.stringify(m)); } catch (e) {} }
+
 /* Scenes listed only by YouTube id (window.DF_AUTO). In the Android app the phone reads YouTube's own German captions,
    translates them to Arabic by machine (free), keeps the result on this device, and the scene joins the feed. */
 const AUTO_KEY = "df_auto_v1";
@@ -1116,7 +1214,7 @@ function autoCards() {
     return { id: "a-" + a.yt, yt: a.yt, start: x.lines[0][0], end: x.end, src: a.src, title: a.title, lines: x.lines, keys: [], auto: true, mt: true };
   });
 }
-const autoPending = () => { const c = autoCache(), now = Date.now(); return (window.DF_AUTO || []).filter(a => !c[a.yt] || (c[a.yt].fail && now - c[a.yt].fail > 3 * 864e5)); };
+const autoPending = () => { const c = autoCache(), now = Date.now(); return (window.DF_AUTO || []).filter(a => !isUnplayable(a.yt) && (!c[a.yt] || (c[a.yt].fail && now - c[a.yt].fail > 3 * 864e5))); };
 let autoBusy = false;
 async function autoFill(max = 6) {
   if (autoBusy || !NATIVE_HTTP()) return 0;
@@ -1153,6 +1251,8 @@ function buildFeed() {
   const rest = fromLessons.filter(c => !covered.has(c.yt));
   FEED = [];
   const n = Math.max(rest.length, extra.length);
+  const ok = c => !isUnplayable(c.yt);
+  extra.splice(0, extra.length, ...extra.filter(ok)); rest.splice(0, rest.length, ...rest.filter(ok));
   for (let i = 0; i < n; i++) { if (extra[i]) FEED.push(extra[i]); if (extra[i + n]) FEED.push(extra[i + n]); if (rest[i]) FEED.push(rest[i]); }
   // Clips the person added themselves come first, newest on top.
   FEED.unshift(...CUSTOM.slice().reverse().map(l => ({ id: l.id, yt: l.video.yt, start: l.video.start, end: l.video.end, src: ["", t("my_clip_src")], title: l.title, lesson: l.id,
@@ -1217,7 +1317,13 @@ function viewFeed(v) {
         playerVars: { start: Math.floor(it.start), end: Math.ceil(it.end), autoplay: 1, controls: 0, rel: 0, playsinline: 1, modestbranding: 1, cc_load_policy: 0, iv_load_policy: 3, disablekb: 1, fs: 0, hl: ui() },
         events: {
           onStateChange: e => { if (e.data === 1) { c.classList.add("playing"); lastInput = Date.now(); } else if (e.data === 2 || e.data === 0) c.classList.remove("playing"); },
-          onError: e => { c.classList.remove("playing"); const m = $(".fmsg", c); m.hidden = false; m.innerHTML = `<b>${esc(t([100, 101, 150].includes(e.data) ? "video_gone" : "video_blocked"))}</b>`; }
+          onError: e => {
+            c.classList.remove("playing"); const m = $(".fmsg", c); m.hidden = false;
+            if (![100, 101, 150].includes(e.data)) { m.innerHTML = `<b>${esc(t("video_blocked"))}</b>`; return; }
+            // Not playable here: remember it, and move on to the next scene instead of leaving a dead card.
+            markUnplayable(it.yt); m.innerHTML = `<b>${esc(t("video_skip"))}</b>`; c.classList.add("fgone");
+            setTimeout(() => { if (dead || cur !== i) return; const nx = card(i + 1) || $(".fend", feed); if (nx) feed.scrollTo({ top: nx.offsetTop, behavior: "smooth" }); }, 1800);
+          }
         } });
       timer = setInterval(() => {
         try {
@@ -1622,9 +1728,11 @@ function videoEngine(l, v, { player, show, setPlaying, listened, rate }) {
   const fail = code => {
     const p = LP(l.id); p.videoError = code; p.videoErrorAt = Date.now(); save("progress");
     const unavailable = [100, 101, 150].includes(code);
+    if (unavailable) markUnplayable(v.yt);
     msg.hidden = false;
     msg.innerHTML = `<b>${esc(t(unavailable ? "video_gone" : "video_blocked"))}</b><span>${esc(t("video_gone_sub"))}</span>
       <a class="btn sm" href="https://www.youtube.com/watch?v=${encodeURIComponent(v.yt)}&t=${Math.floor(v.start || 0)}s" target="_blank" rel="noopener">YouTube</a>
+      ${l.alt && LMAP[l.alt] ? `<a class="btn sm primary" href="#lesson-${l.alt}">${esc(t("video_alt"))}</a>` : ""}
       ${l.custom ? "" : `<button class="btn sm" id="vFallback">${esc(t("video_use_audio"))}</button>`}`;
     const fb = $("#vFallback", msg);
     if (fb) fb.onclick = () => { l._videoFailed = true; renderLessonTab(l); };
@@ -2412,8 +2520,12 @@ function viewPlacement(v) {
 }
 
 /* ----- privacy, legal notice ----- */
-// Contact and Impressum details are filled in by the site owner; the sections stay hidden until they are set.
-const OWNER = { contact: "", impressum: "" };
+// Impressum (§ 5 DDG): the owner's real name, postal address and e-mail. The section stays hidden until all are set.
+const OWNER = { name: "", street: "", city: "", country: "Deutschland", email: "" };
+OWNER.contact = OWNER.email;
+OWNER.impressum = OWNER.name && OWNER.street && OWNER.city && OWNER.email
+  ? `Angaben gemäß § 5 DDG\n${OWNER.name}\n${OWNER.street}\n${OWNER.city}\n${OWNER.country}\n\nKontakt\nE-Mail: ${OWNER.email}\n\nVerantwortlich für den Inhalt nach § 18 Abs. 2 MStV\n${OWNER.name}, Anschrift wie oben\n\nVerbraucherstreitbeilegung: Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.`
+  : "";
 function viewLegal(v) {
   v.innerHTML = `<header class="phead">${backBtn("profile")}<h1 class="h1">${esc(t("lg_title"))}</h1><p class="muted small">${esc(t("lg_asof"))}</p></header>
     <section class="card block legal">${t("lg_privacy_html")}</section>
@@ -2440,11 +2552,15 @@ async function applyReminder() {
 /* ----- delete account ----- */
 async function deleteEverything() {
   if (backend.mode === "supa") {
-    const { error } = await sb.from("user_docs").delete().eq("user_id", backend.uid);
-    if (error) throw error;
+    // The server function deletes the login and every saved row; only the signed-in user can delete themself.
     let full = false;
-    try { const r = await sb.rpc("delete_my_account"); full = !r.error; } catch (e) {}
-    try { await sb.auth.signOut(); } catch (e) {}
+    try { const r = await sb.functions.invoke("delete-account", { method: "POST" }); full = !r.error && !!(r.data && r.data.deleted); } catch (e) {}
+    if (!full) {
+      // Server unreachable: still remove the data rows the user may delete under row level security.
+      const { error } = await sb.from("user_docs").delete().eq("user_id", backend.uid);
+      if (error) throw error;
+    }
+    try { await sb.auth.signOut({ scope: full ? "local" : "global" }); } catch (e) {}
     return full;
   }
   if (backend.mode === "local") DOCS.forEach(n => { try { localStorage.removeItem(LOCAL_KEY + n); } catch (e) {} });
@@ -2462,6 +2578,7 @@ async function viewProfile(v) {
     <p id="accName" class="accname"></p>
     ${backend.mode === "supa" ? `<p dir="ltr" class="accname">${esc(backend.email || "")}</p><p>${esc(t("acc_supa"))}</p><button class="btn" id="sLogout">${esc(t("au_logout"))}</button>`
       : `<p>${esc(backend.mode === "cloud" ? t("acc_cloud") : t("acc_local"))}</p>${backend.mode === "cloud" ? `<p class="muted small">${esc(t("logout_note"))}</p>` : (supaClient() ? `<button class="btn" id="sLogin">${esc(t("au_login"))}</button>` : "")}`}</section>
+  ${backend.mode === "supa" ? `<section class="card block" id="mfaBox"></section>` : ""}
   <section class="card block form">
     <label>${esc(t("ui_lang"))}${sel("sUi", P.uiLang, [["ar", "العربية"], ["de", "Deutsch"]])}</label>
     <label>${esc(t("expl_lang"))}${sel("sExpl", P.explLang, [["ar", t("lang_ar")], ["de", t("lang_de")]])}</label>
@@ -2496,6 +2613,7 @@ async function viewProfile(v) {
   bind("#sRate", "rate", true);
   $("#sWCol", v).onchange = e => { P.wordColors = e.target.checked; save("profile"); applyChrome(); };
   if ($("#sLogout", v)) $("#sLogout", v).onclick = async () => { await flush(); try { await sb.auth.signOut(); } catch (e) {} location.hash = "home"; location.reload(); };
+  if ($("#mfaBox", v)) renderMfa($("#mfaBox", v));
   if ($("#sLogin", v)) $("#sLogin", v).onclick = () => { location.hash = "home"; location.reload(); };
   $("#sVoice", v).onclick = () => sayInto("Da muss ich noch einmal eine Nacht drüber schlafen.", null);
   if ($("#sRemOn", v)) {
@@ -2571,9 +2689,11 @@ async function boot() {
   const inClaude = !!(window.claude && typeof window.claude.use === "function");
   const cloud = inClaude && await connectCloud();
   if (!cloud) {
-    const session = !inClaude && supaClient() ? await supaSession() : null;
-    if (session && !recovering) Object.assign(backend, { mode: "supa", uid: session.user.id, email: session.user.email });
-    else if (!inClaude && supaClient()) await showAuth();
+    let session = !inClaude && supaClient() ? await supaSession() : null, note = "";
+    if (session && !recovering && idleTooLong()) { try { await sb.auth.signOut({ scope: "local" }); } catch (e) {} session = null; note = t("idle_out"); }
+    if (session && !recovering && await mfaNeeded(sb) && !(await showMfaChallenge(sb))) session = null;
+    if (session && !recovering) { touchActive(); Object.assign(backend, { mode: "supa", uid: session.user.id, email: session.user.email }); }
+    else if (!inClaude && supaClient()) await showAuth(note);
     else await showGate();
   }
   try { await loadAll(); }
@@ -2586,6 +2706,7 @@ async function boot() {
   render();
   try { const d = sessionStorage.getItem("df_deleted"); if (d) { sessionStorage.removeItem("df_deleted"); toast(t(d === "full" ? "del_done_full" : "del_done_data"), 7000); } } catch (e) {}
   if (S.profile.remind && S.profile.remind.on) applyReminder();
+  if (backend.mode === "supa") { touchActive(); document.addEventListener("visibilitychange", () => { if (!document.hidden) touchActive(); }); }
   // Offline cache for the web page and the Android app (which loads the same page).
   if (!inClaude && "serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(() => {});
 }
