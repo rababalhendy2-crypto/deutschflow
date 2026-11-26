@@ -31,3 +31,21 @@ fs.copyFileSync("src/sw.js", "web/sw.js");
 fs.writeFileSync("web/netlify.toml", "[build]\n  publish = \".\"\n  command = \"\"\n");
 '
 echo "web/index.html ready"
+# Public privacy / account deletion / Impressum page (privacy.html). Google Play needs URLs that open without signing in.
+# Built from the same texts the app shows, so the two never drift apart.
+node -e '
+const fs = require("fs");
+const app = fs.readFileSync("src/app.js", "utf8");
+const texts = [...app.matchAll(/lg_privacy_html: "((?:[^"\\]|\\.)*)"/g)].map(m => JSON.parse("\"" + m[1] + "\""));
+const title = [...app.matchAll(/lg_title: "((?:[^"\\]|\\.)*)"/g)].map(m => JSON.parse("\"" + m[1] + "\""));
+const asof = [...app.matchAll(/lg_asof: "((?:[^"\\]|\\.)*)"/g)].map(m => JSON.parse("\"" + m[1] + "\""));
+if (texts.length !== 2) throw new Error("expected Arabic and German privacy texts, found " + texts.length);
+const ob = app.match(/const OWNER = (\{[^\n]*\});/);
+const OWNER = new Function("return " + ob[1])();
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" })[c]);
+const ready = OWNER.name && OWNER.street && OWNER.city && OWNER.email;
+const imp = ready ? `<section lang="de" dir="ltr" id="impressum"><h1>Impressum</h1><p>Angaben gemäß § 5 DDG<br>${esc(OWNER.name)}<br>${esc(OWNER.street)}<br>${esc(OWNER.city)}<br>${esc(OWNER.country)}</p><h2>Kontakt</h2><p>E-Mail: <a href="mailto:${esc(OWNER.email)}">${esc(OWNER.email)}</a></p><h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2><p>${esc(OWNER.name)}, Anschrift wie oben</p><p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p></section>` : "";
+const page = `<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DeutschFlow: Datenschutz, Konto löschen, Impressum</title><meta name="referrer" content="strict-origin-when-cross-origin"><style>:root{color-scheme:light dark;--bg:#F2F8F7;--fg:#13302F;--mut:#4F6B69;--card:#fff;--acc:#0C6670}@media (prefers-color-scheme:dark){:root{--bg:#0F1A1A;--fg:#E6F1F0;--mut:#9DB5B3;--card:#162525;--acc:#5CC6CF}}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}main{max-width:720px;margin:0 auto;padding:24px 16px 48px}section{background:var(--card);border-radius:16px;padding:16px 20px;margin:16px 0}h1{font-size:1.4rem;margin:.2em 0}h2{font-size:1.1rem;margin:1.2em 0 .3em}a{color:var(--acc)}.m{color:var(--mut);font-size:.9rem}nav a{margin-inline-end:16px}</style></head><body><main><p><strong>DeutschFlow</strong></p><nav><a href="#de">Deutsch</a><a href="#ar">العربية</a>${ready ? "<a href=\"#impressum\">Impressum</a>" : ""}<a href="./">App öffnen</a></nav>${imp}<section lang="de" dir="ltr" id="de"><h1>${esc(title[1])}</h1><p class="m">${esc(asof[1])}</p>${texts[1]}</section><section lang="ar" dir="rtl" id="ar"><h1>${esc(title[0])}</h1><p class="m">${esc(asof[0])}</p>${texts[0]}</section></main></body></html>`;
+fs.writeFileSync("web/privacy.html", page);
+console.log("web/privacy.html", ready ? "with Impressum" : "WITHOUT Impressum (fill OWNER in src/app.js)");
+'
