@@ -47,7 +47,6 @@ window.DF_AUTO = [
   {"yt": "zaAbAjxwDu0", "src": ["MySpass", "Stromberg"], "title": "Der Büroanimateur", "len": 133},
   {"yt": "zd5bFXQHdmY", "src": ["ProSieben", "Switch Reloaded"], "title": "Formel 1", "len": 102},
   // 2026-11-26: 3–5 minute comedy scenes from official channels (Selda: 3–5 min, not longer or shorter)
-  {"yt": "hbfFRSmgm00", "src": ["Prime Video", "Pastewka"], "title": "„Hallo, ich bin der Hauptgewinn!“", "len": 223},
   {"yt": "AqboqNfkccU", "src": ["Prime Video", "Pastewka"], "title": "Katja macht Bastian das Leben schwer", "len": 266},
   {"yt": "BJFmnMiiApM", "src": ["Prime Video", "Pastewka"], "title": "Bastian in „Perfekt verpasst“", "len": 270},
   {"yt": "ozJoapF_4D0", "src": ["TNT Comedy", "Andere Eltern"], "title": "Camping", "len": 285},
@@ -65,10 +64,8 @@ window.DF_AUTO = [
   {"yt": "e-m-7mTl3W0", "src": ["ZDF", "heute-show"], "title": "Ein Tag ohne Alkohol?", "len": 297},
   {"yt": "U_idJv1bX6s", "src": ["LEONINE", "Ein Mann namens Ove"], "title": "Ove bekommt Gesellschaft", "len": 206},
   {"yt": "7V_a8TdJpiA", "src": ["MySpass", "Pastewka"], "title": "Wie man neue Freundschaften schließt", "len": 183},
-  {"yt": "xDlNjCV4nOI", "src": ["MySpass", "Pastewka"], "title": "Mit einem Euro zum Glück", "len": 251},
   {"yt": "KVaNj-avaKk", "src": ["MySpass", "Pastewka"], "title": "Schlag den Pastewka", "len": 215},
   {"yt": "HTRaIeHaxNg", "src": ["MySpass", "Pastewka"], "title": "Küss mich!", "len": 243},
-  {"yt": "6ILtYaHp2SU", "src": ["funk", "Browser Ballett"], "title": "In einer typischen deutschen Schule", "len": 219},
   {"yt": "xwyW9M7bcHI", "src": ["Die Otto-Show", "Otto Waalkes"], "title": "Chefkoch Louis Flambé", "len": 200},
   {"yt": "tCPmJIO1D1k", "src": ["Kultkino", "Loriot – Ödipussi"], "title": "Die Vereinssitzung", "len": 222}
 ];

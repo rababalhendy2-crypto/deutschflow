@@ -57,7 +57,7 @@ function augmentLesson(l) {
 LESSONS.forEach(augmentLesson);
 const BASE_IDS = new Set(LESSONS.map(l => l.id));
 const CUSTOM = [];
-const GOAL_LESSONS = { daily: [1, 8, 11, 12, 15, 16, 17, 22, 26, 29, 30], work: [2, 3, 4, 9, 10, 14, 18, 19, 21, 23, 27, 28], exam: [5, 6, 7, 8, 13, 14, 19, 20, 24, 25, 28] };
+const GOAL_LESSONS = { daily: [1, 8, 11, 12, 15, 16, 17, 22, 26, 29, 30, 33], work: [2, 3, 4, 9, 10, 14, 18, 19, 21, 23, 27, 28, 31], exam: [5, 6, 7, 8, 13, 14, 19, 20, 24, 25, 28, 32] };
 const DAILY_GOAL_MIN = 15;
 
 /* ================= i18n ================= */
@@ -123,7 +123,7 @@ const STR = {
     about: "عن المحتوى", about_body: "كل الحوارات والتمارين مكتوبة خصيصاً لـ DeutschFlow، والأسماء والمواقف خيالية. الصوت حالياً مولَّد بقارئ الكلام في جهازك، وليس فيديو أو تسجيلاً بشرياً.",
     days: ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"],
     video_loading: "جارٍ تحميل المقطع من يوتيوب…", video_source: "المقطع معروض من", video_badge: "فيديو",
-    video_gone: "المقطع غير متاح", video_blocked: "تعذّر تحميل مشغّل يوتيوب هنا", video_gone_sub: "ربما حُذف المقطع أو منع صاحبه عرضه خارج يوتيوب، أو أنه غير متاح في بلدك (قنوات مثل ARD تعرض بعض مقاطعها في ألمانيا والنمسا وسويسرا فقط).", video_skip: "هذا المقطع غير متاح في بلدك. ننتقل إلى المقطع التالي…",
+    video_gone: "المقطع غير متاح", video_blocked: "تعذّر تحميل مشغّل يوتيوب هنا", video_gone_sub: "ربما حُذف المقطع أو منع صاحبه عرضه خارج يوتيوب، أو أنه غير متاح في بلدك (قنوات مثل ARD تعرض بعض مقاطعها في ألمانيا والنمسا وسويسرا فقط).", video_skip: "هذا المقطع غير متاح في بلدك. ننتقل إلى المقطع التالي…", video_alt: "افتح درساً بديلاً يعمل في بلدك",
     video_use_audio: "استمع للحوار بالصوت بدلاً من ذلك", video_fallback: "الفيديو غير متاح، والصوت الآن مولَّد بقارئ الكلام في جهازك",
     add_clip: "أضف مقطعاً", my_clips: "مقاطعي من يوتيوب", my_clips_empty: "أضف أي مقطع ألماني من يوتيوب مع نصه، فيتحوّل إلى درس فيه ترجمة متزامنة وتمارين.",
     add_clip_sub: "الصق رابط فيديو يوتيوب ونصّ الترجمة الألمانية مع التوقيت. يُعرض الفيديو من يوتيوب نفسه، ولا يُنسخ إلى التطبيق.",
@@ -202,7 +202,7 @@ const STR = {
     about: "Über die Inhalte", about_body: "Alle Dialoge und Übungen wurden eigens für DeutschFlow geschrieben; Namen und Situationen sind erfunden. Die Stimme ist derzeit die Sprachausgabe deines Geräts, kein Video und keine menschliche Aufnahme.",
     days: ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
     video_loading: "Clip wird von YouTube geladen …", video_source: "Clip abgespielt über", video_badge: "Video",
-    video_gone: "Clip nicht verfügbar", video_blocked: "YouTube-Player kann hier nicht geladen werden", video_gone_sub: "Vielleicht wurde der Clip gelöscht, das Einbetten verboten oder er ist in deinem Land gesperrt (z. B. zeigt die ARD manche Clips nur in DE/AT/CH).", video_skip: "Dieser Clip ist in deinem Land nicht verfügbar. Weiter zum nächsten …",
+    video_gone: "Clip nicht verfügbar", video_blocked: "YouTube-Player kann hier nicht geladen werden", video_gone_sub: "Vielleicht wurde der Clip gelöscht, das Einbetten verboten oder er ist in deinem Land gesperrt (z. B. zeigt die ARD manche Clips nur in DE/AT/CH).", video_skip: "Dieser Clip ist in deinem Land nicht verfügbar. Weiter zum nächsten …", video_alt: "Ersatzlektion öffnen, die bei dir läuft",
     video_use_audio: "Dialog stattdessen als Audio hören", video_fallback: "Video nicht verfügbar – jetzt mit der Sprachausgabe deines Geräts",
     add_clip: "Clip hinzufügen", my_clips: "Meine YouTube-Clips", my_clips_empty: "Füge einen deutschen YouTube-Clip mit Transkript hinzu – daraus wird eine Lektion mit synchronen Untertiteln und Übungen.",
     add_clip_sub: "Füge einen YouTube-Link und das deutsche Transkript mit Zeitstempeln ein. Das Video läuft über YouTube und wird nicht kopiert.",
@@ -674,7 +674,7 @@ function lessonCard(l) {
     ${coverHTML(l)}
     <span class="lbody"><span class="ltopic">${esc(l.topic[ui() === "de" ? 1 : 0])}</span>
       <span class="ltitle" lang="de" dir="ltr">${esc(l.title)}</span>
-      <span class="lmeta">${statusChip(l)}${l.video ? `<span class="chip vid">${esc(t("video_badge"))}</span>` : ""}${p.videoError ? `<span class="chip bad">${esc(t("video_gone"))}</span>` : ""}<span class="muted">${l.L.length} · ${l.Q.length} ${ui() === "de" ? "Übungen" : "تمارين"}</span></span></span>
+      <span class="lmeta">${statusChip(l)}${l.video ? `<span class="chip vid">${esc(t("video_badge"))}</span>` : ""}${p.videoError ? `<span class="chip bad">${esc(t("video_gone"))}</span>` : ""}${p.videoError && l.alt ? `<span class="chip vid">→ ${esc((LMAP[l.alt] || {}).title || "")}</span>` : ""}<span class="muted">${l.L.length} · ${l.Q.length} ${ui() === "de" ? "Übungen" : "تمارين"}</span></span></span>
     ${p.done ? `<span class="lbar"><i style="width:${p.best}%"></i></span>` : ""}
   </a>`;
 }
@@ -1641,6 +1641,7 @@ function videoEngine(l, v, { player, show, setPlaying, listened, rate }) {
     msg.hidden = false;
     msg.innerHTML = `<b>${esc(t(unavailable ? "video_gone" : "video_blocked"))}</b><span>${esc(t("video_gone_sub"))}</span>
       <a class="btn sm" href="https://www.youtube.com/watch?v=${encodeURIComponent(v.yt)}&t=${Math.floor(v.start || 0)}s" target="_blank" rel="noopener">YouTube</a>
+      ${l.alt && LMAP[l.alt] ? `<a class="btn sm primary" href="#lesson-${l.alt}">${esc(t("video_alt"))}</a>` : ""}
       ${l.custom ? "" : `<button class="btn sm" id="vFallback">${esc(t("video_use_audio"))}</button>`}`;
     const fb = $("#vFallback", msg);
     if (fb) fb.onclick = () => { l._videoFailed = true; renderLessonTab(l); };
