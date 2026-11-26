@@ -59,7 +59,10 @@ jobs:
       - name: Check the APK carries the fixed key (else updates would not install over the old app)
         run: |
           want=$(keytool -list -v -keystore debug.keystore -storepass android -alias androiddebugkey | grep -m1 "SHA256:" | awk '{print $2}')
-          got=$(keytool -printcert -jarfile android/app/build/outputs/apk/debug/app-debug.apk | grep -m1 "SHA256:" | awk '{print $2}')
+          # minSdk 24+ APKs carry only v2/v3 signatures (no JAR signature), so read the certificate with apksigner.
+          APKSIGNER=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner
+          got=$("$APKSIGNER" verify --print-certs android/app/build/outputs/apk/debug/app-debug.apk | grep -m1 "SHA-256 digest:" | awk '{print $NF}')
+          want=$(echo "$want" | tr -d ':' | tr 'A-F' 'a-f')
           echo "want $want"; echo "got  $got"
           test -n "$want" && test "$want" = "$got"
       - run: cp android/app/build/outputs/apk/debug/app-debug.apk DeutschFlow.apk
